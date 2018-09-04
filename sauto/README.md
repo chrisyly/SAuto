@@ -22,10 +22,9 @@ Network requirement:
 	Network connection is required in update and install the dependency packages
 	
 OS:
-	Ubuntu 12.04 and +
+	Ubuntu 12.04+
 	Debain wheezy
 	Windows
-	===================
 	##TODO Need manual install
 	Arch
 	Centos
@@ -33,7 +32,6 @@ OS:
 	
 Required environment:
 	Pyhon3
-	==================
 	##TODO Need manual installation if not ubuntu/debain
 	SQLite
 
