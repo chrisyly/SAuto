@@ -1,4 +1,4 @@
-Sprint Automation Framework
+SAuto Automation Framework
 ===============================================
 
 Current Version: 1.0.0
@@ -9,7 +9,6 @@ Supported Devices
 -----------------------------
 RF Matrix
 JFW
-Prisma LSU
 MXA Signal Analysis
 
 
@@ -22,18 +21,18 @@ Network requirement:
 OS:
 	Ubuntu 12.04 and +
 	Debain wheezy
+	Windows
 	===================
 	##TODO Need manual install
 	Arch
 	Centos
 	OSX
-	Windows
 	
 
 Required environment:
 	Pyhon3
 	==================
-	##TODO Need manual install if not ubuntu/debain
+	##TODO Need manual installation if not ubuntu/debain
 	SQLite
 
 How to install Python:
@@ -62,5 +61,5 @@ under folder <path>/sauto/scripts/templates
 
 
 ## TODO add help function to configure devices and manage database
+## TODO add python2 helper
 ========================================================================
-## TODO should I remove colorama?
