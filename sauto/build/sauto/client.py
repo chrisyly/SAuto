@@ -22,7 +22,7 @@ def execute(device, command, daemon = False):
         s.settimeout(20)
         if not daemon: print("Sending command: [" + str(command) + "] to " + device['IP'] + ":" + str(device['PORT']))
         s.sendto(str(command).encode('utf-8') ,(device['IP'], device['PORT']))
-        response = s.recvfrom(1024)
+        response = s.recvfrom(65535) ## \brief Receive buffer size
         s.settimeout(None)
         if response: print("Response from [" + response[1][0] + ":" + str(response[1][1]) + "]\n" + response[0].decode('utf-8'))
     except Exception as e:

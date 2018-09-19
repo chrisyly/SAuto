@@ -1,15 +1,33 @@
 import tarfile
 import json
+import socket
 from pprint import pprint
 import os, sys, platform, subprocess
 from setuptools import setup, find_packages
 
 
 
+# Get the OS
+os_name = os.name
+os_platform = platform.platform()
+
+# Get the root path
+root_path = os.path.dirname(os.path.realpath(__file__))
+
+# Get the main IP
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+try:
+    s.connect(('10.255.255.255', 1))
+    IP = s.getsockname()[0]
+except Exception as e:
+    utility.warn(str(e) + "\n    Setting IP to 127.0.0.1", True)
+    IP = '127.0.0.1'
+finally:
+    s.close()
 
 # Get the long discription from the README file
 def readme(file_name = 'README'):
-    with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), file_name)) as f:
+    with open(os.path.join(root_path, file_name)) as f:
         return f.read()
 
 
@@ -20,20 +38,16 @@ def setSQLite(config_json, default = True):
     sqlite_file = ''
     if not default: sqlite_file = input("Please enter SQLite DB name (root path: " + path + "/)\nName: [Press Enter to use default]")
     else:
-        sqlite_file = 'default.sqlite'
+        sqlite_file = 'simple.sqlite'
     if sqlite_file:
         sqlite_path = path + '/' + sqlite_file
     else:
-        sqlite_path = path + '/default.sqlite'
+        sqlite_path = path + '/simple.sqlite'
     config_json['SQLITE']['Master'] = sqlite_path
     with open(path + '/this_device_conf.json', 'w') as this_device_conf:
         json.dump(config_json, this_device_conf)
     print('[INFO] SQLite DB path set at:\n    ' + sqlite_path)
 
-
-# Get the OS
-os_name = os.name
-os_platform = platform.platform()
 
 # Prompt to sudo if not
 # TODO Python2 package installation has some issue
@@ -59,10 +73,10 @@ print("""
 
 
 setup(
-    name = 'sauto',
+    name = 'Simple Automation',
     version = '1.0.0',
-    description = 'Simple Automation Framework',
-    url = 'https://github.com/chrisyly/SAuto.git',
+    description = 'Sprint automation framework',
+    url = '', # TODO: open a github repo
     author = 'Liyu Ying',
     author_email = 'lying0401@gmail.com',
     long_description = readme('README'),
@@ -123,7 +137,31 @@ if os_name == 'posix':
 # Short-Description: Start SAuto at boot time
 # Description:       Controls SAuto Automation Server
 ### END INIT INFO\n""")
-        sauto.write('python3 ' + os.path.dirname(os.path.realpath(__file__)) + '/build/sauto/sauto.py -d DEBUG -D &')
+        sauto.write("do_start()\n{\n    mkdir /tmp/`date +%Y-%m-%d` >> /dev/null 2>&1 || true\n    python3 -u " + root_path + "/build/sauto/sauto.py -d DEBUG -D >> /tmp/`date +%Y-%m-%d`/sauto.log &\n}\n")
+
+        sauto.write("""
+force_stop()
+{
+    ps -ef | grep 'sauto' | grep -v grep | awk '{print $2}' | xargs -r kill -9
+}
+
+case "$1" in
+    start)
+        do_start
+        ;;
+    stop)
+        force_stop
+        ;;
+    restart|force-reload)
+        force_stop
+        do_start
+        ;;
+    *)
+        force_stop
+        do_start
+        ;;
+esac
+""")
 
     ## Give execution authorization to sauto
     os.system('sudo chmod +x /etc/init.d/sauto')
@@ -137,14 +175,14 @@ if os_name == 'posix':
 
     ## Export root path to a file for automation environment setup
     path = os.path.dirname(os.path.realpath(__file__))
-    sqlite_path = path + '/default.sqlite'
+    sqlite_path = path + '/simple.sqlite'
     print('[INFO] Setting SAuto root path to: [' + path + ']')
     with open('/var/www/html/sauto/rootpath.conf', 'w') as rootpath:
         rootpath.write(path)
 
 
-    ## Read airmosaic_conf.json
-    print("\n\033[92mThe Default JSON configuration file at [" + path + '/airmosaic_conf.json]\033[0m\n======================================================================================\n')
+    ## Read this_device_conf.json
+    print("\n\033[92mThe Default JSON configuration file at [" + path + '/this_device_conf.json]\033[0m\n======================================================================================\n')
     json_config = json.loads(readme("this_device_conf.json"))
     print(json.dumps(json_config, indent = 4, sort_keys = True))
 
@@ -156,7 +194,7 @@ if os_name == 'posix':
 \033[0m''')
 
     ## Check if user want to change the SQLITE path
-    command = input("\nDo you want to change the default SQLite DB path (SQLITE.Master)?\n(Yes/No) [Press Enter to keep default]:")
+    command = input('\nDo you want to change the default SQLite DB path (SQLITE.Master)?\n(Yes/No) [Press Enter to keep default]:')
     if command in ('Yes', 'y', 'Y', 'yes', 'YES'): setSQLite(json_config, False)
     else: setSQLite(json_config)
 
@@ -166,6 +204,9 @@ if os_name == 'posix':
         if command in ('Yes', 'y', 'Y', 'yes', 'YES'): subprocess.Popen(['sqlitebrowser', sqlite_path, '-t', 'lte_cell'])
     elif 'centos' in os_platform:
         print('\n\n\ncentos Linux is not yet support, please configure the database with sqlite')
+
+    ## Restart the services
+    os.system('sudo service sauto restart')
 
 
 ############## Windows Installer #############

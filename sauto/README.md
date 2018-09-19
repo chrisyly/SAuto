@@ -14,6 +14,7 @@ RF Matrix
 JFW
 MXA Signal Analysis
 
+## Device configuration is in the this_device_conf.json file
 
 Installation
 -----------------------------
@@ -31,7 +32,7 @@ OS:
 	OSX
 	
 Required environment:
-	Pyhon3
+	Pyhon3/Python2
 	##TODO Need manual installation if not ubuntu/debain
 	SQLite
 
@@ -39,16 +40,16 @@ How to install Python:
 	on ubuntu/debain: (Note: you may need 'sudo' to install packages)
 		apt-get update
 		apt-get install python3
+		apt-get install python3-pip
 
 Automation Installation:
 	download or copy the whole folder of 'sauto'
 	cd into the folder where sauto located
-	run command: (Note: you may need 'sudo' to install packages)
+	run command: (Note: you may be asked password to promote sudo)
 		python3 setup.py install - for python3
-		python2 setup.py install - for python2
+		python setup.py install - for python2
 
 	Follow the instruction to complete initial configuration
-	##TODO add help function (CLI) in setup.py
 
 
 
@@ -61,5 +62,4 @@ under folder <path>/sauto/scripts/templates
 
 
 ## TODO add help function to configure devices and manage database
-## TODO add python2 helper
 ========================================================================

@@ -35,7 +35,7 @@ class SAuto:
     ## \brief Debug flag setting
     daemon = {}
     ## \brief Reading buffer size
-    buffer_size = 65536
+    buffer_size = 65535
 
 
     ## \brief SAuto constructor
@@ -138,8 +138,10 @@ class SAuto:
         try:
             s.connect(('10.255.255.255', 1))
             IP = s.getsockname()[0]
+            if 'IP' in self.this_device and IP != self.this_device['IP']:
+                utility.warn('*** IP Change Detected! ***\n    Old IP: ' + self.this_device['IP'] + '\n    New IP: ' + IP, False)
         except Exception as e:
-            utility.warn(str(e) + "\n    Setting IP to 127.0.0.1")
+            # utility.warn(str(e) + "\n    Setting IP to 127.0.0.1", False)
             IP = '127.0.0.1'
         finally:
             self.this_device['HOST'] = socket.gethostname()
@@ -227,6 +229,7 @@ class SAuto:
             s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
             if not daemon: utility.info("Starting broadcasting at: [" + self.this_device['BROADCAST_IP'] + ":" + str(self.this_device['PORT']) + "]")
             while True:
+                self.__loadConfig(self.this_device['PORT'])
                 s.sendto(str(self.this_device).encode('utf-8'), (self.this_device['BROADCAST_IP'], int(self.this_device['PORT'])))
                 utility.sleep(delay, True)
         except Exception as e:
