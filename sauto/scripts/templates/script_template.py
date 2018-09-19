@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 
-import sprint_config
-
 
 ## \brief Pre-Test session
 #
