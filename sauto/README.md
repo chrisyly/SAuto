@@ -4,9 +4,9 @@ Current Version: 1.0.0
 
 Supported Devices:
 
-RF Matrix\n
-JFW Attenuator\n
-MXA Signal Analysis\n
+RF Matrix
+JFW Attenuator
+MXA Signal Analysis
 
 NOTE: Device configuration is in the this_device_conf.json file\n
 
