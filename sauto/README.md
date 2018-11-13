@@ -1,11 +1,7 @@
 SAuto Automation Framework
 ===============================================
 
-
 Current Version: 1.0.0
------------------------------
-
-
 
 Supported Devices
 -----------------------------
@@ -14,14 +10,14 @@ RF Matrix
 JFW
 MXA Signal Analysis
 
-## Device configuration is in the this_device_conf.json file
+NOTE: Device configuration is in the this_device_conf.json file
 
 Installation
 -----------------------------
 
 Network requirement:
 	Network connection is required in update and install the dependency packages
-	
+
 OS:
 	Ubuntu 12.04+
 	Debain wheezy
@@ -30,7 +26,7 @@ OS:
 	Arch
 	Centos
 	OSX
-	
+
 Required environment:
 	Pyhon3/Python2
 	##TODO Need manual installation if not ubuntu/debain
