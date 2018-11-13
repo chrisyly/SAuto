@@ -1,19 +1,17 @@
 SAuto Automation Framework
-===============================================
-\n
-Current Version: 1.0.0\n
-\n
-Supported Devices
------------------------------
-\n
+
+Current Version: 1.0.0
+
+Supported Devices:
+
 RF Matrix\n
 JFW Attenuator\n
 MXA Signal Analysis\n
-\n
+
 NOTE: Device configuration is in the this_device_conf.json file\n
-\n
-Installation
------------------------------
+
+
+Installation:
 
 Network requirement:
 	Network connection is required in update and install the dependency packages
@@ -50,12 +48,11 @@ Automation Installation:
 
 
 Scripting
-======================================================================
 
-scripts templates
-------------------------
+scripts templates path:
+
 under folder <path>/sauto/scripts/templates
 
 
 ## TODO add help function to configure devices and manage database
-========================================================================
+
