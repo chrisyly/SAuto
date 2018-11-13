@@ -1,17 +1,17 @@
 SAuto Automation Framework
 ===============================================
-
-Current Version: 1.0.0
-
+\n
+Current Version: 1.0.0\n
+\n
 Supported Devices
 -----------------------------
-
-RF Matrix
-JFW
-MXA Signal Analysis
-
-NOTE: Device configuration is in the this_device_conf.json file
-
+\n
+RF Matrix\n
+JFW Attenuator\n
+MXA Signal Analysis\n
+\n
+NOTE: Device configuration is in the this_device_conf.json file\n
+\n
 Installation
 -----------------------------
 
