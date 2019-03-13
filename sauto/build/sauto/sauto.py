@@ -141,7 +141,7 @@ class SAuto:
             if 'IP' in self.this_device and IP != self.this_device['IP']:
                 utility.warn('*** IP Change Detected! ***\n    Old IP: ' + self.this_device['IP'] + '\n    New IP: ' + IP, False)
         except Exception as e:
-            # utility.warn(str(e) + "\n    Setting IP to 127.0.0.1", False)
+            utility.warn(str(e) + "\n    Setting IP to 127.0.0.1", False)
             IP = '127.0.0.1'
         finally:
             self.this_device['HOST'] = socket.gethostname()
@@ -305,7 +305,7 @@ class SAuto:
     # \param interval The health check interval, in second unit
     # \param daemon Print out info message if set False, default is False
     ##
-    def __healthCheck(self, interval = 30, daemon = False):
+    def __healthCheck(self, interval = 300, daemon = False):
         while True:
             utility.sleep(interval, True)
             for key in list(self.device_list.keys()):
@@ -417,29 +417,34 @@ class SAuto:
 # (alternatively) run with command:    ./sauto.py
 ##
 def main():
-    ######################## Default Values #########################
-    PORT = 8888                                     # Default Value #
-    debug_flag = 'INFO'                             # Default Value #
-    NAME = 'SELF'                                   # Default Value #
-    #################################################################
+	global PORT, debug_flag, NAME, TIMEOUT
+	parser = argparse.ArgumentParser(description='SAuto Framework CLI tools')
+	parser.add_argument('-e', '--execute', metavar='Command', nargs='+', help='Execute the remote command on sauto Devices')
+	parser.add_argument('-n', '--name', metavar='Device Hostname', help='The hostname of the remote device for execute command, if not given, execute on self')
+	parser.add_argument('-p', '--port', metavar='Port Number', type=int, help='The port for initialize the SAuto Framework. The communication port is always given port number add 1')
+	parser.add_argument('-t', '--timeout', metavar='Timeout in seconds', type=int, help='The timeout value when executing command on remote device')
+	parser.add_argument('-d', '--debug', metavar='[INFO/CLIENT/DEBUG/DAEMON]', help='Set debug flag : [INFO/CLIENT/DEBUG/DAEMON], else using default INFO')
+	parser.add_argument('-D', '--daemon', dest='DAEMON', action='store_true', help='Execute the SAuto in daemon mode')
+	args = parser.parse_args()
+	## Varify the port number?
+	if args.port: PORT = args.port
+	if args.debug in ['INFO', 'CLIENT', 'DEBUG', 'DAEMON']: debug_flag = args.debug
+	if args.name: NAME = args.name
+	if args.timeout: TIMEOUT = args.timeout
+	sauto = SAuto(port = PORT, debug = debug_flag)
+	utility.sleep(3, True)
+	if args.execute:
+		sauto.execute(sauto.getDevice(NAME), ' '.join(args.execute), timeout = TIMEOUT)
+	if args.DAEMON:
+		while True: utility.sleep(30, True)
 
-    parser = argparse.ArgumentParser(description='SAuto Framework CLI tools')
-    parser.add_argument('-e', '--execute', metavar='Command', nargs='+', help='Execute the remote command on JFW box')
-    parser.add_argument('-n', '--name', metavar='Device Hostname', help='The hostname of the remote device for execute command, if not given, execute on self')
-    parser.add_argument('-p', '--port', metavar='Port Number', type=int, help='The port for initialize the SAuto Framework. The communication port is always given port number add 1')
-    parser.add_argument('-d', '--debug', metavar='[INFO/CLIENT/DEBUG/DAEMON]', help='Set debug flag : [INFO/CLIENT/DEBUG/DAEMON], else using default INFO')
-    parser.add_argument('-D', '--daemon', dest='DAEMON', action='store_true', help='Execute the SAuto in daemon mode')
-    args = parser.parse_args()
-    ## Varify the port number?
-    if args.port: PORT = args.port
-    if args.debug in ['INFO', 'CLIENT', 'DEBUG', 'DAEMON']: debug_flag = args.debug
-    if args.name: NAME = args.name
-    sauto = SAuto(port = PORT, debug = debug_flag)
-    utility.sleep(3, True)
-    if args.execute:
-        sauto.execute(sauto.getDevice(NAME), ' '.join(args.execute))
-    if args.DAEMON:
-        while True: utility.sleep(30, True)
+
+######################## Default Values #########################
+PORT = 8888                                     # Default Value #
+debug_flag = 'INFO'                             # Default Value #
+NAME = 'SELF'                                   # Default Value #
+TIMEOUT = 20                                    # Default Value #
+#################################################################
 
 
 ## \brief Provide the the entry for main function when execute from command line

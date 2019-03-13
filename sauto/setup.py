@@ -56,8 +56,8 @@ def setSQLite(config_json, default = True):
 	else:
 		sqlite_path = path + '/simple.sqlite'
 	config_json['SQLITE']['Master'] = sqlite_path
-	with open(path + '/this_device_conf.json', 'w') as airmosaic_conf:
-		json.dump(config_json, airmosaic_conf)
+	with open(path + '/this_device_conf.json', 'w') as this_device_conf:
+		json.dump(config_json, this_device_conf)
 	print('[INFO] SQLite DB path set at:\n    ' + sqlite_path)
 
 
@@ -155,7 +155,11 @@ if os_name == 'posix':
 # Short-Description: Start SAuto at boot time
 # Description:       Controls SAuto Automation Server
 ### END INIT INFO\n""")
-		sauto.write("do_start()\n{\n    mkdir /var/www/html/sauto/logs/`date +%Y-%m-%d` >> /dev/null 2>&1 || true\n    mkdir /var/www/html/sauto/logs/system >> /dev/null 2>&1 || true\n    chmod 777 /var/www/html/sauto/logs/`date +%Y-%m-%d`\n    python3 -u " + root_path + "/build/sauto/sauto.py -d DEBUG -D >> /var/www/html/sauto/logs/system/sauto.log &\n    python3 -u " + root_path + "/web_app/manage.py runserver " + IP + ":8890 > /var/www/html/sauto/logs/system/webapp.log &\n}\n")
+		sauto.write("do_start()\n{\n    mkdir /var/www/html/sauto/logs/`date +%Y-%m-%d` >> /dev/null 2>&1 || true\n")
+		sauto.write("    mkdir /var/www/html/sauto/logs/system >> /dev/null 2>&1 || true\n")
+		sauto.write("    chmod 777 /var/www/html/sauto/logs/`date +%Y-%m-%d`\n")
+		sauto.write("    python3 -u " + root_path + "/build/sauto/sauto.py -d DEBUG -D >> /var/www/html/sauto/logs/system/sauto.log &\n"
+		## sauto.write("    python3 -u " + root_path + "/web_app/manage.py runserver " + IP + ":8890 > /var/www/html/sauto/logs/system/webapp.log &\n}\n")
 
 		sauto.write("""
 force_stop()
@@ -200,9 +204,9 @@ esac
 		rootpath.write(path)
 
 
-	## Read airmosaic_conf.json
-	print("\n\033[92mThe Default JSON configuration file at [" + path + '/airmosaic_conf.json]\033[0m\n======================================================================================\n')
-	json_config = json.loads(readme("airmosaic_conf.json"))
+	## Read this_device_conf.json
+	print("\n\033[92mThe Default JSON configuration file at [" + path + '/this_device_conf.json]\033[0m\n======================================================================================\n')
+	json_config = json.loads(readme("this_device_conf.json"))
 	print(json.dumps(json_config, indent = 4, sort_keys = True))
 
 
