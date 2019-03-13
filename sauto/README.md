@@ -1,58 +1,73 @@
-SAuto Automation Framework
+Simple Automation Framework (SAuto)
+===============================================
 
-Current Version: 1.0.0
+Current Version
+-----------------------------
+2.4.0
 
-Supported Devices:
+Supported Devices
+-----------------------------
+Quintech RF Matrix
+	- QRB RF Matrix
+	- RBM RF Matrix
+JFW Attenuation Assembly
+Prisma LSU
+Keysight MXA Signal Analyzer
+Keysight MXG Signal Generator
 
-RF Matrix
-JFW Attenuator
-MXA Signal Analysis
 
-NOTE: Device configuration is in the this_device_conf.json file\n
-
-
-Installation:
-
-Network requirement:
-	Network connection is required in update and install the dependency packages
+Installation
+-----------------------------
+Network Requirement:
+	Network connection is required in intial updates and installing the dependency packages
 
 OS:
-	Ubuntu 12.04+
+	Ubuntu 12.04 and +
 	Debain wheezy
-	Windows
-	##TODO Need manual install
 	Arch
 	Centos
 	OSX
+	Windows 7 and later
 
-Required environment:
-	Pyhon3/Python2
-	##TODO Need manual installation if not ubuntu/debain
-	SQLite
+Required Environment:
+	Python (optional)
+	Python3
+	SQLite database
 
-How to install Python:
+How to install Python/Python3:
 	on ubuntu/debain: (Note: you may need 'sudo' to install packages)
 		apt-get update
+		apt-get install python (optional)
 		apt-get install python3
-		apt-get install python3-pip
 
 Automation Installation:
-	download or copy the whole folder of 'sauto'
-	cd into the folder where sauto located
-	run command: (Note: you may be asked password to promote sudo)
+	1. Download or copy the whole folder of 'sauto'
+	2. cd into the folder where sauto located
+	3. Run command: (Note: you may need to promote 'sudo' to install packages)
 		python3 setup.py install - for python3
 		python setup.py install - for python2
-
-	Follow the instruction to complete initial configuration
-
+	4. Follow the instruction to complete initial configuration
 
 
 Scripting
+===============================================
 
-scripts templates path:
-
+scripts templates
+------------------------
 under folder <path>/sauto/scripts/templates
 
 
-## TODO add help function to configure devices and manage database
+Others
+===============================================
 
+sqlitebrowser
+-----------------------
+sqlitebrowser is an optional GUI interface to manage the SQLite database
+
+Apache2 file server (Windows Exclusive)
+-----------------------
+Setting up Apache2 file server for the controller to download SAuto archive and testing logs
+
+ADB
+-----------------------
+Android Debug Bridge if want to enable Android devices remote control

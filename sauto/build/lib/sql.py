@@ -16,6 +16,7 @@ import utility
 import sqlite3
 import json
 import argparse
+import sys
 from colorama import Fore,Style
 
 ## \brief Load the device configuration from the given config file path
@@ -46,6 +47,7 @@ def loadConfig(confPath = 'this_device_conf.json'):
 # \return calling connectSQLite function and return the connction object
 ##
 def __init(db_path = None, daemon = False):
+    global sqlite_file
     if db_path is None:
         return connectSQLite(sqlite_file, daemon)
     return connectSQLite(db_path, daemon)
@@ -64,6 +66,7 @@ def __init(db_path = None, daemon = False):
 # \return conn the connection object from sqlite3 module
 ##
 def connectSQLite(db_path, daemon = False):
+    global sqlite_file
     if db_path is None: db_path = sqlite_file
     try:
         if not daemon: utility.info("Connecting to DB: " + db_path)
@@ -152,10 +155,10 @@ def buildJson(names, results):
 
 ## \brief A warper function for executeSQLite, allow to use a different database
 #
-# A warper function for executeSQLite, mainly for running SELET command in SQLite
+# A warper function for executeSQLite, mainly for running SELECT command in SQLite
 # Allow to use a user defined database instead of global default
 #
-# \param command The command will be execute as SQLite query. Example: SELETE * FROM vendor
+# \param command The command will be execute as SQLite query. Example: SELECT * FROM vendor
 # \param db_path The database path for SQLite
 # \return JSON result from execute SQLite query command
 ##
@@ -170,7 +173,7 @@ def getSQLite(command, db_path = None, daemon = True):
 # Update the table in the give database path with the key and value
 # Using the query argument to add extra filter
 #
-# Example: updataSQLite('vendor', id, 2, id=1) == UPDATE vendor SET id=2 WHERE id=1;
+# Example: updataSQLite('vendor', id, 2, 'id=1') == UPDATE vendor SET id=2 WHERE id=1;
 #
 # \param table The table in the given SQLite database
 # \param key The key in the given SQLite database
@@ -179,29 +182,57 @@ def getSQLite(command, db_path = None, daemon = True):
 # \param db_path (Optional) the SQLite database path
 # \param daemon print out the info message if set False, the default is False
 ##
-def updateSQLite(table, key, value, query=None, db_path=None, daemon = False):
-    if query is not None:
-        command = 'UPDATE ' + table + ' SET ' + key + '=' + str(value) + ' WHERE ' + query
-    else:
-        command = 'UPDATE ' + table + ' SET ' + key + '=' + str(value)
-    executeSQLite(command, __init(db_path, daemon), daemon)
+def updateSQLite(table, key, value, query = None, db_path = None, daemon = False):
+	command = 'UPDATE ' + table + ' SET '
+	if str(value).isdigit(): command += (key + '=' + str(value) + ' ')
+	else: command += (key + '="' + str(value) + '" ')
+	if query is not None: command += ('WHERE ' + query)
+	executeSQLite(command, __init(db_path, daemon), daemon)
+	## For multiple Keys/values, using create a new update function or call multiple times updateSQLite
+	'''
+	for key, value in zip(keys.items(), values.items()):
+		if str(value).isdigit(): command += (key + '=' + str(value) + ' ')
+		else: command += (key + '="' + str(value) + '" ')
+	if query is not None: command += ('WHERE ' + query)
+	executeSQLite(command, __init(db_path, daemon), daemon)
+	'''
 
 
 
 ## \brief Execute the INSERT query to add a row in SQLite database
 #
-# A warper function for execute INSERT query in the SQLite databse
-# insert a row into the give table with given query
+# A warper function for execute INSERT query in the SQLite database
+# insert a row into the given table with given query
 #
 # \param table The table in the given database
-# \param query The "key=value" list for set column values
-# \param conn (optional) the SQLite connection object
+# \param keys The column names of the table - Key example: 'column_1_int, column_2_int, column_3_string, ...'
+# \param values The value of the columns coresponding to the keys sequence - Values example: '1, 2, "a value", ...'
+# \param db_path (Optional) the SQLite database path
 # \param daemon print out the info message if set False, the default is False
-# TODO for further usage, modify this function
+# NOTE for further usage, modify this function
 ##
-def insertSQLite(table, query, conn = None, daemon = False):
-    command = 'INSERT INTO ' + table + ' VALUES (' + query + ')'
-    executeSQLite(command, conn, daemon)
+def insertSQLite(table, keys, values, db_path = None, daemon = False):
+    command = 'INSERT INTO ' + table + ' (' + keys + ') VALUES (' + values + ')'
+    executeSQLite(command, __init(db_path, daemon), daemon)
+
+
+
+## \brief Execute the DELETE query to remove a row in SQLite database
+#
+# A warper function for execute DELETE query in the SQLite database
+# delete a row in the given table with given query
+#
+# Example: deleteSQLite('vendor', 'name="someName"')
+# The above command will execute: DELETE FROM vendor WHERE name="someName";
+#
+# \param table The table name in the given SQLite database
+# \param query The filter to select row(s) in the table
+# \param db_path (Optional) The SQLite database path to use a specific database
+# \param daemon Print out the info message if set False, the default value is False
+##
+def deleteSQLite(table, query, db_path = None, daeamon = False):
+	command = 'DELETE FROM ' + table + ' WHERE ' + query
+	executeSQLite(command, __init(db_path, daemon, daemon))
 
 
 
@@ -215,7 +246,7 @@ def main():
     global sqlite_file
     parser = argparse.ArgumentParser(description='SQLite CLI tools')
     parser.add_argument('-e', '--execute', metavar='Command', nargs='+', help='Execute the SQLite query command')
-    parser.add_argument('-s', '--sql', metavar='SQLite Path', help='Define to use the given SQLite DB Path')
+    parser.add_argument('-s', '--sql', metavar='SQLite_Path', help='Define the path of the SQLite DB file')
     if len(sys.argv) < 2: parser.print_help()
     args = parser.parse_args()
     if args.sql: sqlite_file = args.sql
@@ -228,7 +259,7 @@ def main():
 # \param sqlite_file the default SQLite database file path
 ##
 ########################### Load Config File ############################
-sqlite_file = 'default.sqlite'                          # Default Value #
+sqlite_file = 'default.sqlite'        # Default Value #
 #########################################################################
 
 
