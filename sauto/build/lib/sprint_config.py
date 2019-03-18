@@ -144,6 +144,7 @@ def vendorConfig(json, use_rest = True, daemon = False):
 # \param json The json object loaded from SQLite database containing vendors' information
 # \param use_rest Bool value for calling lsu.cellConfig if use rest API or not
 # \param daemon Print out the info message if set False, default is False
+# \return True if configuration success, else raise exception
 ##
 def __cellConfig(json, use_rest = True, daemon = False):
 	for vendor in json:
@@ -161,8 +162,10 @@ def __cellConfig(json, use_rest = True, daemon = False):
 			if not lsu.cellConfig(vendor['lsu_id'], cell_conf = vendor, rest = use_rest): raise Exception("[LSU] Cell [" + str(vendor['CELLID']) + "] Configuration Failed!")
 
 		## switch rf matrix port
-		if 'QRB' not in rf_matrix.NAME: rf_matrix.connectRFMatrix('\x30', str(vendor['rf_matrix_input_port']), str(vendor['rf_matrix_output_port']), daemon = daemon, atten = vendor['adjustAtten'])
-		else: rf_matrix.connectRFMatrix(['SA' + rf_matrix.getQRBPort(vendor['rf_matrix_input_port']) + 'B' + rf_matrix.getQRBPort(vendor['rf_matrix_output_port']) + rf_matrix.roundQRBAttenuation(vendor['adjustAtten'])], daemon = daemon)
+		if 'adjustAtten' in vendor:
+			if 'QRB' not in rf_matrix.NAME: rf_matrix.connectRFMatrix('\x30', str(vendor['rf_matrix_input_port']), str(vendor['rf_matrix_output_port']), daemon = daemon, atten = vendor['adjustAtten'])
+			else: rf_matrix.connectRFMatrix(['SA' + rf_matrix.getQRBPort(vendor['rf_matrix_input_port']) + 'B' + rf_matrix.getQRBPort(vendor['rf_matrix_output_port']) + rf_matrix.roundQRBAttenuation(vendor['adjustAtten'])], daemon = daemon)
+	return True
 
 
 
@@ -447,7 +450,7 @@ def waitBusy(vendor, counter = 30, daemon = False):
 		counter -= 1
 		if counter == 0:
 			utility.FAIL(result = 'Resource dependency check')
-			raise Exception('Execution Timeout [' + str(counter * 5) + '] seconds! Resource not available!')
+			raise Exception('Execution Timeout [' + str(counter * 60) + '] seconds! Resource not available!')
 
 
 
