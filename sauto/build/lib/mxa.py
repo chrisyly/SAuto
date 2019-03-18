@@ -118,6 +118,29 @@ def healthCheck():
 
 
 
+## \brief Reset the attenuation on MXA
+#
+# Load MXA list from SQLite database baed on name, reset attenuations
+#
+# \param name The string name of the MXA
+# \param daemon Print out info message if set False, default is False
+##
+def resetMXA(name, db_path = None, daemon = False):
+	if name: mxaList = sql.getSQLite('SELECT * FROM rf_matrix_db WHERE output_device = "' + name + '"', db_path = db_path)
+	else: raise Exception ('resetMXA failed, input argument [name] is not valid')
+	for mxa in mxaList:
+		if mxa['jfw_id'] and mxa['jfw_port']:
+			jfw.loadSQLite(str(mxa['jfw_id']), db_path = db_path)
+			jfw.connectJFW('SAR' + str(mxa['jfw_port']) + ' 127')
+		else:
+			rf_matrix_box = sql.getSQLite('SELECT * FROM rf_matrix WHERE id=' + str(mxa['rf_matrix_id']), db_path = db_path)[0]
+			rf_matrix.loadSQLite(str(rf_matrix_box['id']), db_path = db_path)
+			if 'QRB' in rf_matrix_box['name']: rf_matrix.resetQRBAtten(portB = mxa['port'], daemon = daemon)
+			elif 'RFM' in rf_matrix_box['name']: jfw.connectJFW('SAR' + str(JFW_PORT) + ' 127')
+	return mxaList
+
+
+
 ## \brief Reading the current MXA LTE report from remote MXA
 #
 # Remotely connecting to MXA and send 'CALC:EVM:DATA4:TABL:NAM?' and 'CALC:EVM:DATA4:TABL:STR?' command
