@@ -38,7 +38,7 @@ finally:
 	s.close()
 
 # Get the long discription from the README file
-def readme(file_name = 'README'):
+def readme(file_name = 'README.md'):
 	with open(os.path.join(root_path, file_name)) as f:
 		return f.read()
 
@@ -91,7 +91,7 @@ setup(
 	url = '', # TODO: open a github repo
 	author = 'Liyu Ying',
 	author_email = 'lying0401@gmail.com',
-	long_description = readme('README'),
+	long_description = readme('README.md'),
 	zip_safe = False,
 	include_package_data = True,
 	license = '',
@@ -158,9 +158,8 @@ if os_name == 'posix':
 		sauto.write("do_start()\n{\n    mkdir /var/www/html/sauto/logs/`date +%Y-%m-%d` >> /dev/null 2>&1 || true\n")
 		sauto.write("    mkdir /var/www/html/sauto/logs/system >> /dev/null 2>&1 || true\n")
 		sauto.write("    chmod 777 /var/www/html/sauto/logs/`date +%Y-%m-%d`\n")
-		sauto.write("    python3 -u " + root_path + "/build/sauto/sauto.py -d DEBUG -D >> /var/www/html/sauto/logs/system/sauto.log &\n"
-		## sauto.write("    python3 -u " + root_path + "/web_app/manage.py runserver " + IP + ":8890 > /var/www/html/sauto/logs/system/webapp.log &\n}\n")
-
+		sauto.write("    python3 -u " + root_path + "/build/sauto/sauto.py -d DEBUG -D >> /var/www/html/sauto/logs/system/sauto.log &\n")
+		sauto.write("    python3 -u " + root_path + "/web_app/manage.py runserver " + IP + ":8890 > /var/www/html/sauto/logs/system/webapp.log &\n}\n")
 		sauto.write("""
 force_stop()
 {

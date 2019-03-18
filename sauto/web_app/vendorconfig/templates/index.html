@@ -1,0 +1,477 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Sprint Small Cell Configuration</title>
+		<meta name="author" content="Original: Codrops; Editted by: Liyu" />
+		<link rel="shortcut icon" href="../favicon.ico">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-editable.css' %}" />
+		<script src="{% static 'js/jquery-2.0.3.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap-editable.js' %}"></script>
+
+		<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/component.css' %}" />
+		<script src="{% static 'js/modernizr.custom.js' %}"></script>
+
+		<!-- json2html -->
+		<script src="{% static 'js/json2html.min.js' %}"></script>
+
+		<!-- CSS styling -->
+		<style>
+			table{
+				display: table;
+				font-family: arial, sans-serif;
+				table-layout:fixed;
+				border-collapse: collapse;
+				width: auto;
+			}
+				
+			thead {
+				display: block;
+				background-color: #155267;
+			}
+
+			tbody {
+				display: inline-block;
+				max-height: 300px;
+				overflow-y: scroll;
+			}
+
+			tr:nth-child(even) {
+				background-color: #155267;
+			}
+
+			table td, th {
+				border: 1px solid #dddddd;
+				text-align: left;
+				word-break: break-all;
+				padding: 8px;
+				width: 150px;
+			}
+
+			thead th:last-child {
+				width: 166px;
+			}
+
+			.table_form {
+				height: auto;
+				overflow: hidden;
+			}
+
+			.right {
+				width: auto;
+				float: right;
+			}
+
+			.left {
+				width: auto;
+				float: left;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<ul id="gn-menu" class="gn-menu-main">
+				<li class="gn-trigger">
+					<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+					<nav class="gn-menu-wrapper">
+						<div class="gn-scroller">
+							<ul class="gn-menu">
+								<li>
+									<li><a class="gn-icon gn-icon-cog" href="/">Vendor Configuration</a></li>
+									<li><a class="gn-icon gn-icon-cog">Devices</a></li>
+									<ul class="gn-submenu">
+										<!-- Google Menu, add menu iteams here -->
+										<li><a class="gn-icon" onclick="draw_table({{pre_configured_vendor}}, 'Vendor');">Vendors</a></li>
+										<li><a class="gn-icon" onclick="draw_table({{rf_matrix}}, 'RF Matrix');">RF-Matrix</a></li>
+										<li><a class="gn-icon" onclick="draw_table({{jfw}}, 'JFW');">JFW</a></li>
+										<li><a class="gn-icon" onclick="draw_table({{mxa}}, 'MXA');">MXA</a></li>
+										<li><a class="gn-icon" onclick="draw_table({{lsu}}, 'LSU');">LSU</a></li>
+										<!-- NOTE Deprecated <li><a class="gn-icon" onclick="draw_table({{lte_cell}}, 'LTE Cell');">(Deprecated) LTE Cell</a></li> -->
+									</ul>
+									<li><a class="gn-icon gn-icon-cog" onclick="draw_table({{jenkins}}, 'Jenkins');">Jenkins Job List</a></li>
+								</li>
+								<li><a class="gn-icon gn-icon-help" onclick="print_help();">Help</a></li>
+						</div><!-- /gn-scroller -->
+					</nav>
+				</li>
+				<li><a class="codrops-icon" href="http://10.155.226.31"><span>Automation Archives</span></a></li>
+				<li><a class="codrops-icon" href="http://10.155.208.101"><span>LSU Home</span></a></li>
+				<li><a class="codrops-icon" href="http://10.155.208.104:8080"><span>Jenkins Home</span></a></li>
+				<li><a class="codrops-icon codrops-icon-prev" href="http://10.155.208.104:8000"><span>PATE</span></a></li>
+			</ul>
+			<header>
+				<div id="main_body">
+					<big><p id="title" style="text-align: center">Vendor Configuration</p></big>
+					<table id="table_view"></table>
+					<div id="table_form">
+						<div class="left">
+							<select id="select_status" style="width:auto;" onchange="select_status(value);">
+								<option value="Select an information from one cataglory">Select...</option>
+								<option value="{{ lsu_sdr_status }}">SDR</option>
+								<option value="{{ lsu_fdd_status }}">FDD</option>
+								<option value="{{ lsu_tdd_status }}">TDD</option>
+							</select>
+							<div id="lsu_info">
+							<script>
+								document.getElementById("lsu_info").innerHTML = "Select an information table from the cataglory";
+							</script>
+
+							</div>
+						</div>
+
+						<div class="right"><form action="/vendor_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">
+							{% csrf_token %}
+							<label for="atten">Initial Atten: </label>
+							<input id="atten" type="text" name="atten" value="{{ response.atten }}"><br>
+							<label for="exp_atten">Expect Atten: </label>
+							<input id="exp_atten" type="text" required="required" name="exp_atten" value="{{ response.exp_atten }}"><br>
+							<label for="frequency">Frequency (MHz): </label>
+							<input id="freq" type="text" required="required" name="freq" value="{{ response.freq }}"><br>
+							<label for="technology">LTE Technology: </label>
+							<input id="tech" type="text" required="required" name="tech" value="{{ response.tech }}"><br>
+							<label for="pci">PCI: </label>
+							<input id="pci" type="number" required="required" name="pci" value="{{ response.pci }}"><br>
+							<label for="rf_matrix_id">RF Matrix ID: </label>
+							<input id="rf_matrix_id" type="number" required="required" name="rf_matrix_id" value="{{ response.rf_matrix_id }}"><br>
+							<label for="rf_matrix_input_port">RF Matrix Input Port: </label>
+							<input id="rf_matrix_input_port" type="number" required="required" name="rf_matrix_input_port" value="{{ response.rf_matrix_input_port }}"><br>
+							<label for="rf_matrix_output_port">RF Matrix Output Port: </label>
+							<input id="rf_matrix_output_port" type="number" required="required" name="rf_matrix_output_port" value="{{ response.rf_matrix_output_port }}"><br>
+							<label for="jfw_id">JFW ID: </label>
+							<input id="jfw_id" type="number" required="required" name="jfw_id" value="{{ response.jfw_id }}"><br>
+							<label for="jfw_port">JFW PORT: </label>
+							<input id="jfw_port" type="number" required="required" name="jfw_port" value="{{ response.jfw_port }}"><br>
+							<label for="mxa_id">MXA ID: </label>
+							<input id="mxa_id" type="number" required="required" name="mxa_id" value="{{ response.mxa_id }}"><br>
+							<label for="lsu_id">LSU ID: </label>
+							<input id="lsu_id" type="number" required="required" name="lsu_id" value="{{ response.lsu_id }}"><br>
+							<label for="BW">Band Width (MHz): </label>
+							<input id="BW" type="number" name="BW" value="{{ response.BW }}"><br>
+							<label for="ULEARFCN">ULEARFCN: </label>
+							<input id="ULEARFCN" type="number" name="ULEARFCN" value="{{ response.ULEARFCN }}"><br>
+							<label for="DLEARFCN">DLEARFCN: </label>
+							<input id="DLEARFCN" type="number" name="DLEARFCN" value="{{ response.DLEARFCN }}"><br>
+							<label for="CELLID">LSU Cell ID: </label>
+							<input id="CELLID" type="number" name="CELLID" value="{{ response.CELLID }}"><br>
+
+							<input id="submit_but" type="submit" value="Submit">
+						</form></div>
+					</div>
+				<div>
+			</header>
+		</div><!-- /container -->
+		<div style="text-align: center; color: white;">
+			<p><big> {{ result }} </big></p>
+		</div>
+		<script src="{% static 'js/classie.js' %}"></script>
+		<script src="{% static 'js/gnmenu.js' %}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</body>
+</html>
+
+<script>
+function select_status(table) {
+	// console.log(table);
+	document.getElementById("lsu_info").innerHTML = table;
+}
+
+function submit_form() {
+	var table = document.getElementById("pre_configured_table");
+	var json_text = '{';
+	for (var i = 0; i < table.rows.length; i++) {
+		if (i != 0) {json_text += ','}
+		json_text += '"' + table.rows[i].cells[0].innerHTML + '":"' + $(table.rows[i].cells[1].innerHTML).text() + '"';
+	}
+	json_text += '}';
+	json_object = JSON.parse(json_text);
+	var xhr = new XMLHttpRequest();
+	var url = window.location.href + "";
+	xhr.open("POST", 'http://10.155.226.31:8890/database_config/', true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.send(JSON.stringify(json_object));
+}
+
+function create_option_list(id, table, key) {
+	var idList = $(id);
+	idList.empty();
+	list = [];
+	for (var i = 0; i < table.length; i++ ) {
+		if (!is_include(list, String(table[i][key]))) {
+			var opt = $("<option></option>").attr("value", String(table[i][key]));
+			list.push(String(table[i][key]));
+			idList.append(opt);
+		}
+	}
+}
+
+function is_include(array_data, value) {
+	for (var i = 0; i < array_data.length; i++) {
+		if (array_data[i] === value) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function draw_table(table, title) {
+	document.getElementById("title").innerHTML = title + ' Configuration';
+	document.getElementById("table_view").innerHTML = table;
+	if (title == 'Vendor') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${vendor_id}"
+			}, {
+				"tag": "td",
+				"html": "${rf_matrix_output_port}"
+			}, {
+				"tag": "td",
+				"html": "${tag}"
+			}, {
+				"tag": "td",
+				"html": "${CELLID}"
+			}, {
+				"tag": "td",
+				"html": "${lsu_id}"
+			}, {
+				"tag": "td",
+				"html": "${aggr_id}"
+			}]
+		};
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>Vendor ID</th><th>RF Matrix Output</th><th>Tag</th><th>CELL ID</th><th>LSU ID</th><th>Aggregation ID</th></tr></thead><tbody>" + json2html.transform(table, t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = '<form action="/vendor_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">' +
+			'{% csrf_token %}' +
+            '<label for="vendor_id">Vendor ID: </label><input id="vendor_id" type="text" name="vendor_id" list="vendor_configuration_id" value="{{ response.vendor_id }}"><datalist id="vendor_configuration_id"></datalist><br>' +
+            //'<label for="vendor_name">Vendor Name: </label><input id="vendor_name" type="text" name="vendor_name" value="{{ response.vendor_name }}"><br>' +
+            '<label for="vendor_tag">(Start with #, Not support multiple tags) Vendor Tag: </label><input id="vendor_tag" type="text" name="vendor_tag" list="vendor_configuration_tag" value="{{ response.vendor_tag }}"><datalist id="vendor_configuration_tag"></datalist><br>' +
+            '<input id="submit_but" type="submit" value="Submit">' +
+			'</form>' +
+			'<button class="right" onclick="draw_table({{ vendor }}, ' + "'Pre-configured Vendor')" + '"' + '>Add New</button>';
+		create_option_list('#vendor_configuration_id', table, 'vendor_id');
+		create_option_list('#vendor_configuration_tag', table, 'tag');
+	} else if (title == 'Pre-configured Vendor') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${id}"
+			}, {
+				"tag": "td",
+				"html": "${name}"
+			}, {
+				"tag": "td",
+				"html": "${freq}"
+			}, {
+				"tag": "td",
+				"html": "${tech}"
+			}, {
+				"tag": "td",
+				"html": "${rf_matrix_id}"
+			}]
+
+		};
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>Vendor ID</th><th>Vendor Name</th><th>Frequency</th><th>Technology</th><th>RF Matrix ID</th></tr></thead><tbody>" + json2html.transform(table, t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = '<form action="/database_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">' +
+			'{% csrf_token %}' +
+            '<input id="database_name" type="hidden" name="database_name" value="pre_config_vendor"><br>' +
+            '<label for="vendor_id">Vendor ID: </label><input id="vendor_id" type="text" list="pre_configuration_vendor_id" name="vendor_id" value=""><datalist id="pre_configuration_vendor_id"></datalist><br>' +
+            '<label for="lsu_id">LSU ID: </label><input id="lsu_id" type="text"  name="lsu_id" value=""></datalist><br>' +
+            '<label for="rf_matrix_output_port">RF Matrix output Port: </label><input id="rf_matrix_output_port" type="text" name="rf_matrix_output_port" value=""><br>' +
+            '<label for="mxa_id">MXA ID: </label><input id="mxa_id" type="text" name="mxa_id" value=""></datalist><br>' +
+            '<label for="vendor_tag">Vendor Tag: </label><input id="vendor_tag" type="text" name="vendor_tag" value=""><br>' +
+            '<label for="aggr_id">Aggregation ID: </label><input id="aggr_id" type="text" name="aggr_id" value=""><br>' +
+			'<input id="submit_but" type="submit" value="Add Pre-configured Vendor">' +
+			'</form>';
+		create_option_list('#pre_configuration_vendor_id', table, 'id');
+	} else if (title == 'RF Matrix') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${id}"
+			}, {
+				"tag": "td",
+				"html": "${name}"
+			}, {
+				"tag": "td",
+				"html": "${ip}"
+			}, {
+				"tag": "td",
+				"html": "${port}"
+			}, {
+				"tag": "td",
+				"html": "${location}"
+			}]
+
+		};
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>RF Matrix ID</th><th>RF Matrix Name</th><th>IP</th><th>PORT</th><th>Location</th></tr></thead><tbody>" + json2html.transform(table, t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = '<form action="/rf_matrix_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">' +
+			'{% csrf_token %}' +
+			'<label for="rf_matrix_id">RF Matrix ID: </label><input id="rf_matrix_id" type="text" required="required" name="rf_matrix_id" list="configuration_rf_matrix_id" value="{{ response.rf_matrix_id }}"><datalist id="configuration_rf_matrix_id"></datalist><br>' +
+			'<label for="rf_matrix_input_port">RF Matrix input Port: </label><input id="rf_matrix_input_port" type="text" required="required" name="rf_matrix_input_port" value="{{ response.rf_matrix_input_port }}"><br>' +
+			'<label for="rf_matrix_output_port">RF Matrix output Port: </label><input id="rf_matrix_output_port" type="text" required="required" name="rf_matrix_output_port" value="{{ response.rf_matrix_output_port }}"><br>' +
+			'<input id="submit_but" type="submit" value="Submit">' +
+			'</form>' +
+			'<div align="center"><select id="select_status" onchange="" style="width:60%;">' +
+            '<option value="">[DISABLED]Select a RF Matrix</option>' +
+			'</select></div>' +
+			'<iframe src="http://10.155.220.77" style="height:1000px;width:100%;"></iframe>';
+		create_option_list('#configuration_rf_matrix_id', table, 'id');
+	} else if (title == 'JFW') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${jfw_id}"
+			}, {
+				"tag": "td",
+				"html": "${jfw_port}"
+			},{
+				"tag": "td",
+				"html": "${atten}"
+			}, {
+				"tag": "td",
+				"html": "${output_device}"
+			}, {
+				"tag": "td",
+				"html": "${CELLID}"
+			}]
+		}
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>JFW ID</th><th>JFW PORT</th><th>Atten</th><th>Output Device</th><th>LSU Cell ID</th></tr></thead><tbody>" + json2html.transform(table, t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = '<form action="/jfw_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">' +
+			'{% csrf_token %}' +
+			'<label for="jfw_id">JFW ID: </label><input id="jfw_id" type="text" required="required" list="configuration_jfw_id" name="jfw_id" value="{{ response.jfw_id }}"><datalist id="configuration_jfw_id"></datalist><br>' +
+			'<label for="jfw_port">JFW Port: </label><input id="jfw_port" type="text" required="required" name="jfw_port" value="{{ response.jfw_port }}"><br>' +
+			'<label for="jfw_atten">Atten Value: </label><input id="jfw_atten" type="text" required="required" name="jfw_atten" value="{{ response.jfw_atten }}"><br>' +
+			'<input id="submit_but" type="submit" value="Submit">' +
+			'</form>';
+	} else if (title == 'MXA') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${id}"
+			}, {
+				"tag": "td",
+				"html": "${name}"
+			}, {
+				"tag": "td",
+				"html": "${ip}"
+			}, {
+				"tag": "td",
+				"html": "${port}"
+			}, {
+				"tag": "td",
+				"html": "${location}"
+			}]
+		};
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>MXA ID</th><th>MXA Name</th><th>IP</th><th>PORT</th><th>Location</th></tr></thead><tbody>" + json2html.transform(table, t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = '<form action="/mxa_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">' +
+			'{% csrf_token %}' +
+            '<label for="mxa_id">MXA ID: </label><input id="mxa_id" type="text" required="required" list="configuration_mxa_id" name="mxa_id" value="{{ response.mxa_id }}"><datalist id="configuration_mxa_id"></datalist><br>' +
+            '<label for="frequency">Frequency: </label><input id="freq" type="text" required="required" name="freq" value="{{ response.freq }}"><br>' +
+            '<label for="technology">Technology: </label><input id="tech" type="text" required="required" name="tech" value="{{ response.tech }}"><br>' +
+            '<label for="pci">PCI: </label><input id="pci" type="text" required="required" name="pci" value="{{ response.pci }}"><br>' +
+            '<input id="submit_but" type="submit" value="Exam">' +
+            '</form>';
+		create_option_list('#configuration_mxa_id', table, 'id');
+	} else if (title == 'LSU') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${id}"
+			}, {
+				"tag": "td",
+				"html": "${name}"
+			}, {
+				"tag": "td",
+				"html": "${ip}"
+			}, {
+				"tag": "td",
+				"html": "${in_use}"
+			}, {
+				"tag": "td",
+				"html": "${status}"
+			}]
+		};
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>LSU ID</th><th>LSU Name</th><th>IP</th><th>In Use</th><th>Status</th></tr></thead><tbody>" + json2html.transform(table, t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = 'TODO, add monitor and get busy cells' +
+			'<input id="submit_but" onclick="submit_but.disabled=true; return true;" type="submit" value="Submit">';
+/* Deprecated
+	} else if (title == 'LTE Cell') {
+		document.getElementById('table_form').innerHTML = 'TODO, add remove/add cell configuration (This should be a part of table function)' +
+			'<input id="submit_but" onclick="submit_but.disabled=true; return true;" type="submit" value="Submit">';
+*/
+	} else if (title == 'Jenkins') {
+		table = table.replace(/'/g,'"');
+		table = table.replace(/None/g,'""');
+		table = JSON.parse(table);
+		var t = {
+			tag: 'tr',
+			children:[{
+				"tag": "td",
+				"html": "${name}",
+			}, {
+				"tag": "td",
+				"html": "${url}",
+			}, {
+				"tag": "td",
+				"html": "${description}",
+			}]
+		};
+		document.getElementById("table_view").innerHTML = "<thead><tr><th>Test Case Name</th><th>Jenkins URL</th><th>Description</th></tr></thead><tbody>" + json2html.transform(table['jobs'], t) + '</tbody>';
+		document.getElementById('table_form').innerHTML = '<form action="/jenkins_config/" onsubmit="submit_but.disabled=true; return true;" method="post" style="text-align: right">' +
+			'{% csrf_token %}' +
+			'<label for="vendor_id">Pre-configured Vendor ID: </label><input id="vendor_id" type="number" list="configuration_jenkins_vendor_id" name="vendor_id" value="{{ response.vendor_id }}"><datalist id="configuration_jenkins_vendor_id"></datalist><br>' +
+			//'<label for="vendor_name">Pre-configured Vendor Name: </label><input id="vendor_name" type="text" name="vendor_name" value="{{ response.vendor_name }}"><br>' +
+			'<label for="vendor_tag">Pre-configured Vendor Tag: </label><input id="vendor_tag" type="text" list="configuration_jenkins_vendor_tag" name="vendor_tag" value="{{ response.vendor_tag }}"><datalist id="configuration_jenkins_vendor_tag"></datalist><br>' +
+            '<label for="job_name">Jenkins Job Name: </label><input id="job_name" type="text" required="required" list="configuration_jenkins_job_name" name="job_name" value="{{ response.job_name }}"><datalist id="configuration_jenkins_job_name"></datalist><br>' +
+            '<label for="new_job_name">New Job Name: </label><input id="new_job_name" type="text" name="new_job_name" value="{{ response.new_job_name }}"><br>' +
+            '<label for="email_list">(disabled)Email Notification List (separate by comma): </label><input id="email_list" type="text" name="email_list" value="{{ response.email_list }}"><br>' +
+            '<label for="time_schedule">(Leave empty to start now) Time Schedule: </label><input id="time_schedule" type="time" name="time_schedule" value="{{ response.time_schedule }}"><br>' +
+			'<label>TODO: add code for email notification and time schedule</label><br>' +
+            '<input id="submit_but" type="submit" value="Start Job">' +
+            '</form>';
+		create_option_list('#configuration_jenkins_job_name', table['jobs'], 'name');
+		create_option_list('#configuration_jenkins_vendor_id', table['pre_configured_vendors'], 'vendor_id');
+		create_option_list('#configuration_jenkins_vendor_tag', table['pre_configured_vendors'], 'tag');
+	}
+
+}
+
+function print_help() {
+	document.getElementById("title").innerHTML = "<p>Help Center</p>";
+	document.getElementById("table_view").innerHTML = "";
+	document.getElementById('table_form').innerHTML = "<p>This is still under development</p><br><p>TODO: Tar the logs and send email to the administor</p>";
+}
+
+</script>
