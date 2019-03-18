@@ -252,27 +252,14 @@ def examMXAadjustJFW(vendor, atten = 3, daemon = False, noexception = False):
 	if DAEMON: noexception = True
 	## set safty atten on jfw
 	if 'atten' not in vendor: vendor['atten'] = 15
-	## TODO TODO TODO reset MXA connection
+	## reset MXA connection
+	mxa.resetMXA(mxa.NAME)
 	if 'QRB' not in rf_matrix.NAME:
 		## Set safe attenuation on JFW
 		jfw.connectJFW('SAR' + str(mxa.JFW_PORT) + ' ' + str(vendor['atten']))
-
 		## switch RBM Rf Matrix port
 		rf_matrix.connectRFMatrix('\x30', str(vendor['rf_matrix_input_port']), str(mxa.MXA_PORT), atten = vendor['atten'])
-
-		## Disconnect QRB
-		## TODO TODO TODO when sharing database, MXA port on RF Matrix is different on QRB and RBM
-		## 1. change database -> add QRB_mxa_port and RBM_mxa_port
-		## 2. load all MXA data from database with the same name
-		## NOTE will need to add a MXA handler to reset all MXA port instead of on a single QRB or RBM
-		rf_matrix.resetQRBAtten(portB = 32, daemon = daemon) ## NOTE FIX the contant portB here
 	else:
-		## Disconnect RBM
-		jfw.connectJFW('SAR' + str(mxa.JFW_PORT) + ' 127')
-
-		## Reset QRB
-		rf_matrix.resetQRBAtten(portB = mxa.MXA_PORT, daemon = daemon)
-
 		## switch QRB RF Matrix port and set safe attenuation
 		rf_matrix.connectRFMatrix(['SA' + rf_matrix.getQRBPort(vendor['rf_matrix_input_port']) + 'B' + rf_matrix.getQRBPort(mxa.MXA_PORT) + "015.0"], daemon = daemon)
 
