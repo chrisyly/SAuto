@@ -388,6 +388,7 @@ def createConfig(json = None, daemon = False):
 		else: conf_file_name = 'lte' + json['tech'] + '.ue.' + str(json['CELLID']) + '.01'
 	with open('/tmp/' + conf_file_name, 'w') as config_file: ## Change file name
 		if json:
+			''' ## Deprecated
 			config_file.write('#\n')
 			config_file.write('# OBJECT: LTE CELL ' + str(int(json['CELLID'])) + ' on PPU 0-' + str(int(json['CELLID'])) + '\n')
 			config_file.write('#\n\n')
@@ -423,6 +424,23 @@ def createConfig(json = None, daemon = False):
 			config_file.write('UL_RF_GAIN                   = ' + str('AUTO') + '\n')
 			config_file.write('NBIOT_PRBON                  = ' + str(65535) + '\n')
 			config_file.write('NBIOT_PRBUP                  = ' + str(65535) + '\n')
+			'''
+			config_file.write('SDR = ' + str(int((int(json['CELLID']) - 1) / 2)) + '\n')
+			config_file.write('LOCAL_CELLID = ' + str((int(json['CELLID']) - 1) % 2) + '\n')
+			config_file.write('AGGR_ID = ' + str(json['aggr_id']) + '\n')
+			config_file.write('OUTPWR = ' + str('AUTO') + '\n')
+			config_file.write('DL_BW = ' + str(__DL_BW_CONVERTER[str(json['BW'])]) + '\n')
+			config_file.write('ULEARFCN = ' + str(json['ULEARFCN']) + '\n')
+			config_file.write('DLEARFCN = ' + str(json['DLEARFCN']) + '\n')
+			config_file.write('EPDCCH = ' + str(0) + '\n')
+			config_file.write('NUM_ANTS = ' + str(2) + '\n')
+			config_file.write('SENS_0 = ' + str('AUTO') + '\n')
+			config_file.write('SENS_1 = ' + str('AUTO') + '\n')
+			config_file.write('SPLIT_MODE = ' + str(0) + '\n')
+			config_file.write('SIBWIN = ' + str(0) + '\n')
+			config_file.write('DL_ATTENUATION = ' + str(0) + '\n')
+			config_file.write('PRACH_CFG = ' + str(1) + '\n')
+			config_file.write('INTFTYPE_SDR00 = ' + str('COMBINE_RX_TX') + '\n')
 		else:
 			utility.error('Loading configuration failed!')
 			config_file.close()
