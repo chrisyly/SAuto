@@ -19,6 +19,7 @@ import argparse
 import utility
 import sql
 import sys
+import jfw
 from colorama import Fore, Style
 
 ## \brief Load the device configuration from the given config file path
