@@ -1,9 +1,15 @@
 #!/usr/bin/python3
 
-import sprint_config
 import argparse
 import signal
 import sys
+
+## \file script_template.py
+# \brief A template script for writing new scripts
+#
+# \author Liyu Ying
+# \email lying0401@gmail.com
+
 
 
 ## \brief Pre-Test session
