@@ -254,6 +254,7 @@ def examMXAadjustJFW(vendor, atten = 3, daemon = False, noexception = False):
 	if 'atten' not in vendor: vendor['atten'] = 15
 	## reset MXA connection
 	mxa.resetMXA(mxa.NAME)
+	loadVendorConfig(vendor)
 	if 'QRB' not in rf_matrix.NAME:
 		## Set safe attenuation on JFW
 		jfw.connectJFW('SAR' + str(mxa.JFW_PORT) + ' ' + str(vendor['atten']))
