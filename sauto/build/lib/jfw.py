@@ -31,6 +31,7 @@ from colorama import Fore,Style
 # NOTE: This function can be called explictly to load user configurations
 #
 # \param confPath a string value contain the path to the json file
+# \return config JSON object of JFW loaded from file
 ##
 def loadConfig(confPath = 'this_device_conf.json'):
 	global ID, NAME, TCP_IP, TCP_PORT, LOCATION, STATUS
@@ -42,6 +43,9 @@ def loadConfig(confPath = 'this_device_conf.json'):
 		if 'TCP_PORT' in config['JFW']: TCP_PORT = config['JFW']['TCP_PORT']
 		if 'LOCATION' in config['JFW']: LOCATION = config['JFW']['LOCATION']
 		if 'STATUS' in config['JFW']: STATUS = config['JFW']['STATUS']
+		return config['JFW']
+	return None
+
 
 
 ## \brief Load the device configuration from the given SQLite file path
@@ -64,6 +68,8 @@ def loadSQLite(jid, db_path = None):
 		if config[0]['port'] is not None: TCP_PORT = config[0]['port']
 		if config[0]['location'] is not None: LOCATION = config[0]['location']
 		if config[0]['status'] is not None: STATUS = config[0]['status']
+		return config[0]
+	return None
 
 
 
@@ -116,6 +122,62 @@ def healthCheck(command = 'RAA', daemon = False):
 			if not daemon: utility.info("Attenuator #" + keys[0] + " - " + keys[1] + "dB")
 			result[keys[0]] = keys[1]
 	return result
+
+
+
+## \brief JFW Device Management Class defination
+#
+# Version: 1.0.0
+# JFW class is a collection of JFW device control methods
+# JFW device requires valid static Ethernet connection to execute remote command
+##
+class JFW:
+	MY_ID = 1
+	MY_NAME = 'JFW1'
+	MY_TCP_IP = '10.155.227.81'
+	MY_TCP_PORT = 3001
+	MY_LOCATION = ''
+	MY_STATUS = 0
+
+	## \brief JFW constructor
+	def __init__(self):
+		self.__loadConfig()
+		utility.info('Load JFW done')
+		pass
+		## --- End of Contructor --- ##
+
+
+
+	def __loadConfig(self, confPath = 'this_device_conf.json'):
+		config = loadConfig(confPath = self.__getConfigFile())
+		if 'ID' in config: self.MY_ID = config['ID']
+		if 'NAME' in config: self.MY_NAME = config['NAME']
+		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
+		if 'TCP_PORT' in config: self.MY_TCP_PORT = config['TCP_PORT']
+		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
+		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
+
+
+
+	def __loadSQLite(self, jid, db_path = None):
+		config = loadSQLite(jid, db_path)
+		if 'id' in config: self.MY_ID = config['id']
+		if 'name' in config: self.MY_NAME = config['name']
+		if 'ip' in config: self.MY_TCP_IP = config['ip']
+		if 'port' in config: self.MY_TCP_PORT = config['port']
+		if 'location' in config: self.MY_LOCATION = config['location']
+		if 'status' in config: self.MY_STATUS = config['status']
+
+
+
+	def __getConfigFile(self):
+		try:
+			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
+				path = conf_file.read()
+				if path: return path + '/this_device_conf.json'
+				else: return 'this_device_conf.json'
+		except Exception as e:
+			utility.error(str(e), False)
 
 
 
