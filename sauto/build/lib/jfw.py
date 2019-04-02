@@ -263,6 +263,37 @@ class JFW:
 
 
 
+	def getJFWInfo(self):
+		config = {'id' : self.MY_ID,
+			'name' : self.MY_NAME,
+			'ip' : self.MY_TCP_IP,
+			'port' : self.MY_TCP_PORT,
+			'location' : self.MY_LOCATION,
+			'status' : self.MY_STATUS
+		}
+		if not self.MY_DAEMON: utility.pp(config)
+		return config
+
+
+
+	def connectJFW(self, command, delayTime = 2, daemon = False):
+		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
+			MESSAGE = (command + '\r\n').encode('ascii')
+		try:
+			if not daemon: utility.info('Send command: [' + command + '] to the JFW box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ']')
+			tn = Telnet(MY_TCP_IP, int(MY_TCP_PORT))
+			tn.write(MESSAGE)
+			utility.sleep(delayTime, daemon = True)
+			result = tn.read_very_eager().decode('ascii')
+			if not daemon: utility.info('Response:\n' + result)
+			tn.close()
+		except Exception as e:
+			utility.error(str(e) + ' - Connection to ' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ' Failed!')
+			result = str(e) + ' - JFW does not allow multiple login on the same device!'
+		return result
+
+
+
 ## \brief Main function for provide the CLI tool
 #
 # The main function using the argparse module to allow command line optional argument
