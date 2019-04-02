@@ -119,6 +119,175 @@ def healthCheck(command = 'RAA', daemon = False):
 
 
 
+## \brief JFW Device Management Class defination
+#
+# Version: 1.0.0
+# JFW class is a collection of JFW device control methods
+# JFW device requires valid static Ethernet connection to execute remote command
+##
+class JFW:
+	MY_ID = 1
+	MY_NAME = 'JFW1'
+	MY_TCP_IP = '10.155.227.81'
+	MY_TCP_PORT = 3001
+	MY_LOCATION = ''
+	MY_STATUS = 0
+	MY_DAEMON = False
+
+	## \brief JFW constructor
+	def __init__(self, daemon = False):
+		self.MY_DAEMON = daemon
+		self.__loadConfig(confPath = self.__getConfigFile())
+		pass
+		## --- End of Contructor --- ##
+
+
+
+	## \brief Private method loadConfig, loading the configuration from json file
+	#
+	# \param confPath the string path to the json configuration file
+	##
+	def __loadConfig(self, confPath = 'this_device_conf.json'):
+		config = loadConfig(confPath = confPath)
+		if 'ID' in config: self.MY_ID = config['ID']
+		if 'NAME' in config: self.MY_NAME = config['NAME']
+		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
+		if 'TCP_PORT' in config: self.MY_TCP_PORT = config['TCP_PORT']
+		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
+		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
+
+
+
+	## \brief Loading JFW configuration from SQLite database
+	#
+	# \param jid the id number of the JFW recorded in SQLite database
+	##
+	def loadSQLite(self, jid, db_path = None):
+		config = loadSQLite(jid, db_path)
+		if 'id' in config: self.MY_ID = config['id']
+		if 'name' in config: self.MY_NAME = config['name']
+		if 'ip' in config: self.MY_TCP_IP = config['ip']
+		if 'port' in config: self.MY_TCP_PORT = config['port']
+		if 'location' in config: self.MY_LOCATION = config['location']
+		if 'status' in config: self.MY_STATUS = config['status']
+
+
+
+	## \brief Get the configuration file path from rootpath.conf file after installation
+	#
+	# \return None if file is not found
+	##
+	def __getConfigFile(self):
+		try:
+			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
+				path = conf_file.read()
+				if path: return path + '/this_device_conf.json'
+				else: return 'this_device_conf.json'
+		except Exception as e:
+			utility.error(str(e), False)
+			return None
+
+
+
+	## \breif Get the JFW configuration
+	#
+	# \return config a dictionary of JFW confiration details
+	##
+	def getJFWInfo(self):
+		config = {'id' : self.MY_ID,
+			'name' : self.MY_NAME,
+			'ip' : self.MY_TCP_IP,
+			'port' : self.MY_TCP_PORT,
+			'location' : self.MY_LOCATION,
+			'status' : self.MY_STATUS
+		}
+		if not self.MY_DAEMON: utility.pp(config)
+		return config
+
+
+
+	## \brief Connect to remote JFW box and execute a command
+	#
+	# Remotely connecting to a JFW box using a Telnet connection.
+	# The IP address and Port was loaded by loadConfig/loadSQLite function
+	#
+	# \param command either using the CLI with -e option or input as a parameter
+	# \param delayTime a delay time waiting response from telnet connection, default is 2
+	# \param daemon define if the program will print the reuslt or not, default is False
+	# \return result the return value from command executed remotely
+	##
+	def connectJFW(self, command, delayTime = 2, daemon = False):
+		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
+			MESSAGE = (command + '\r\n').encode('ascii')
+		try:
+			if not daemon: utility.info('Send command: [' + command + '] to the JFW box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ']')
+			tn = Telnet(self.MY_TCP_IP, int(self.MY_TCP_PORT))
+			tn.write(MESSAGE)
+			utility.sleep(delayTime, daemon = True)
+			result = tn.read_very_eager().decode('ascii')
+			if not daemon: utility.info('Response:\n' + result)
+			tn.close()
+		except Exception as e:
+			utility.error(str(e) + ' - Connection to ' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ' Failed!')
+			result = str(e) + ' - JFW does not allow multiple login on the same device!'
+		return result
+
+
+
+	## \brief Health Check function for checking Attenuator Port(s) status
+	#
+	# Remotely execute a read status command to a JFW box
+	# By default it is checking all attenuates, by explictly sending command to perform
+	# a single check on a certain port
+	#
+	# \param command default is RAA READ ALL ATTENUATES
+	# \param daemon default is False will print out the read results
+	# \return result if anything goes wrong with the port, return False
+	##
+	def healthCheck(command = 'RAA', daemon = False):
+		if not daemon: utility.info("################ " + Fore.YELLOW + 'JFW Health Check' + Style.RESET_ALL + " ###############")
+		data = self.connectJFW(command, 2, True)
+		result = {}
+		for line in data.split('\n'):
+			keys = utility.regex(line, 'Atten\s*#*(\d+)\s*=*\s*(\d+)..')
+			if keys:
+				if not daemon: utility.info("Attenuator #" + keys[0] + " - " + keys[1] + "dB")
+					result[keys[0]] = keys[1]
+		return result
+
+
+
+	def getJFWInfo(self):
+		config = {'id' : self.MY_ID,
+			'name' : self.MY_NAME,
+			'ip' : self.MY_TCP_IP,
+			'port' : self.MY_TCP_PORT,
+			'location' : self.MY_LOCATION,
+			'status' : self.MY_STATUS
+		}
+		if not self.MY_DAEMON: utility.pp(config)
+		return config
+
+
+
+	def connectJFW(self, command, delayTime = 2, daemon = False):
+		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
+			MESSAGE = (command + '\r\n').encode('ascii')
+		try:
+			if not daemon: utility.info('Send command: [' + command + '] to the JFW box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ']')
+			tn = Telnet(MY_TCP_IP, int(MY_TCP_PORT))
+			tn.write(MESSAGE)
+			utility.sleep(delayTime, daemon = True)
+			result = tn.read_very_eager().decode('ascii')
+			if not daemon: utility.info('Response:\n' + result)
+			tn.close()
+		except Exception as e:
+			utility.error(str(e) + ' - Connection to ' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ' Failed!')
+			result = str(e) + ' - JFW does not allow multiple login on the same device!'
+		return result
+
+
+
 ## \brief Main function for provide the CLI tool
 #
 # The main function using the argparse module to allow command line optional argument
