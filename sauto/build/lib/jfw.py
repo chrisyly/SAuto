@@ -31,6 +31,7 @@ from colorama import Fore,Style
 # NOTE: This function can be called explictly to load user configurations
 #
 # \param confPath a string value contain the path to the json file
+# \return config JSON object of JFW loaded from file
 ##
 def loadConfig(confPath = 'this_device_conf.json'):
 	global ID, NAME, TCP_IP, TCP_PORT, LOCATION, STATUS
@@ -42,6 +43,8 @@ def loadConfig(confPath = 'this_device_conf.json'):
 		if 'TCP_PORT' in config['JFW']: TCP_PORT = config['JFW']['TCP_PORT']
 		if 'LOCATION' in config['JFW']: LOCATION = config['JFW']['LOCATION']
 		if 'STATUS' in config['JFW']: STATUS = config['JFW']['STATUS']
+		return config['JFW']
+	return None
 
 
 ## \brief Load the device configuration from the given SQLite file path
@@ -53,6 +56,7 @@ def loadConfig(confPath = 'this_device_conf.json'):
 #
 # \param jid the id for a perticular JFW device in SQLite database
 # \param db_path the path of the SQLite database file
+# \return config JSON object of JFW loaded from file
 ##
 def loadSQLite(jid, db_path = None):
 	global ID, NAME, TCP_IP, TCP_PORT, LOCATION, STATUS
@@ -64,6 +68,8 @@ def loadSQLite(jid, db_path = None):
 		if config[0]['port'] is not None: TCP_PORT = config[0]['port']
 		if config[0]['location'] is not None: LOCATION = config[0]['location']
 		if config[0]['status'] is not None: STATUS = config[0]['status']
+		return config[0]
+	return None
 
 
 
@@ -218,7 +224,7 @@ class JFW:
 	##
 	def connectJFW(self, command, delayTime = 2, daemon = False):
 		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
-			MESSAGE = (command + '\r\n').encode('ascii')
+		MESSAGE = (command + '\r\n').encode('ascii')
 		try:
 			if not daemon: utility.info('Send command: [' + command + '] to the JFW box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ']')
 			tn = Telnet(self.MY_TCP_IP, int(self.MY_TCP_PORT))
@@ -244,7 +250,7 @@ class JFW:
 	# \param daemon default is False will print out the read results
 	# \return result if anything goes wrong with the port, return False
 	##
-	def healthCheck(command = 'RAA', daemon = False):
+	def healthCheck(self, command = 'RAA', daemon = False):
 		if not daemon: utility.info("################ " + Fore.YELLOW + 'JFW Health Check' + Style.RESET_ALL + " ###############")
 		data = self.connectJFW(command, 2, True)
 		result = {}
@@ -252,38 +258,7 @@ class JFW:
 			keys = utility.regex(line, 'Atten\s*#*(\d+)\s*=*\s*(\d+)..')
 			if keys:
 				if not daemon: utility.info("Attenuator #" + keys[0] + " - " + keys[1] + "dB")
-					result[keys[0]] = keys[1]
-		return result
-
-
-
-	def getJFWInfo(self):
-		config = {'id' : self.MY_ID,
-			'name' : self.MY_NAME,
-			'ip' : self.MY_TCP_IP,
-			'port' : self.MY_TCP_PORT,
-			'location' : self.MY_LOCATION,
-			'status' : self.MY_STATUS
-		}
-		if not self.MY_DAEMON: utility.pp(config)
-		return config
-
-
-
-	def connectJFW(self, command, delayTime = 2, daemon = False):
-		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
-			MESSAGE = (command + '\r\n').encode('ascii')
-		try:
-			if not daemon: utility.info('Send command: [' + command + '] to the JFW box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ']')
-			tn = Telnet(MY_TCP_IP, int(MY_TCP_PORT))
-			tn.write(MESSAGE)
-			utility.sleep(delayTime, daemon = True)
-			result = tn.read_very_eager().decode('ascii')
-			if not daemon: utility.info('Response:\n' + result)
-			tn.close()
-		except Exception as e:
-			utility.error(str(e) + ' - Connection to ' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ' Failed!')
-			result = str(e) + ' - JFW does not allow multiple login on the same device!'
+				result[keys[0]] = keys[1]
 		return result
 
 
