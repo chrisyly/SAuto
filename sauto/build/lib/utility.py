@@ -457,7 +457,7 @@ def reportGeneratorJenkins(json = None, titles = None, path = None, daemon = Fal
 #
 # \param inputJSON input either json object or dictionary or json like string
 # \param path The Path to the log file, a folder will be created with the current date if not created
-# \param name The name of the log file, a prefix of the time being created will be added to the log file name
+# \param name The name of the log file, the log file will be saved under the date folder being created
 # \param daemon Print out the message if set False, default is False
 ##
 def writeJSON(inputJSON = None, path = None, name = None, daemon = False):
@@ -467,15 +467,50 @@ def writeJSON(inputJSON = None, path = None, name = None, daemon = False):
 	if not path:
 		error('Can not load write file path [' + str(path) + ']')
 		raise Exception('File path invalid error')
-	else:
-		date = getDate()
-		systemcall('mkdir -p ' + str(path) + '/' + str(date), daemon = daemon)
-		with open(str(path) + '/' + str(date) + '/' + str(name), 'w') as logfile:
-			try:
-				logfile.write(json.dumps(inputJSON))
-			except Exception as e:
-				error(str(e))
-		return
+	if not name:
+		error('File name is not valid [' + str(name) + ']')
+		raise Exception('File name invalid error')
+	date = getDate()
+	systemcall('mkdir -p ' + str(path) + '/' + str(date), daemon = daemon)
+	with open(str(path) + '/' + str(date) + '/' + str(name), 'w') as logfile:
+		try:
+			logfile.write(json.dumps(inputJSON))
+			if not daemon: info('Complete [' + str(path) + '/' + str(date) + '/' + str(name) + '] file writen.')
+		except Exception as e:
+			error(str(e))
+	return
+
+
+
+## \brief write the content input to a given file path
+#
+# Write the input content into to a file with the given path.
+# If the path is None, throw exception and increment the failure counter
+# Create the path folder if is not been created
+#   Log will be saved under the log path and put in a folder with the current date
+#   Log file will be name with the created [name] format
+#	Log will override the file if file exists
+#
+# \param content input string
+# \param path The Path to the log file, a folder will be created with the current date if not created
+# \param name The name of the log file, the log file will be saved under the date folder being created
+# \param daemon Print out the message if set False, default is False
+##
+def writeFile(content = '', path = None, name = None, daemon = False):
+	if not path:
+		error('Can not load write file path [' + str(path) + ']')
+		raise Exception('File path invalid error')
+	if not name:
+		error('File name is not valid [' + str(name) + ']')
+		raise Exception('File name invalid error')
+	date = getDate()
+	systemcall('mkdir -p ' + str(path) + '/' + str(date), daemon = daemon)
+	with open(str(path) + '/' + str(date) + '/' + str(name), 'w') as logfile:
+		try:
+			logfile.write(content)
+			if not daemon: info('Complete [' + str(path) + '/' + str(date) + '/' + str(name) + '] file writen.')
+		except Exception as e:
+			error(str(e))
 
 
 

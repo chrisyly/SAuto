@@ -138,11 +138,12 @@ class JFW:
 	MY_TCP_PORT = 3001
 	MY_LOCATION = ''
 	MY_STATUS = 0
+	MY_DAEMON = False
 
 	## \brief JFW constructor
-	def __init__(self):
-		self.__loadConfig()
-		utility.info('Load JFW done')
+	def __init__(self, daemon = False):
+		self.MY_DAEMON = daemon
+		self.__loadConfig(confPath = __getConfigFile())
 		pass
 		## --- End of Contructor --- ##
 
@@ -159,7 +160,7 @@ class JFW:
 
 
 
-	def __loadSQLite(self, jid, db_path = None):
+	def loadSQLite(self, jid, db_path = None):
 		config = loadSQLite(jid, db_path)
 		if 'id' in config: self.MY_ID = config['id']
 		if 'name' in config: self.MY_NAME = config['name']
@@ -178,6 +179,37 @@ class JFW:
 				else: return 'this_device_conf.json'
 		except Exception as e:
 			utility.error(str(e), False)
+
+
+
+	def getJFWInfo(self):
+		config = {'id' : self.MY_ID,
+			'name' : self.MY_NAME,
+			'ip' : self.MY_TCP_IP,
+			'port' : self.MY_TCP_PORT,
+			'location' : self.MY_LOCATION,
+			'status' : self.MY_STATUS
+		}
+		if not self.MY_DAEMON: utility.pp(config)
+		return config
+
+
+
+	def connectJFW(self, command, delayTime = 2, daemon = False):
+		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
+			MESSAGE = (command + '\r\n').encode('ascii')
+		try:
+			if not daemon: utility.info('Send command: [' + command + '] to the JFW box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ']')
+			tn = Telnet(MY_TCP_IP, int(MY_TCP_PORT))
+			tn.write(MESSAGE)
+			utility.sleep(delayTime, daemon = True)
+			result = tn.read_very_eager().decode('ascii')
+			if not daemon: utility.info('Response:\n' + result)
+			tn.close()
+		except Exception as e:
+			utility.error(str(e) + ' - Connection to ' + str(self.MY_TCP_IP) + ':' + str(self.MY_TCP_PORT) + ' Failed!')
+			result = str(e) + ' - JFW does not allow multiple login on the same device!'
+		return result
 
 
 
