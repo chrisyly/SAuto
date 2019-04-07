@@ -1,0 +1,90 @@
+a {
+  text-decoration: none;
+}
+
+.App {
+  text-align: center;
+}
+
+#wdr-component {
+  width: 85vw;
+  height: 70vh;
+  overflow: no;
+  margin: auto;
+}
+
+#App-logo {
+  animation: App-logo-spin infinite 3s cubic-bezier(0.88, -0.9, 0.4, 1.14);
+  transition: 1s ease-in-out;
+}
+
+#App-banner {
+  transition: 0.5s ease-in-out;
+}
+
+#App-card:hover #App-banner {
+  transform: translateY(-0.2em) scale(1.02)
+}
+
+#App-card:hover #App-logo {
+  animation: App-logo-spin infinite 1s linear, App-logo-spin-hover infinite 10s linear;
+}
+
+.login-background {
+  background-image: url("https://source.unsplash.com/random/1600x900");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  position: relative
+}
+
+#blur {
+  position: fixed;
+  filter: blur(3px);
+  background: rgba(2, 2, 2, 0.8) !important;
+  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes App-logo-spin-hover {
+  0% {
+    top: -35px;
+    left: -20px;
+  }
+  25% {
+    top: -40px;
+    left: 255px;
+  }
+  50% {
+    top: 70px;
+    left: 255px;
+  }
+  75% {
+    top: 70px;
+    left: -20px;
+  }
+  100% {
+    top: -35px;
+    left: -20px;
+  }
+}
