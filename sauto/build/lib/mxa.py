@@ -32,9 +32,10 @@ from colorama import Fore, Style
 # NOTE: This function can be called explictly to load user configurations
 #
 # \param confPath a string value contain the path to the json file
+# \return config JSON object of MXA loaded from file
 ##
 def loadConfig(confPath = 'this_device_conf.json'):
-	global ID, NAME, TCP_IP, TELNET_PORT, LOCATION, JFW_PORT, MXA_PORT, STATUS
+	global ID, NAME, TCP_IP, TELNET_PORT, LOCATION, JFW_PORT, MXA_PORT, MXA_TABLE_NAME, STATUS
 	config = utility.loadConfig(confPath)
 	if 'error' not in config:
 		if 'ID' in config['MXA']: ID = config['MXA']['ID']
@@ -42,10 +43,13 @@ def loadConfig(confPath = 'this_device_conf.json'):
 		if 'TCP_IP' in config['MXA']: TCP_IP = config['MXA']['TCP_IP']
 		if 'TELNET_PORT' in config['MXA']: TELNET_PORT = config['MXA']['TELNET_PORT']
 		if 'SOCKET_PORT' in config['MXA']: SOCKET_PORT = config['MXA']['SOCKET_PORT']
-		if 'LOCATION' in config['MXA']: LOCATION = config[0]['location']
-		if 'JFW_PORT' in config['MXA']: JFW_PORT = config[0]['jfw_port']
-		if 'MXA_PORT' in config['MXA']: MXA_PORT = config[0]['mxa_port']
-		if 'STATUS' in config['MXA']: STATUS = config[0]['status']
+		if 'LOCATION' in config['MXA']: LOCATION = config['MXA']['LOCATION']
+		if 'JFW_PORT' in config['MXA']: JFW_PORT = config['MXA']['JFW_PORT']
+		if 'MXA_PORT' in config['MXA']: MXA_PORT = config['MXA']['MXA_PORT']
+		if 'MXA_TABLE_NAME' in config['MXA']: MXA_TABLE_NAME = config['MXA']['MXA_TABLE_NAME']
+		if 'STATUS' in config['MXA']: STATUS = config['MXA']['STATUS']
+		return config['MXA']
+	return config
 
 
 
@@ -57,20 +61,25 @@ def loadConfig(confPath = 'this_device_conf.json'):
 # NOTE: This function can be called explictly to load configuration
 #
 # \param mid the id for a perticular MXA device in SQLite database
+# \param table_name the sqlite table name for mxa
 # \param db_path the path of the SQLite database file
+# \return config JSON object of MXA loaded from file
 ##
-def loadSQLite(mxa_id, db_path = None):
+def loadSQLite(mxa_id, table_name = None, db_path = None):
 	global ID, NAME, TCP_IP, TELNET_PORT, LOCATION, JFW_PORT, MXA_PORT, STATUS
-	config = sql.getSQLite('SELECT * FROM ' + MXA_TABLE_NAME + ' WHERE id=' + str(mxa_id), db_path)
+	if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' + str(mxa_id), db_path)
+	else: config = sql.getSQLite('SELECT * FROM ' + MXA_TABLE_NAME + ' WHERE id=' + str(mxa_id), db_path)
 	if config:
 		if config[0]['id'] is not None: ID = config[0]['id']
+		if config[0]['name'] is not None: NAME = config[0]['name']
 		if config[0]['ip'] is not None: TCP_IP = config[0]['ip']
 		if config[0]['port'] is not None: TELNET_PORT = config[0]['port']
-		if config[0]['name'] is not None: NAME = config[0]['name']
 		if config[0]['location'] is not None: LOCATION = config[0]['location']
 		if config[0]['jfw_port'] is not None: JFW_PORT = config[0]['jfw_port']
 		if config[0]['mxa_port'] is not None: MXA_PORT = config[0]['mxa_port']
 		if config[0]['status'] is not None: STATUS = config[0]['status']
+		return config[0]
+	return {"error": "Loading table [" + MXA_TABLE_NAME + "] with ID [" + str(mxa_id) + "] Failed"}
 
 
 
@@ -543,10 +552,211 @@ def setMode(mode, daemon = False):
 
 
 
-## TODO TODO TODO
-def getDependentMXA():
-	return sql.getSQLite('SELECT * FROM rf_matrix_db where output_device="' + NAME + '"')
+## \brief MXA Device Management Class defination
+#
+# Version: 1.0.0
+# MXA class is a collection of MXA device control methods
+# MXA device require Ethernet connection to execute remote commands
+##
+class MXA:
+	MY_ID = 1
+	MY_NAME = 'MXASpecAn'
+	MY_TCP_IP = '10.155.226.218'
+	MY_TELNET_PORT = 5023
+	MY_SOCKET_PORT = 5025
+	MY_LOCATION = ''
+	MY_JFW_PORT = 24
+	MY_MXA_PORT = 1
+	MY_MXA_TABLE_NAME = 'mxa'
+	MY_STATUS = 0
+	MY_DAEMON = False
 
+	## \brief MXA constructor
+	def __init__(self, config = None, daemon = False):
+		self.MY_DAEMON = daemon
+		self.__loadConfig(json = config, confPath = self.__getConfigFile())
+		pass
+		## --- End of Constructor --- ##
+
+
+
+	############### --- Setter and Getter --- ###############
+	## \brief Get ID
+	def getID(self):
+		return self.MY_ID
+
+	## \brief Get Name
+	def getName(self):
+		return self.MY_NAME
+
+	## \brief Get IP
+	def getIP(self):
+		return self.MY_TCP_IP
+
+	## \brief Get Telnet Port
+	def getTelnetPort(self):
+		return self.MY_TELNET_PORT
+
+	## \brief Get Socket Port
+	def getSocketPort(self):
+		return self.MY_SOCKET_PORT
+
+	## \brief Get Location
+	def getLocation(self):
+		return self.MY_LOCATION
+
+	## \brief Get MXA JFW connect Port
+	def getJFWPort(self):
+		return self.MY_JFW_PORT
+
+	## \brief Get MXA Cabling port
+	def getMXAPort(self):
+		return self.MY_MXA_PORT
+
+	## \brief Get MXA Table Name
+	def getTableName(self):
+		return self.MY_MXA_TABLE_NAME
+
+	## \brief Get Status
+	def getStatus(self):
+		return self.MY_STATUS
+
+	## \brief Get the MXA configuration
+	#
+	# \return config a dictionary of MXA configuration details
+	##
+	def getInfo(self):
+		config = {'ID' : self.MY_ID,
+			'NAME' : self.MY_NAME,
+			'TCP_IP' : self.MY_TCP_IP,
+			'TELNET_PORT' : self.MY_TELNET_PORT,
+			'SOCKET_PORT' : self.MY_SOCKET_PORT,
+			'LOCATION' : self.MY_LOCATION,
+			'JFW_PORT' : self.MY_JFW_PORT,
+			'MXA_PORT' : self.MY_MXA_PORT,
+			'MXA_TABLE_NAME' : self.MY_MXA_TABLE_NAME,
+			'STATUS' : self.MY_STATUS
+		}
+		if not self.MY_DAEMON: utility.pp(config)
+		return config
+
+	## \brief Set Daemon Flag
+	def setDaemon(self, daemon = None):
+		if isinstance(daemon, bool): self.MY_DAEMON = daemon
+
+	## \brief Set Provided Configuration
+	#
+	# \return self.getInfo()
+	##
+	def setConfig(self, ID = None, Name = None, IP = None, Telnet_Port = None, Socket_Port = None, Location = None, JFW_Port = None, MXA_Port = None, Table_Name = None, Status = None):
+		if isinstance(ID, int): self.MY_ID = ID
+		if isinstance(NAME, str): self.MY_NAME = NAME
+		if isinstance(IP, str): self.MY_TCP_IP = IP
+		if isinstance(Telnet_Port, int): self.MY_TELNET_PORT = Telnet_Port
+		if isinstance(Socket_Port, int): self.MY_SOCKET_PORT = Socket_Port
+		if isinstance(Location, str): self.MY_LOCATION = Location
+		if isinstance(JFW_Port, int): self.MY_JFW_PORT = JFW_Port
+		if isinstance(MXA_Port, int): self.MY_MXA_PORT = MXA_Port
+		if isinstance(Table_Name, str): self.MY_MXA_TABLE_NAME = Table_Name
+		if isinstance(Status, int): self.MY_STATUS = Status
+		return self.getInfo()
+
+	########### --- End of Setter and Getter --- ############
+
+
+
+	## \brief Private method loadConfig, loading the configuration from json file
+	#
+	# If json is not given, load the configuration from configuration file
+	#
+	# \param json json/dictionary object with MXA information
+	# \param confPath the string path to the json configuration file
+	# \return True if no error found, else False
+	##
+	def __loadConfig(self, json = None, confPath = 'this_device_conf.json'):
+		if not json:
+			config = utility.loadConfig(confPath = confPath)
+			if 'error' in config: return False
+			else: config = config['MXA']
+		else: config = json
+		if 'ID' in config: self.MY_ID = config['ID']
+		if 'NAME' in config: self.MY_NAME = config['NAME']
+		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
+		if 'TELNET_PORT' in config: self.MY_TELNET_PORT = config['TELNET_PORT']
+		if 'SOCKET_PORT' in config: self.MY_SOCKET_PORT = config['SOCKET_PORT']
+		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
+		if 'JFW_PORT' in config: self.MY_JFW_PORT = config['JFW_PORT']
+		if 'MXA_PORT' in config: self.MY_MXA_PORT = config['MXA_PORT']
+		if 'MXA_TABLE_NAME' in config: self.MY_MXA_TABLE_NAME = config['MXA_TABLE_NAME']
+		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
+		return True
+
+
+	## \brief Loading MXA configuration from SQLite database
+	#
+	# \param mxa_id the id number of the MXA recored in SQLite database
+	# \param db_path the string path of the SQLite database file
+	# \return True if no error found, else False
+	##
+	def loadSQLite(self, mxa_id, db_path = None):
+		try:
+			config = sql.getSQLite('SELECT * FROM ' + self.MY_MXA_TABLE_NAME + ' WHERE id=' + str(mxa_id), db_path)[0]
+		except Exception as e:
+			utility.warn("MXA loadSQLite failed: " + str(e) + "\n Using Default Configuration", track = False)
+			config = {"error" : str(e)}
+		return self.__loadConfig(json = config)
+
+
+	## \brief Get the configuration file path from rootpath.conf file (created after installation)
+	#
+	# \return None if file not found, else the path of the file
+	##
+	def __getConfigFile(self):
+		try:
+			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
+				path = conf_file.read()
+				if path: return path + '/this_device_conf.json'
+				else: return 'this_device_conf.json'
+		except Exception as e:
+			utility.error(str(e), False)
+			return None
+
+
+
+	## \brief Connect to remote MXA box and execute a command
+	#
+	# Remotely connecting to a MXA box using a Telnet connection.
+	# The IP address and Port was loaded by loadConfig/loadSQLite function
+	#
+	# \param command either using the CLI with -e option or input as a parameter
+	# \param delayTime a delay time waiting response from telnet connection, default is 5
+	# \param daemon define if the program will print the reuslt or not, default is False
+	# \return result the return value from command executed remotely
+	##
+	## NOTE: MXA may have experiencing heavy traffic and may need to increse the delay time
+	def execute(self, command, delayTime = 5, daemon = False):
+		if not daemon: utility.info("##################### " + Fore.YELLOW + "MXA Control" + Style.RESET_ALL + " ######################")
+		try:
+			if not daemon: utility.info('Send command: [' + command + '] to the MXA box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TELNET_PORT) + ']')
+			tn = Telnet(self.MY_TCP_IP, int(self.MY_TELNET_PORT))
+			##tn.write(('\r\n').encode('ascii'))
+			tn.read_until(b'SCPI>')
+			tn.write((command + '\r\n').encode('ascii'))
+			utility.sleep(delayTime, True)
+			result = (utility.regexParser(tn.read_very_eager().decode('ascii'), ' (.*)\r\nSCPI.*', daemon)).replace('SCPI> ', '').replace(command, '').replace('\r\n', '')
+			if result:
+				if not daemon: utility.info('Response:\n' + result)
+			else:
+				result = ''
+		except OSError:
+			utility.error('Connection to ' + str(self.MY_TCP_IP) + ':' + str(self.MY_TELNET_PORT) + ' Failed!')
+			exit(1)
+		tn.close()
+		return result
+
+
+
+	## TODO TODO TODO adding other functions
 
 
 

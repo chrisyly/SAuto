@@ -34,7 +34,7 @@ from colorama import Fore,Style
 # \return config JSON object of JFW loaded from file
 ##
 def loadConfig(confPath = 'this_device_conf.json'):
-	global ID, NAME, TCP_IP, TCP_PORT, LOCATION, STATUS
+	global ID, NAME, TCP_IP, TCP_PORT, LOCATION, JFW_TABLE_NAME, STATUS
 	config = utility.loadConfig(confPath)
 	if 'error' not in config:
 		if 'ID' in config['JFW']: ID = config['JFW']['ID']
@@ -42,9 +42,10 @@ def loadConfig(confPath = 'this_device_conf.json'):
 		if 'TCP_IP' in config['JFW']: TCP_IP = config['JFW']['TCP_IP']
 		if 'TCP_PORT' in config['JFW']: TCP_PORT = config['JFW']['TCP_PORT']
 		if 'LOCATION' in config['JFW']: LOCATION = config['JFW']['LOCATION']
+		if 'JFW_TABLE_NAME' in config['JFW']: JFW_TABLE_NAME = config['JFW']['JFW_TABLE_NAME']
 		if 'STATUS' in config['JFW']: STATUS = config['JFW']['STATUS']
 		return config['JFW']
-	return None
+	return config
 
 
 
@@ -56,11 +57,14 @@ def loadConfig(confPath = 'this_device_conf.json'):
 # NOTE: This function can be called explictly to load configuration
 #
 # \param jid the id for a perticular JFW device in SQLite database
+# \param table_name the sqlite table name for jfw
 # \param db_path the path of the SQLite database file
+# \return config JSON object of JFW loaded from file
 ##
-def loadSQLite(jid, db_path = None):
+def loadSQLite(jid, table_name = None, db_path = None):
 	global ID, NAME, TCP_IP, TCP_PORT, LOCATION, STATUS
-	config = sql.getSQLite('SELECT * FROM ' + JFW_TABLE_NAME + ' WHERE id=' + str(jid), db_path)
+	if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' + str(jid), db_path)
+	else: config = sql.getSQLite('SELECT * FROM ' + JFW_TABLE_NAME + ' WHERE id=' + str(jid), db_path)
 	if config:
 		if config[0]['id'] is not None: ID = config[0]['id']
 		if config[0]['name'] is not None: NAME = config[0]['name']
@@ -69,7 +73,7 @@ def loadSQLite(jid, db_path = None):
 		if config[0]['location'] is not None: LOCATION = config[0]['location']
 		if config[0]['status'] is not None: STATUS = config[0]['status']
 		return config[0]
-	return None
+	return {"error": "Loading table [" + JFW_TABLE_NAME + "] with ID [" + str(jid) + "] Failed"}
 
 
 
@@ -137,49 +141,127 @@ class JFW:
 	MY_TCP_IP = '10.155.227.81'
 	MY_TCP_PORT = 3001
 	MY_LOCATION = ''
+	MY_JFW_TABLE_NAME = 'jfw'
 	MY_STATUS = 0
 	MY_DAEMON = False
 
 	## \brief JFW constructor
-	def __init__(self, daemon = False):
+	def __init__(self, config = None, daemon = False):
 		self.MY_DAEMON = daemon
 		self.__loadConfig(confPath = self.__getConfigFile())
 		pass
-		## --- End of Contructor --- ##
+		## --- End of Constructor --- ##
+
+
+
+	############### --- Setter and Getter --- ###############
+	## \brief Get ID
+	def getID(self):
+		return self.MY_ID
+
+	## \brief Get Name
+	def getName(self):
+		return self.MY_NAME
+
+	## \brief Get IP
+	def getIP(self):
+		return self.MY_TCP_IP
+
+	## \brief Get Telnet Port
+	def getTelnetPort(self):
+		return self.MY_TCP_PORT
+
+	## \brief Get Location
+	def getLocation(self):
+		return self.MY_LOCATION
+
+	## \brief Get JFW Table Name
+	def getTableName(self):
+		return self.MY_JFW_TABLE_NAME
+
+	## \brief Get Status
+	def getStatus(self):
+		return self.MY_STATUS
+
+	## \breif Get the JFW configuration
+	#
+	# \return config a dictionary of JFW confiration details
+	##
+	def getInfo(self):
+		config = {'ID' : self.MY_ID,
+			'NAME' : self.MY_NAME,
+			'TCP_IP' : self.MY_TCP_IP,
+			'TCP_PORT' : self.MY_TCP_PORT,
+			'LOCATION' : self.MY_LOCATION,
+			'JFW_TABLE_NAME' : self.MY_JFW_TABLE_NAME,
+			'STATUS' : self.MY_STATUS
+		}
+		if not self.MY_DAEMON: utility.pp(config)
+		return config
+
+	## \brief Set Daemon Flag
+	def setDaemon(self, daemon = None):
+		if isinstance(daemon, bool): self.MY_DAEMON = daemon
+
+	## \brief Set Provided Configuration
+	#
+	# \return self.getInfo()
+	##
+	def setConfig(self, ID = None, NAME = None, IP = None, Port = None, Location = None, Table_Name = None, Status = None):
+		if isinstance(ID, int): self.MY_ID = ID
+		if isinstance(NAME, str): self.MY_NAME = NAME
+		if isinstance(IP, str): self.MY_TCP_IP = IP
+		if isinstance(Port, int): self.MY_TCP_PORT = Port
+		if isinstance(Location, str): self.MY_LOCATION = Location
+		if isinstance(Table_Name, str): self.MY_JFW_TABLE_NAME = Table_Name
+		if isinstance(Status, int): self.MY_STATUS = Status
+		return self.getInfo()
+
+	########### --- End of Setter and Getter --- ############
 
 
 
 	## \brief Private method loadConfig, loading the configuration from json file
 	#
+	# If json is not given, load the configuration from configuration file
+	#
+	# \param json json/dictionary object with JFW information
 	# \param confPath the string path to the json configuration file
+	# \return True if no error found, else False
 	##
-	def __loadConfig(self, confPath = 'this_device_conf.json'):
-		config = loadConfig(confPath = confPath)
+	def __loadConfig(self, json = None, confPath = 'this_device_conf.json'):
+		if not json:
+			config = utility.loadConfig(confPath = confPath)
+			if 'error' in config: return False
+			else: config = config['JFW']
+		else: config = json
 		if 'ID' in config: self.MY_ID = config['ID']
 		if 'NAME' in config: self.MY_NAME = config['NAME']
 		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
 		if 'TCP_PORT' in config: self.MY_TCP_PORT = config['TCP_PORT']
 		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
+		if 'JFW_TABLE_NAME' in config: self.MY_JFW_TABLE_NAME = config['JFW_TABLE_NAME']
 		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
-
+		return True
 
 
 	## \brief Loading JFW configuration from SQLite database
 	#
-	# \param jid the id number of the JFW recorded in SQLite database
+	# \param jfw_id the id number of the JFW recorded in SQLite database
+	# \db_path the string path of the SQLite database file
+	# \return True if no error found, else False
 	##
-	def loadSQLite(self, jid, db_path = None):
-		config = loadSQLite(jid, db_path)
-		if 'id' in config: self.MY_ID = config['id']
-		if 'name' in config: self.MY_NAME = config['name']
-		if 'ip' in config: self.MY_TCP_IP = config['ip']
-		if 'port' in config: self.MY_TCP_PORT = config['port']
-		if 'location' in config: self.MY_LOCATION = config['location']
-		if 'status' in config: self.MY_STATUS = config['status']
+	def loadSQLite(self, jfw_id, db_path = None):
+		try:
+			config = sql.getSQLite('SELECT * FROM ' + self.MY_JFW_TABLE_NAME + ' WHERE id=' + str(jfw_id), db_path)[0]
+		except Exception as e:
+			utility.warn("JFW loadSQLite failed: " + str(e) + "\n Using Default configuration", track = False)
+			config = {"error" : str(e)}
+		return self.__loadConfig(json = config)
 
 
 
-	## \brief Get the configuration file path from rootpath.conf file after installation
+	## \brief Get the configuration file path from rootpath.conf file (created after installation)
 	#
 	# \return None if file is not found
 	##
@@ -195,23 +277,6 @@ class JFW:
 
 
 
-	## \breif Get the JFW configuration
-	#
-	# \return config a dictionary of JFW confiration details
-	##
-	def getJFWInfo(self):
-		config = {'id' : self.MY_ID,
-			'name' : self.MY_NAME,
-			'ip' : self.MY_TCP_IP,
-			'port' : self.MY_TCP_PORT,
-			'location' : self.MY_LOCATION,
-			'status' : self.MY_STATUS
-		}
-		if not self.MY_DAEMON: utility.pp(config)
-		return config
-
-
-
 	## \brief Connect to remote JFW box and execute a command
 	#
 	# Remotely connecting to a JFW box using a Telnet connection.
@@ -222,7 +287,7 @@ class JFW:
 	# \param daemon define if the program will print the reuslt or not, default is False
 	# \return result the return value from command executed remotely
 	##
-	def connectJFW(self, command, delayTime = 2, daemon = False):
+	def execute(self, command, delayTime = 2, daemon = False):
 		if not daemon: utility.info("###################### " + Fore.YELLOW + 'JFW Control' + Style.RESET_ALL + " #####################")
 		MESSAGE = (command + '\r\n').encode('ascii')
 		try:
@@ -252,7 +317,7 @@ class JFW:
 	##
 	def healthCheck(self, command = 'RAA', daemon = False):
 		if not daemon: utility.info("################ " + Fore.YELLOW + 'JFW Health Check' + Style.RESET_ALL + " ###############")
-		data = self.connectJFW(command, 2, True)
+		data = self.execute(command, 2, True)
 		result = {}
 		for line in data.split('\n'):
 			keys = utility.regex(line, 'Atten\s*#*(\d+)\s*=*\s*(\d+)..')
