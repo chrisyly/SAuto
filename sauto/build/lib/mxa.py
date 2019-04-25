@@ -20,6 +20,7 @@ import utility
 import sql
 import sys
 import jfw
+import rf_matrix
 from colorama import Fore, Style
 
 ## \brief Load the device configuration from the given config file path
@@ -63,7 +64,7 @@ def loadConfig(confPath = 'this_device_conf.json'):
 # \param mid the id for a perticular MXA device in SQLite database
 # \param table_name the sqlite table name for mxa
 # \param db_path the path of the SQLite database file
-# \return config JSON object of MXA loaded from file
+# \return config JSON object of MXA loaded from database
 ##
 def loadSQLite(mxa_id, table_name = None, db_path = None):
 	global ID, NAME, TCP_IP, TELNET_PORT, LOCATION, JFW_PORT, MXA_PORT, STATUS
@@ -137,7 +138,7 @@ def healthCheck():
 ##
 def resetMXA(name, db_path = None, daemon = False):
 	if name: mxaList = sql.getSQLite('SELECT * FROM rf_matrix_db WHERE output_device = "' + name + '"', db_path = db_path)
-	else: raise Exception ('resetMXA failed, input argument [name] is not valid')
+	else: mxaList = sql.getSQLite('SELECT * FROM rf_matrix_db WHERE output_device = "' + NAME + '"', db_path = db_path)
 	for mxa in mxaList:
 		if mxa['jfw_id'] and mxa['jfw_port']:
 			jfw.loadSQLite(str(mxa['jfw_id']), db_path = db_path)
@@ -424,6 +425,7 @@ def setRefCRSPort(port, daemon = False):
 def earfcnToFrequency(earfcn, daemon = False):
 	offset = 0
 	frequencyLow = 0
+	earfcn = int(earfcn)
 	############################### FDD ###############################
 	if 0 <= earfcn <= 599: offset = 0; frequencyLow = 2110;                 ## 2100
 	elif 18000 <= earfcn <= 18599: offset = 18000; frequencyLow = 1920;
@@ -572,11 +574,87 @@ class MXA:
 	MY_DAEMON = False
 
 	## \brief MXA constructor
-	def __init__(self, config = None, daemon = False):
+	def __init__(self, config = None, defaultConfigFile = 'this_device_conf.json', daemon = False):
 		self.MY_DAEMON = daemon
-		self.__loadConfig(json = config, confPath = self.__getConfigFile())
+		self.__loadConfig(json = config, confPath = self.__getConfigFile(confFile = defaultConfigFile))
 		pass
 		## --- End of Constructor --- ##
+
+
+
+	## \brief Private method loadConfig, loading the configuration from json file
+	#
+	# If json is not given, load the configuration from configuration file
+	#
+	# \param json json/dictionary object with MXA information
+	# \param confPath the string path to the json configuration file
+	# \return True if no error found, else False
+	##
+	def __loadConfig(self, json = None, confPath = 'this_device_conf.json'):
+		if not json:
+			config = utility.loadConfig(confPath = confPath)
+			if 'error' in config: return False
+			else: config = config['MXA']
+		else: config = json
+		if 'error' in config: return False
+		if 'ID' in config: self.MY_ID = config['ID']
+		elif 'id' in config: self.MY_ID = config['id']
+		if 'NAME' in config: self.MY_NAME = config['NAME']
+		elif 'name' in config: self.MY_NAME = config['name']
+		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
+		elif 'ip' in config: self.MY_TCP_IP = config['ip']
+		if 'TELNET_PORT' in config: self.MY_TELNET_PORT = config['TELNET_PORT']
+		elif 'port' in config: self.MY_TELNET_PORT = config['port']
+		if 'SOCKET_PORT' in config: self.MY_SOCKET_PORT = config['SOCKET_PORT']
+		elif 'socket_port' in config: self.MY_SOCKET_PORT = config['socketport']
+		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
+		elif 'location' in config: self.MY_LOCATION = config['location']
+		if 'JFW_PORT' in config: self.MY_JFW_PORT = config['JFW_PORT']
+		elif 'jfw_port' in config: self.MY_JFW_PORT = config['jfw_port']
+		if 'MXA_PORT' in config: self.MY_MXA_PORT = config['MXA_PORT']
+		elif 'mxa_port' in config: self.MY_MXA_PORT = config['mxa_port']
+		if 'MXA_TABLE_NAME' in config: self.MY_MXA_TABLE_NAME = config['MXA_TABLE_NAME']
+		elif 'mxa_table_name' in config: self.MY_MXA_TABLE_NAME = config['mxa_table_name']
+		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
+		elif 'status' in config: self.MY_STATUS = config['status']
+		return True
+
+
+
+	## \brief Loading MXA configuration from SQLite database
+	#
+	# \param mxa_id the id number of the MXA recorded in SQLite database
+	# \param table_name the sqlite table name for the MXA
+	# \param db_path the string path of the SQLite database file
+	# \return True if no error found, else False
+	##
+	def loadSQLite(self, mxa_id, table_name = None, db_path = None):
+		try:
+			if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' + str(mxa_id), db_path)[0]
+			else: config = sql.getSQLite('SELECT * FROM ' + self.MY_MXA_TABLE_NAME + ' WHERE id=' + str(mxa_id), db_path)[0]
+		except Exception as e:
+			utility.warn("MXA loadSQLite failed: " + str(e), track = False)
+			config = {"error" : str(e)}
+		return self.__loadConfig(json = config)
+
+
+
+	## \brief Get the configuration file path from rootpath.conf file (created after installation)
+	#
+	# getConfigFile will always look into the "config_files" folder to look for configuration files
+	#
+	# \param confFile The string name of the configuration file, default is "this_device_conf.json"
+	# \return None if file not found, else the path of the file
+	##
+	def __getConfigFile(self, confFile = "this_device_conf.json"):
+		try:
+			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
+				path = conf_file.read()
+				if path: return path + '/config_files/' + confFile
+				else: return 'this_device_conf.json'
+		except Exception as e:
+			utility.error(str(e), False)
+			return None
 
 
 
@@ -665,64 +743,6 @@ class MXA:
 
 
 
-	## \brief Private method loadConfig, loading the configuration from json file
-	#
-	# If json is not given, load the configuration from configuration file
-	#
-	# \param json json/dictionary object with MXA information
-	# \param confPath the string path to the json configuration file
-	# \return True if no error found, else False
-	##
-	def __loadConfig(self, json = None, confPath = 'this_device_conf.json'):
-		if not json:
-			config = utility.loadConfig(confPath = confPath)
-			if 'error' in config: return False
-			else: config = config['MXA']
-		else: config = json
-		if 'ID' in config: self.MY_ID = config['ID']
-		if 'NAME' in config: self.MY_NAME = config['NAME']
-		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
-		if 'TELNET_PORT' in config: self.MY_TELNET_PORT = config['TELNET_PORT']
-		if 'SOCKET_PORT' in config: self.MY_SOCKET_PORT = config['SOCKET_PORT']
-		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
-		if 'JFW_PORT' in config: self.MY_JFW_PORT = config['JFW_PORT']
-		if 'MXA_PORT' in config: self.MY_MXA_PORT = config['MXA_PORT']
-		if 'MXA_TABLE_NAME' in config: self.MY_MXA_TABLE_NAME = config['MXA_TABLE_NAME']
-		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
-		return True
-
-
-	## \brief Loading MXA configuration from SQLite database
-	#
-	# \param mxa_id the id number of the MXA recored in SQLite database
-	# \param db_path the string path of the SQLite database file
-	# \return True if no error found, else False
-	##
-	def loadSQLite(self, mxa_id, db_path = None):
-		try:
-			config = sql.getSQLite('SELECT * FROM ' + self.MY_MXA_TABLE_NAME + ' WHERE id=' + str(mxa_id), db_path)[0]
-		except Exception as e:
-			utility.warn("MXA loadSQLite failed: " + str(e) + "\n Using Default Configuration", track = False)
-			config = {"error" : str(e)}
-		return self.__loadConfig(json = config)
-
-
-	## \brief Get the configuration file path from rootpath.conf file (created after installation)
-	#
-	# \return None if file not found, else the path of the file
-	##
-	def __getConfigFile(self):
-		try:
-			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
-				path = conf_file.read()
-				if path: return path + '/this_device_conf.json'
-				else: return 'this_device_conf.json'
-		except Exception as e:
-			utility.error(str(e), False)
-			return None
-
-
-
 	## \brief Connect to remote MXA box and execute a command
 	#
 	# Remotely connecting to a MXA box using a Telnet connection.
@@ -730,7 +750,6 @@ class MXA:
 	#
 	# \param command either using the CLI with -e option or input as a parameter
 	# \param delayTime a delay time waiting response from telnet connection, default is 5
-	# \param daemon define if the program will print the reuslt or not, default is False
 	# \return result the return value from command executed remotely
 	##
 	## NOTE: MXA may have experiencing heavy traffic and may need to increse the delay time
@@ -739,11 +758,10 @@ class MXA:
 		try:
 			if not daemon: utility.info('Send command: [' + command + '] to the MXA box at [' + str(self.MY_TCP_IP) + ':' + str(self.MY_TELNET_PORT) + ']')
 			tn = Telnet(self.MY_TCP_IP, int(self.MY_TELNET_PORT))
-			##tn.write(('\r\n').encode('ascii'))
 			tn.read_until(b'SCPI>')
 			tn.write((command + '\r\n').encode('ascii'))
 			utility.sleep(delayTime, True)
-			result = (utility.regexParser(tn.read_very_eager().decode('ascii'), ' (.*)\r\nSCPI.*', daemon)).replace('SCPI> ', '').replace(command, '').replace('\r\n', '')
+			result = (utility.regexParser(tn.read_very_eager().decode('ascii'), ' (.*)\r\nSCPI.*', self.MY_DAEMON)).replace('SCPI> ', '').replace(command, '').replace('\r\n', '')
 			if result:
 				if not daemon: utility.info('Response:\n' + result)
 			else:
@@ -756,6 +774,63 @@ class MXA:
 
 
 
+	## \brief Reset the attenuation on MXA
+	#
+	# Load MXA list from SQLite database baed on name, reset attenuations
+	#
+	# \param db_path Using a certain SQLite database path, if set None, default is loading from the this_device_conf.json file
+	##
+	def reset(self, db_path = None):
+		if not self.MY_DAEMON: utility.info("##################### " + Fore.YELLOW + "Reset MXA" + Style.RESET_ALL + " ######################")
+		mxaList = sql.getSQLite('SELECT * FROM rf_matrix_db WHERE output_device = "' + self.MY_NAME + '"', db_path = db_path)
+		for mxa in mxaList:
+			if mxa['jfw_id'] and mxa['jfw_port']:
+				jfw.loadSQLite(str(mxa['jfw_id']), db_path = db_path)
+				jfw.connectJFW('SAR' + str(mxa['jfw_port']) + ' 127', daemon = True)
+				if not self.MY_DAEMON: utility.info("Reseting JFW [" + str(jfw.ID) + "]...")
+			else:
+				rf_matrix_box = sql.getSQLite('SELECT * FROM rf_matrix WHERE id=' + str(mxa['rf_matrix_id']), db_path = db_path)[0]
+				rf_matrix.loadSQLite(str(rf_matrix_box['id']), db_path = db_path)
+				if 'QRB' in rf_matrix_box['name']:
+					if not self.MY_DAEMON: utility.info("Reseting QRB [" + rf_matrix_box['name'] + "]...")
+					rf_matrix.resetQRBAtten(portB = mxa['port'], daemon = True)
+				elif 'RFM' in rf_matrix_box['name']: jfw.connectJFW('SAR' + str(self.MY_JFW_PORT) + ' 127', daemon = True)
+
+
+
+	## \brief Reading the current MXA LTE report from remote MXA
+	#
+	# Remotely connecting to MXA and send 'CALC:EVM:DATA4:TABL:NAM?' and 'CALC:EVM:DATA4:TABL:STR?' command
+	# retrun the key-value pair based on NAM and STR result
+	#
+	# \return result A dictionary of key-value pairs
+	##
+	def getMXAResult(self):
+		if not self.MY_DAEMON: utility.info("############# " + Fore.YELLOW + "Reading MXA Report" + Style.RESET_ALL + " #############")
+		name = (self.execute('CALC:EVM:DATA4:TABL:NAM?', daemon = True).replace('"', '')).split(',')
+		value = (self.execute('CALC:EVM:DATA4:TABL:STR?', daemon = True).replace('"', '')).split(',')
+		result = {}
+		for i in range(0, len(name)):
+			result[name[i]] = value[i]
+		return result
+
+
+
+	## \brief Health Check function for checking current MXA signal reading
+	#
+	# Get MXA EVM result by sending SPEC command to the current set MXA
+	# Pass if the EVM is less then 100, otherwise Fail
+	#
+	# \return True if EVM value is less than 100, otherwise False
+	##
+	def healthCheck(self):
+		result = self.getMXAResult()
+		utility.pp(result)
+		if float(result['EVM']) > 100.0:
+			if not self.MY_DAEMON: utility.warn("EVM value " + result['EVM'] + " is greater than 100.0!", track = False)
+			return False
+		else:
+			return True
 	## TODO TODO TODO adding other functions
 
 
@@ -815,7 +890,7 @@ MXA_TABLE_NAME = 'mxa'                          # Default Value #
 try:
 	with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
 		path = conf_file.read()
-		if path: loadConfig(path + '/this_device_conf.json')
+		if path: loadConfig(path + '/config_files/this_device_conf.json')
 		else: loadConfig()
 except Exception as e:
 	utility.error(str(e), False)

@@ -101,7 +101,7 @@ def setDBPath(db_path, daemon = False):
 # \param command the SQLite query string to be executed
 # \param conn the connection object from sqlite3 module which connecting to a database
 # \param daemon print out the info message if set False, the default is False
-# \return calling buildJson to return the JSON result
+# \return calling buildJson to return the JSON result, or None if error
 ##
 def executeSQLite(command, conn = None, daemon = False):
     if not daemon: utility.info("############### " + Fore.YELLOW + "Connecting and Executing SQLite Query" + Style.RESET_ALL+ " ###############")
@@ -122,7 +122,7 @@ def executeSQLite(command, conn = None, daemon = False):
         conn.close()
     except sqlite3.Error as e:
         utility.error(str(e) + "\n    Query " + command + " executeion failed")
-        exit(1)
+        return None
     if not result:
         return None
     else:
@@ -267,7 +267,7 @@ sqlite_file = 'default.sqlite'        # Default Value #
 try:
     with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
         path = conf_file.read()
-        if path: loadConfig(path + '/this_device_conf.json')
+        if path: loadConfig(path + '/config_files/this_device_conf.json')
         else: loadConfig()
 except Exception as e:
     utility.error(str(e), False)

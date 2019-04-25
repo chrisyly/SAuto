@@ -139,6 +139,7 @@ PORT_MAP = {"1":"001", "2":"002", "3":"003", "4":"004",					#
 # NOTE: This function can be call explictly to load user configurations
 #
 # \param confPath a string value contain the path to the json file
+# \return config JSON object of rf_matrix loaded from file
 ##
 def loadConfig(confPath = 'this_device.conf.json'):
 	global ID, NAME, TCP_IP, TCP_PORT, BUFFER_SIZE, STATUS
@@ -150,6 +151,8 @@ def loadConfig(confPath = 'this_device.conf.json'):
 		if 'TCP_PORT' in config['RF_Matrix']: TCP_PORT = config['RF_Matrix']['TCP_PORT']
 		if 'BUFFER_SIZE' in config['RF_Matrix']: BUFFER_SIZE = config['RF_Matrix']['BUFFER_SIZE']
 		if 'STATUS' in config['RF_Matrix']: STATUS = config['RF_Matrix']['STATUS']
+		return config['RF_Matrix']
+	return config
 
 
 
@@ -160,21 +163,26 @@ def loadConfig(confPath = 'this_device.conf.json'):
 # the default value instead
 # NOTE: This function can be called explictly to load configuration
 #
-# [Updated 1/16/2019] Added a golbal variable "SQL_TABLE_NAME" to have the table name
-# "SQL_TABLE_NAME" is replacing the hard coded table name
+# [Updated 1/16/2019] Added a golbal variable "RF_MATRIX_TABLE_NAME" to have the table name
+# "RF_MATRIX_TABLE_NAME" is replacing the hard coded table name
 #
 # \param rid the id for a perticular RF Matrix device in SQLite database
+# \param table_name the sqlite table name for rf_matrix
 # \param db_path the path of the SQLite database file
+# \return config JSON object of RF Matrix loaded from database
 ##
-def loadSQLite(rid, db_path = None):
+def loadSQLite(rid, table_name = None, db_path = None):
 	global ID, NAME, TCP_IP, TCP_PORT, BUFFER_SIZE, STATUS
-	config = sql.getSQLite('SELECT * FROM ' + SQL_TABLE_NAME + ' WHERE id=' + str(rid), db_path)
+	if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' str(rid), db_path)
+	else: config = sql.getSQLite('SELECT * FROM ' + RF_MATRIX_TABLE_NAME + ' WHERE id=' + str(rid), db_path)
 	if config:
 		if config[0]['id'] is not None: ID = config[0]['id']
 		if config[0]['name'] is not None: NAME = config[0]['name']
 		if config[0]['ip'] is not None: TCP_IP = config[0]['ip']
 		if config[0]['port'] is not None: TCP_PORT = config[0]['port']
 		if config[0]['status'] is not None: STATUS = config[0]['status']
+		return config[0]
+	return {"error": "Loading table [" + RF_MATRIX_TABLE_NAME + "] with ID [" + str(rid) + "] Failed"}
 
 
 
@@ -402,6 +410,103 @@ def getAttenAddress(atten, daemon = False):
 
 
 
+## \brief RF Matrix Device Management Class defination
+#
+# Version: 1.0.0
+# RFMatrix class is a collection of RF Matrix device control methods
+# RF Matrix device require Ethernet connection to execute remote commands
+##
+class RFMatrix:
+	MY_ID = 2
+	MY_NAME = 'RFM2'
+	MY_TCP_IP = '10.155.220.77'
+	MY_TCP_PORT = 9100
+	MY_BUFFER_SIZE = 1024
+	MY_STATUS = 0
+	MY_RF_MATRIX_TABLE_NAME = 'rf_matrix'
+	MY_DAEMON = False
+
+	## \brief MXA constructor
+	def __init__(self, config = None, defaultConfigFile = 'this_device_conf.json', daemon = False):
+		self.MY_DAEMON = daemon
+		self.__loadConfig(json = config, confPath = self.__getConfigFile(confFile = defaultConfigFile))
+		pass
+		## --- End of Constructor --- ##
+
+
+
+	## \brief Private method loadConfig, loading the configuration from json file
+	#
+	# If json is not given, load  the configuration from configuration file
+	#
+	# \param json json/dictionary object with RF Matrix information
+	# \param confPath the string path to the json configuration file
+	# \return True if no error found, else False
+	##
+	def __loadConfig(self, json = None, confPath = 'this_device_conf.json'):
+		if not json:
+			config = utility.loadConfig(confPath = confPath)
+			if 'error' in config: return False
+			else: config = config['RF_Matrix']
+		else: config = json
+		if 'error' in config: return False
+		if 'ID' in config: self.MY_ID = config['ID']
+		elif 'id' in config: self.MY_ID = config['id']
+		if 'NAME' in config: self.MY_NAME = config['NAME']
+		elif 'name' in config: self.MY_NAME = config['name']
+		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
+		elif 'ip' in config: self.MY_TCP_IP = config['ip']
+		if 'TCP_PORT' in config: self.MY_TCP_PORT = config['TCP_PORT']
+		elif 'port' in config: self.MY_TCP_PORT = config['port']
+		if 'BUFFER_SIZE' in config: self.MY_BUFFER_SIZE = config['BUFFER_SIZE']
+		elif 'buffer_size' in config: self.MY_BUFFER_SIZE = config['buffer_size']
+		if 'RF_MATRIX_TABLE_NAME' in config: self.MY_RF_MATRIX_TABLE_NAME = config['RF_MATRIX_TABLE_NAME']
+		elif 'rf_matrix_table_name' in config: self.MY_RF_MATRIX_TABLE_NAME = config['rf_matrix_table_name']
+		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
+		elif 'status' in config: self.MY_STATUS = config['status']
+		return True
+
+
+
+	## \brief Loading RF Matrix configuration from SQLite database
+	#
+	# \param rid the id number of the RF Matrix recorded in SQLite database
+	# \param table_name the sqlite table name for the RF Matrix
+	# \param db_path the string path of the SQLite database file
+	# \return True if no error found, else False
+	##
+	def loadSQLite(self, rid, table_name = None, db_path = None):
+		try:
+			if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' + str(rid), db_path)[0]
+			else: config = sql.getSQLite('SELECT * FROM ' + self.MY_RF_MATRIX_TABLE_NAME + ' WHERE id=' + str(rid), db_path)[0]
+		except Exception as e:
+			utility.warn("RF Matirx loadSQLite failed: " + str(e), track = False)
+			config = {"error" : str(e)}
+		return self.__loadConfig(json = config)
+
+
+
+	## \brief Get the configuration file path from rootpath.conf file (created after installation)
+	#
+	# getConfigFile will always look into the "config_files" folder to look for configuration files
+	#
+	# \param confFile The string name of the configuration file, default is "this_device_conf.json"
+	# \return None if file not found, else the path of the file
+	##
+	def __getConfigFile(self, confFile = "this_device_conf.json"):
+		try:
+			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
+				path = conf_file.read()
+				if path: return path + '/config_files/' + confFile
+				else: return 'this_device_conf.json'
+		except Exception as e:
+			utility.error(str(e), False)
+			return None
+
+
+	## TODO TODO TODO add execute/reset/etc...
+
+
 ## \brief Main function for provide the CLI tool
 #
 # The main function using the argparse module to allow command line optional argument
@@ -409,7 +514,7 @@ def getAttenAddress(atten, daemon = False):
 # ./rf_matrix.py -h or --help for instructions
 ##
 def main():
-	global SQL_TABLE_NAME
+	global RF_MATRIX_TABLE_NAME
 	parser = argparse.ArgumentParser(description='Tools for controlling RF-Matrix box')
 	parser.add_argument('-c', '--connect', nargs=2, metavar=('PortANum', 'PortBNum'), help='Connect port A to port B\n Example: --connect 1 2    Connect Port A01 to Port B02')
 	parser.add_argument('-H', '--health', nargs=2, metavar=('Port', 'PortNum'), help='Check port if it is functioning\n Example: --health A 20    Check Port A20 if it is functioning')
@@ -421,7 +526,7 @@ def main():
 	rid = 1
 	if len(sys.argv) < 2: parser.print_help()
 	if args.id: rid = args.id
-	if args.name: SQL_TABLE_NAME = args.name
+	if args.name: RF_MATRIX_TABLE_NAME = args.name
 	if args.sql:
 		if args.sql is 'None' or 'none' or 'default' or 'Default' or 'null':
 			loadSQLite(rid)
@@ -447,7 +552,7 @@ TCP_IP = '10.155.220.77'						# Default Value #
 TCP_PORT = 9100									# Default Value #
 BUFFER_SIZE = 1024								# Default Value #
 STATUS = 0										# Default Value #
-SQL_TABLE_NAME = "rf_matrix"					# Default Value #
+RF_MATRIX_TABLE_NAME = "rf_matrix"				# Default Value #
 #################################################################
 
 
@@ -455,7 +560,7 @@ SQL_TABLE_NAME = "rf_matrix"					# Default Value #
 try:
 	with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
 		path = conf_file.read()
-		if path: loadConfig(path + '/this_device_conf.json')
+		if path: loadConfig(path + '/config_files/this_device_conf.json')
 		else: loadConfig()
 except Exception as e:
 	utility.error(str(e), False)

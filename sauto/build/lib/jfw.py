@@ -146,9 +146,9 @@ class JFW:
 	MY_DAEMON = False
 
 	## \brief JFW constructor
-	def __init__(self, config = None, daemon = False):
+	def __init__(self, config = None, defaultConfigFile = 'this_device_conf.json', daemon = False):
 		self.MY_DAEMON = daemon
-		self.__loadConfig(confPath = self.__getConfigFile())
+		self.__loadConfig(confPath = self.__getConfigFile(confFile = defaultConfigFile))
 		pass
 		## --- End of Constructor --- ##
 
@@ -235,27 +235,37 @@ class JFW:
 			if 'error' in config: return False
 			else: config = config['JFW']
 		else: config = json
+		if 'error' in config: return False
 		if 'ID' in config: self.MY_ID = config['ID']
+		if 'id' in config: self.MY_ID = config['id']
 		if 'NAME' in config: self.MY_NAME = config['NAME']
+		if 'name' in config: self.MY_NAME = config['name']
 		if 'TCP_IP' in config: self.MY_TCP_IP = config['TCP_IP']
+		if 'ip' in config: self.MY_TCP_IP = config['ip']
 		if 'TCP_PORT' in config: self.MY_TCP_PORT = config['TCP_PORT']
+		if 'port' in config: self.MY_TCP_PORT = config['port']
 		if 'LOCATION' in config: self.MY_LOCATION = config['LOCATION']
+		if 'location' in config: self.MY_LOCATION = config['location']
 		if 'JFW_TABLE_NAME' in config: self.MY_JFW_TABLE_NAME = config['JFW_TABLE_NAME']
+		if 'jfw_table_name' in config: self.MY_JFW_TABLE_NAME = config['jfw_table_name']
 		if 'STATUS' in config: self.MY_STATUS = config['STATUS']
+		if 'status' in config: self.MY_STATUS = config['status']
 		return True
 
 
 	## \brief Loading JFW configuration from SQLite database
 	#
 	# \param jfw_id the id number of the JFW recorded in SQLite database
+	# \param table_name the sqlite table name for the JFW
 	# \db_path the string path of the SQLite database file
 	# \return True if no error found, else False
 	##
-	def loadSQLite(self, jfw_id, db_path = None):
+	def loadSQLite(self, jfw_id, table_name = None, db_path = None):
 		try:
-			config = sql.getSQLite('SELECT * FROM ' + self.MY_JFW_TABLE_NAME + ' WHERE id=' + str(jfw_id), db_path)[0]
+			if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' + str(jfw_id), db_path)[0]
+			else: config = sql.getSQLite('SELECT * FROM ' + self.MY_JFW_TABLE_NAME + ' WHERE id=' + str(jfw_id), db_path)[0]
 		except Exception as e:
-			utility.warn("JFW loadSQLite failed: " + str(e) + "\n Using Default configuration", track = False)
+			utility.warn("JFW loadSQLite failed: " + str(e), track = False)
 			config = {"error" : str(e)}
 		return self.__loadConfig(json = config)
 
@@ -263,13 +273,16 @@ class JFW:
 
 	## \brief Get the configuration file path from rootpath.conf file (created after installation)
 	#
+	# getConfigFile will always look into the "config_files" folder to look for configuration files
+	#
+	# \param confFile The string name of the configuration file, default is "this_device_conf.json"
 	# \return None if file is not found
 	##
-	def __getConfigFile(self):
+	def __getConfigFile(self, confFile = "this_device_conf.json"):
 		try:
 			with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
 				path = conf_file.read()
-				if path: return path + '/this_device_conf.json'
+				if path: return path + '/confif_files/' + confFile
 				else: return 'this_device_conf.json'
 		except Exception as e:
 			utility.error(str(e), False)
@@ -385,7 +398,7 @@ JFW_TABLE_NAME = "jfw"                          # Default Value #
 try:
 	with open('/var/www/html/sauto/rootpath.conf', 'r') as conf_file:
 		path = conf_file.read()
-		if path: loadConfig(path + '/this_device_conf.json')
+		if path: loadConfig(path + '/config_files/this_device_conf.json')
 		else: loadConfig()
 except Exception as e:
 	utility.error(str(e), False)
