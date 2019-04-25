@@ -87,7 +87,7 @@ setup(
 	name = 'SimpleAutomation',
 	version = '2.4.0',
 	description = 'Simple automation framework',
-	url = '', # TODO: open a github repo
+	url = 'https://github.com/chrisyly/SAuto.git', # TODO: open a github repo
 	author = 'Liyu Ying',
 	author_email = 'lying0401@gmail.com',
 	long_description = readme('README.md'),
