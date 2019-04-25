@@ -11,7 +11,6 @@ Quintech RF Matrix
 	- QRB RF Matrix  
 	- RBM RF Matrix  
 JFW Attenuation Assembly  
-Prisma LSU  
 Keysight MXA Signal Analyzer  
 Keysight MXG Signal Generator  
 
