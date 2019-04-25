@@ -237,4 +237,4 @@ if os_name == 'nt':
 	## TODO TODO TODO
 	print("TODO")
 
-print("\n\n   \033[92mSprint Automation Installation & Configuration Done\033[0m\n==========================================================")
+print("\n\n   \033[92mAutomation Installation & Configuration Done\033[0m\n==========================================================")
