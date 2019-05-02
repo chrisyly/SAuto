@@ -56,7 +56,7 @@ def setSQLite(config_json, default = True):
 	else:
 		sqlite_path = path + '/simple.sqlite'
 	config_json['SQLITE']['Master'] = sqlite_path
-	with open(path + '/this_device_conf.json', 'w') as this_device_conf:
+	with open(path + '/config_files/this_device_conf.json', 'w') as this_device_conf:
 		json.dump(config_json, this_device_conf)
 	print('[INFO] SQLite DB path set at:\n    ' + sqlite_path)
 
@@ -204,8 +204,8 @@ esac
 
 
 	## Read this_device_conf.json
-	print("\n\033[92mThe Default JSON configuration file at [" + path + '/this_device_conf.json]\033[0m\n======================================================================================\n')
-	json_config = json.loads(readme("this_device_conf.json"))
+	print("\n\033[92mThe Default JSON configuration file at [" + path + '/config_files/this_device_conf.json]\033[0m\n======================================================================================\n')
+	json_config = json.loads(readme("config_files/this_device_conf.json"))
 	print(json.dumps(json_config, indent = 4, sort_keys = True))
 
 

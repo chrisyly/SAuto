@@ -136,7 +136,7 @@ def healthCheck():
 # \param name The string name of the MXA
 # \param daemon Print out info message if set False, default is False
 ##
-def resetMXA(name, db_path = None, daemon = False):
+def resetMXA(name = None, db_path = None, daemon = False):
 	if name: mxaList = sql.getSQLite('SELECT * FROM rf_matrix_db WHERE output_device = "' + name + '"', db_path = db_path)
 	else: mxaList = sql.getSQLite('SELECT * FROM rf_matrix_db WHERE output_device = "' + NAME + '"', db_path = db_path)
 	for mxa in mxaList:
