@@ -200,7 +200,7 @@ def strToDict(string):
 # Execute the given command in the kernel system
 #
 # \param command string of the command
-# \param message if daemon is set False, print out this message in info\
+# \param message if daemon is set False, print out this message in info
 # \param getStdOut return stdout instead of return code
 # \param daemon print out info message if set False, default is False
 # \return system call return code or stdout if getStdOut set True
