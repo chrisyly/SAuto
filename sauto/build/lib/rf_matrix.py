@@ -173,7 +173,7 @@ def loadConfig(confPath = 'this_device.conf.json'):
 ##
 def loadSQLite(rid, table_name = None, db_path = None):
 	global ID, NAME, TCP_IP, TCP_PORT, BUFFER_SIZE, STATUS
-	if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' str(rid), db_path)
+	if table_name: config = sql.getSQLite('SELECT * FROM ' + str(table_name) + ' WHERE id=' + str(rid), db_path)
 	else: config = sql.getSQLite('SELECT * FROM ' + RF_MATRIX_TABLE_NAME + ' WHERE id=' + str(rid), db_path)
 	if config:
 		if config[0]['id'] is not None: ID = config[0]['id']
