@@ -1,0 +1,146 @@
+\hypertarget{classsauto_1_1sauto_1_1_s_auto}{}\doxysection{sauto.\+sauto.\+S\+Auto Class Reference}
+\label{classsauto_1_1sauto_1_1_s_auto}\index{sauto.sauto.SAuto@{sauto.sauto.SAuto}}
+
+
+\mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} Framework Class defination.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ae0bff3a310e77d6f1955a3a8f1f302dd}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, port=8888, debug=\textquotesingle{}I\+N\+FO\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} constructor. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_a81e178c29fddb45db24cd79010189397}{execute}} (self, device, command, timeout=20, \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ad881eb358c317e8f350f7d4fd28e412a}{daemon}}=False)
+\begin{DoxyCompactList}\small\item\em Execute command on remote device. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ac746680f3db6b47c8bbd38c79815b25c}{get\+Devices}} (self, \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ad881eb358c317e8f350f7d4fd28e412a}{daemon}}=False)
+\begin{DoxyCompactList}\small\item\em Get the dictionary device\+\_\+list. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ade06c855cd474dfc8c4268fdeeb6029f}{get\+Device}} (self, name=\textquotesingle{}S\+E\+LF\textquotesingle{}, \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ad881eb358c317e8f350f7d4fd28e412a}{daemon}}=False)
+\begin{DoxyCompactList}\small\item\em Get the dictionary of device\+\_\+list\mbox{[}\textquotesingle{}S\+E\+LF\textquotesingle{}\mbox{]} (Same as this\+\_\+device) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_ae9f346986e3db816affe66b0eb2b3205}\label{classsauto_1_1sauto_1_1_s_auto_ae9f346986e3db816affe66b0eb2b3205}} 
+def \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ae9f346986e3db816affe66b0eb2b3205}{run}} ()
+\begin{DoxyCompactList}\small\item\em T\+O\+DO T\+O\+DO T\+O\+DO run a process on a device. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_aab05b3239c712d85f8bc5727c53fd010}\label{classsauto_1_1sauto_1_1_s_auto_aab05b3239c712d85f8bc5727c53fd010}} 
+dictionary \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_aab05b3239c712d85f8bc5727c53fd010}{device\+\_\+list}} = \{\}
+\begin{DoxyCompactList}\small\item\em Devices list dictionary. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_a15a586e28f4c08c90416ec224c480ae8}\label{classsauto_1_1sauto_1_1_s_auto_a15a586e28f4c08c90416ec224c480ae8}} 
+dictionary {\bfseries this\+\_\+device} = \{\}
+\item 
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_ad881eb358c317e8f350f7d4fd28e412a}\label{classsauto_1_1sauto_1_1_s_auto_ad881eb358c317e8f350f7d4fd28e412a}} 
+dictionary \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ad881eb358c317e8f350f7d4fd28e412a}{daemon}} = \{\}
+\begin{DoxyCompactList}\small\item\em Debug flag setting. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_ad33e94e0efdfc2629a024e45b82bd171}\label{classsauto_1_1sauto_1_1_s_auto_ad33e94e0efdfc2629a024e45b82bd171}} 
+int \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto_ad33e94e0efdfc2629a024e45b82bd171}{buffer\+\_\+size}} = 65535
+\begin{DoxyCompactList}\small\item\em Reading buffer size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} Framework Class defination. 
+
+Version\+: 0.\+0.\+1 Required-\/package\+: \mbox{\hyperlink{utility_8py}{utility.\+py}} \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} class generate a \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} node in the current network Discoverable and managable by other \mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} node in the same network 
+
+Definition at line 31 of file sauto.\+py.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_ae0bff3a310e77d6f1955a3a8f1f302dd}\label{classsauto_1_1sauto_1_1_s_auto_ae0bff3a310e77d6f1955a3a8f1f302dd}} 
+\index{sauto.sauto.SAuto@{sauto.sauto.SAuto}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!sauto.sauto.SAuto@{sauto.sauto.SAuto}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def sauto.\+sauto.\+S\+Auto.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{port = {\ttfamily 8888},  }\item[{}]{debug = {\ttfamily \textquotesingle{}INFO\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+\mbox{\hyperlink{classsauto_1_1sauto_1_1_s_auto}{S\+Auto}} constructor. 
+
+S\+E\+LF is always the first device broadcast\+\_\+thread -\/ thread broadcast S\+E\+LF device information to local network execution\+\_\+thread -\/ thread listening to port + 1 and responding to incoming package discover\+\_\+thread -\/ thread receiving all package from port 8888 (default) and add valid device to device\+\_\+list health\+\_\+thread -\/ thread checking devices in the device\+\_\+list if is reachable 
+
+Definition at line 49 of file sauto.\+py.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_a81e178c29fddb45db24cd79010189397}\label{classsauto_1_1sauto_1_1_s_auto_a81e178c29fddb45db24cd79010189397}} 
+\index{sauto.sauto.SAuto@{sauto.sauto.SAuto}!execute@{execute}}
+\index{execute@{execute}!sauto.sauto.SAuto@{sauto.sauto.SAuto}}
+\doxysubsubsection{\texorpdfstring{execute()}{execute()}}
+{\footnotesize\ttfamily def sauto.\+sauto.\+S\+Auto.\+execute (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{device,  }\item[{}]{command,  }\item[{}]{timeout = {\ttfamily 20},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Execute command on remote device. 
+
+Execute a remote command on a device
+
+
+\begin{DoxyParams}{Parameters}
+{\em device} & A dictionary object with device information, device\mbox{[}\textquotesingle{}IP\textquotesingle{}\mbox{]} and device\mbox{[}\textquotesingle{}P\+O\+RT\textquotesingle{}\mbox{]} can not be empty \\
+\hline
+{\em command} & A string command be sent and executed on remote device \\
+\hline
+{\em timeout} & If the response not received within timeout, an exception will be thrown \\
+\hline
+{\em daemon} & Print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+response\mbox{[}0\mbox{]}.decode(\textquotesingle{}utf-\/8\textquotesingle{}) The response result from remote device 
+\end{DoxyReturn}
+
+
+Definition at line 350 of file sauto.\+py.
+
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_ade06c855cd474dfc8c4268fdeeb6029f}\label{classsauto_1_1sauto_1_1_s_auto_ade06c855cd474dfc8c4268fdeeb6029f}} 
+\index{sauto.sauto.SAuto@{sauto.sauto.SAuto}!getDevice@{getDevice}}
+\index{getDevice@{getDevice}!sauto.sauto.SAuto@{sauto.sauto.SAuto}}
+\doxysubsubsection{\texorpdfstring{getDevice()}{getDevice()}}
+{\footnotesize\ttfamily def sauto.\+sauto.\+S\+Auto.\+get\+Device (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{name = {\ttfamily \textquotesingle{}SELF\textquotesingle{}},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Get the dictionary of device\+\_\+list\mbox{[}\textquotesingle{}S\+E\+LF\textquotesingle{}\mbox{]} (Same as this\+\_\+device) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the device in the device\+\_\+list, defalut is \textquotesingle{}S\+E\+LF\textquotesingle{} N\+O\+TE\+: instead of name, in the future implementatin using tag for returning multiple devices \\
+\hline
+{\em daemon} & Print out the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+device\+\_\+list\mbox{[}name\mbox{]} if key \textquotesingle{}name\textquotesingle{} is found, otherwise return device\+\_\+list\mbox{[}\textquotesingle{}S\+E\+LF\textquotesingle{}\mbox{]} 
+\end{DoxyReturn}
+
+
+Definition at line 387 of file sauto.\+py.
+
+\mbox{\Hypertarget{classsauto_1_1sauto_1_1_s_auto_ac746680f3db6b47c8bbd38c79815b25c}\label{classsauto_1_1sauto_1_1_s_auto_ac746680f3db6b47c8bbd38c79815b25c}} 
+\index{sauto.sauto.SAuto@{sauto.sauto.SAuto}!getDevices@{getDevices}}
+\index{getDevices@{getDevices}!sauto.sauto.SAuto@{sauto.sauto.SAuto}}
+\doxysubsubsection{\texorpdfstring{getDevices()}{getDevices()}}
+{\footnotesize\ttfamily def sauto.\+sauto.\+S\+Auto.\+get\+Devices (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Get the dictionary device\+\_\+list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em daemon} & Print out the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+self.\+device\+\_\+list The disctionary object of device\+\_\+list 
+\end{DoxyReturn}
+
+
+Definition at line 372 of file sauto.\+py.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/sprint/liyu/\+S\+Auto/sauto/build/sauto/\mbox{\hyperlink{sauto_8py}{sauto.\+py}}\end{DoxyCompactItemize}

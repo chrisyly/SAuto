@@ -1,0 +1,328 @@
+\hypertarget{sql_8py}{}\doxysection{/home/sprint/liyu/\+S\+Auto/sauto/build/lib/sql.py File Reference}
+\label{sql_8py}\index{/home/sprint/liyu/SAuto/sauto/build/lib/sql.py@{/home/sprint/liyu/SAuto/sauto/build/lib/sql.py}}
+
+
+Modules as well as C\+LI tools for sqlite database control.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{sql_8py_af5c2a832c9af92fe207555545bef5b3c}{lib.\+sql.\+load\+Config}} (conf\+Path=\textquotesingle{}this\+\_\+device\+\_\+conf.\+json\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given config file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_ae248128472a020e25cee3b1f1ad6c47e}{lib.\+sql.\+connect\+S\+Q\+Lite}} (db\+\_\+path, daemon=False)
+\begin{DoxyCompactList}\small\item\em execute the sqlite database file to create and retrn the connection object \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_a8731148a761bf04bb90afeda90223f59}{lib.\+sql.\+set\+D\+B\+Path}} (db\+\_\+path, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the global variable sqlite\+\_\+file value \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_a490e6dadce3daf6e0dd505fe522d3436}{lib.\+sql.\+execute\+S\+Q\+Lite}} (command, conn=None, daemon=False)
+\begin{DoxyCompactList}\small\item\em Execute the database query and return the result in J\+S\+ON. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_ab80b02d5e03e3d15ae385ece7717d3c0}{lib.\+sql.\+build\+Json}} (names, results)
+\begin{DoxyCompactList}\small\item\em Build and return the J\+S\+ON object with given keys and values. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_ac4cdc087b50cf8320bfbcbf0442f50b5}{lib.\+sql.\+get\+S\+Q\+Lite}} (command, db\+\_\+path=None, daemon=True)
+\begin{DoxyCompactList}\small\item\em A warper function for execute\+S\+Q\+Lite, allow to use a different database. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_af3a06c87fd3adb18241594e7baa92eb1}{lib.\+sql.\+update\+S\+Q\+Lite}} (table, key, value, query=None, db\+\_\+path=None, daemon=False)
+\begin{DoxyCompactList}\small\item\em Execute the U\+P\+D\+A\+TE query to modify a S\+Q\+Lite table. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_a31bb4811287737f7b1028409b283e457}{lib.\+sql.\+insert\+S\+Q\+Lite}} (table, keys, values, db\+\_\+path=None, daemon=False)
+\begin{DoxyCompactList}\small\item\em Execute the I\+N\+S\+E\+RT query to add a row in S\+Q\+Lite database. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_ab7227814eb390ba9fa984c3446f144f7}{lib.\+sql.\+delete\+S\+Q\+Lite}} (table, query, db\+\_\+path=None, daeamon=False)
+\begin{DoxyCompactList}\small\item\em Execute the D\+E\+L\+E\+TE query to remove a row in S\+Q\+Lite database. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{sql_8py_aa8f1f648cc060422a790a029d47c5c52}{lib.\+sql.\+main}} ()
+\begin{DoxyCompactList}\small\item\em Main function for provide the C\+LI tool. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{sql_8py_a15c21a3c1470b6168d3556cf1b5d7a8e}{lib.\+sql.\+sqlite\+\_\+file}} = \textquotesingle{}default.\+sqlite\textquotesingle{}
+\begin{DoxyCompactList}\small\item\em Global shared variables. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{sql_8py_a7c1ab78e6249adad8e33ae1a5c9eb874}\label{sql_8py_a7c1ab78e6249adad8e33ae1a5c9eb874}} 
+\mbox{\hyperlink{sql_8py_a7c1ab78e6249adad8e33ae1a5c9eb874}{lib.\+sql.\+path}} = conf\+\_\+file.\+read()
+\begin{DoxyCompactList}\small\item\em Load the default configuration from S\+Auto Framework. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Modules as well as C\+LI tools for sqlite database control. 
+
+This modules contains the library for sqlite database control and it is also a stand alone command line tool The library has to work with a proper configuration file in order to have the sqlite file path
+
+\begin{DoxyAuthor}{Author}
+Liyu Ying \textbackslash{}email \href{mailto:lying0401@gmail.com}{\texttt{ lying0401@gmail.\+com}} 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{sql_8py_ab80b02d5e03e3d15ae385ece7717d3c0}\label{sql_8py_ab80b02d5e03e3d15ae385ece7717d3c0}} 
+\index{sql.py@{sql.py}!buildJson@{buildJson}}
+\index{buildJson@{buildJson}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{buildJson()}{buildJson()}}
+{\footnotesize\ttfamily def lib.\+sql.\+build\+Json (\begin{DoxyParamCaption}\item[{}]{names,  }\item[{}]{results }\end{DoxyParamCaption})}
+
+
+
+Build and return the J\+S\+ON object with given keys and values. 
+
+Read the S\+Q\+Lite query result from execute\+S\+Q\+Lite command, read the result build the json object based on column name and rows
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name list of each column \\
+\hline
+{\em results} & each result is a row in the S\+Q\+Lite query response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the J\+S\+ON object of the S\+Q\+Lite query result 
+\end{DoxyReturn}
+
+
+Definition at line 143 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_ae248128472a020e25cee3b1f1ad6c47e}\label{sql_8py_ae248128472a020e25cee3b1f1ad6c47e}} 
+\index{sql.py@{sql.py}!connectSQLite@{connectSQLite}}
+\index{connectSQLite@{connectSQLite}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{connectSQLite()}{connectSQLite()}}
+{\footnotesize\ttfamily def lib.\+sql.\+connect\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{db\+\_\+path,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+execute the sqlite database file to create and retrn the connection object 
+
+Connect the S\+Q\+Lite databse with given database path (db\+\_\+path), and return the connection object. if the db\+\_\+path is None, using the default path value (sqlite\+\_\+file) N\+O\+TE\+: sqlite\+\_\+file is can be explictly loaded by load\+Config function or changed using set\+D\+B\+Path
+
+
+\begin{DoxyParams}{Parameters}
+{\em db\+\_\+path} & string value contains the path of the S\+Q\+Lite database \\
+\hline
+{\em daemon} & print out the info message if set False, the default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+conn the connection object from sqlite3 module 
+\end{DoxyReturn}
+
+
+Definition at line 68 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_ab7227814eb390ba9fa984c3446f144f7}\label{sql_8py_ab7227814eb390ba9fa984c3446f144f7}} 
+\index{sql.py@{sql.py}!deleteSQLite@{deleteSQLite}}
+\index{deleteSQLite@{deleteSQLite}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{deleteSQLite()}{deleteSQLite()}}
+{\footnotesize\ttfamily def lib.\+sql.\+delete\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{table,  }\item[{}]{query,  }\item[{}]{db\+\_\+path = {\ttfamily None},  }\item[{}]{daeamon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Execute the D\+E\+L\+E\+TE query to remove a row in S\+Q\+Lite database. 
+
+A warper function for execute D\+E\+L\+E\+TE query in the S\+Q\+Lite database delete a row in the given table with given query
+
+Example\+: delete\+S\+Q\+Lite(\textquotesingle{}vendor\textquotesingle{}, \textquotesingle{}name=\char`\"{}some\+Name\char`\"{}\textquotesingle{}) The above command will execute\+: D\+E\+L\+E\+TE F\+R\+OM vendor W\+H\+E\+RE name=\char`\"{}some\+Name\char`\"{};
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & The table name in the given S\+Q\+Lite database \\
+\hline
+{\em query} & The filter to select row(s) in the table \\
+\hline
+{\em db\+\_\+path} & (Optional) The S\+Q\+Lite database path to use a specific database \\
+\hline
+{\em daemon} & Print out the info message if set False, the default value is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 233 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_a490e6dadce3daf6e0dd505fe522d3436}\label{sql_8py_a490e6dadce3daf6e0dd505fe522d3436}} 
+\index{sql.py@{sql.py}!executeSQLite@{executeSQLite}}
+\index{executeSQLite@{executeSQLite}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{executeSQLite()}{executeSQLite()}}
+{\footnotesize\ttfamily def lib.\+sql.\+execute\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{command,  }\item[{}]{conn = {\ttfamily None},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Execute the database query and return the result in J\+S\+ON. 
+
+Execute the given S\+Q\+Lite query and return the result in J\+S\+ON format If the connection is not provided, load the default database by calling \+\_\+\+\_\+init()
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & the S\+Q\+Lite query string to be executed \\
+\hline
+{\em conn} & the connection object from sqlite3 module which connecting to a database \\
+\hline
+{\em daemon} & print out the info message if set False, the default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+calling build\+Json to return the J\+S\+ON result, or None if error 
+\end{DoxyReturn}
+
+
+Definition at line 106 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_ac4cdc087b50cf8320bfbcbf0442f50b5}\label{sql_8py_ac4cdc087b50cf8320bfbcbf0442f50b5}} 
+\index{sql.py@{sql.py}!getSQLite@{getSQLite}}
+\index{getSQLite@{getSQLite}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{getSQLite()}{getSQLite()}}
+{\footnotesize\ttfamily def lib.\+sql.\+get\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{command,  }\item[{}]{db\+\_\+path = {\ttfamily None},  }\item[{}]{daemon = {\ttfamily True} }\end{DoxyParamCaption})}
+
+
+
+A warper function for execute\+S\+Q\+Lite, allow to use a different database. 
+
+A warper function for execute\+S\+Q\+Lite, mainly for running S\+E\+L\+E\+CT command in S\+Q\+Lite Allow to use a user defined database instead of global default
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The command will be execute as S\+Q\+Lite query. Example\+: S\+E\+L\+E\+CT $\ast$ F\+R\+OM vendor \\
+\hline
+{\em db\+\_\+path} & The database path for S\+Q\+Lite \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+J\+S\+ON result from execute S\+Q\+Lite query command 
+\end{DoxyReturn}
+
+
+Definition at line 165 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_a31bb4811287737f7b1028409b283e457}\label{sql_8py_a31bb4811287737f7b1028409b283e457}} 
+\index{sql.py@{sql.py}!insertSQLite@{insertSQLite}}
+\index{insertSQLite@{insertSQLite}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{insertSQLite()}{insertSQLite()}}
+{\footnotesize\ttfamily def lib.\+sql.\+insert\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{table,  }\item[{}]{keys,  }\item[{}]{values,  }\item[{}]{db\+\_\+path = {\ttfamily None},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Execute the I\+N\+S\+E\+RT query to add a row in S\+Q\+Lite database. 
+
+A warper function for execute I\+N\+S\+E\+RT query in the S\+Q\+Lite database insert a row into the given table with given query
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & The table in the given database \\
+\hline
+{\em keys} & The column names of the table -\/ Key example\+: \textquotesingle{}column\+\_\+1\+\_\+int, column\+\_\+2\+\_\+int, column\+\_\+3\+\_\+string, ...\textquotesingle{} \\
+\hline
+{\em values} & The value of the columns coresponding to the keys sequence -\/ Values example\+: \textquotesingle{}1, 2, \char`\"{}a value\char`\"{}, ...\textquotesingle{} \\
+\hline
+{\em db\+\_\+path} & (Optional) the S\+Q\+Lite database path \\
+\hline
+{\em daemon} & print out the info message if set False, the default is False N\+O\+TE for further usage, modify this function \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 214 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_af5c2a832c9af92fe207555545bef5b3c}\label{sql_8py_af5c2a832c9af92fe207555545bef5b3c}} 
+\index{sql.py@{sql.py}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily def lib.\+sql.\+load\+Config (\begin{DoxyParamCaption}\item[{}]{conf\+Path = {\ttfamily \textquotesingle{}this\+\_\+device\+\_\+conf.json\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given config file path. 
+
+If the the config file path is not given, the program will tend to use the default path. The config file is a json file, load\+Config is looking for the key \textquotesingle{}S\+Q\+L\+I\+TE\textquotesingle{} and get \textquotesingle{}Master\textquotesingle{} value which is the sqlite file path If key is not found, a default value will be loaded N\+O\+TE\+: This function can be called explictly to load user configurations
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+Path} & a string value contain the path to the json file \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 32 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_aa8f1f648cc060422a790a029d47c5c52}\label{sql_8py_aa8f1f648cc060422a790a029d47c5c52}} 
+\index{sql.py@{sql.py}!main@{main}}
+\index{main@{main}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def lib.\+sql.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Main function for provide the C\+LI tool. 
+
+The main function using the argparse module to allow command line optional argument run the command\+: ./sql.py -\/h or --help for instructions 
+
+Definition at line 245 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_a8731148a761bf04bb90afeda90223f59}\label{sql_8py_a8731148a761bf04bb90afeda90223f59}} 
+\index{sql.py@{sql.py}!setDBPath@{setDBPath}}
+\index{setDBPath@{setDBPath}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{setDBPath()}{setDBPath()}}
+{\footnotesize\ttfamily def lib.\+sql.\+set\+D\+B\+Path (\begin{DoxyParamCaption}\item[{}]{db\+\_\+path,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the global variable sqlite\+\_\+file value 
+
+Set the default global variable sqlite\+\_\+file with the given database path value (db\+\_\+path)
+
+
+\begin{DoxyParams}{Parameters}
+{\em db\+\_\+path} & a string value contains the path to the S\+Q\+Lite database \\
+\hline
+{\em daemon} & print out the info message if set False, the default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 88 of file sql.\+py.
+
+\mbox{\Hypertarget{sql_8py_af3a06c87fd3adb18241594e7baa92eb1}\label{sql_8py_af3a06c87fd3adb18241594e7baa92eb1}} 
+\index{sql.py@{sql.py}!updateSQLite@{updateSQLite}}
+\index{updateSQLite@{updateSQLite}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{updateSQLite()}{updateSQLite()}}
+{\footnotesize\ttfamily def lib.\+sql.\+update\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{table,  }\item[{}]{key,  }\item[{}]{value,  }\item[{}]{query = {\ttfamily None},  }\item[{}]{db\+\_\+path = {\ttfamily None},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Execute the U\+P\+D\+A\+TE query to modify a S\+Q\+Lite table. 
+
+A warper function for Execute U\+P\+D\+A\+TE query in the S\+Q\+Lite database Update the table in the give database path with the key and value Using the query argument to add extra filter
+
+Example\+: updata\+S\+Q\+Lite(\textquotesingle{}vendor\textquotesingle{}, id, 2, \textquotesingle{}id=1\textquotesingle{}) == U\+P\+D\+A\+TE vendor S\+ET id=2 W\+H\+E\+RE id=1;
+
+
+\begin{DoxyParams}{Parameters}
+{\em table} & The table in the given S\+Q\+Lite database \\
+\hline
+{\em key} & The key in the given S\+Q\+Lite database \\
+\hline
+{\em value} & The change value to set for the key \\
+\hline
+{\em query} & (Optional) a filter to select which row(s) \\
+\hline
+{\em db\+\_\+path} & (Optional) the S\+Q\+Lite database path \\
+\hline
+{\em daemon} & print out the info message if set False, the default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 185 of file sql.\+py.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{sql_8py_a15c21a3c1470b6168d3556cf1b5d7a8e}\label{sql_8py_a15c21a3c1470b6168d3556cf1b5d7a8e}} 
+\index{sql.py@{sql.py}!sqlite\_file@{sqlite\_file}}
+\index{sqlite\_file@{sqlite\_file}!sql.py@{sql.py}}
+\doxysubsubsection{\texorpdfstring{sqlite\_file}{sqlite\_file}}
+{\footnotesize\ttfamily string lib.\+sql.\+sqlite\+\_\+file = \textquotesingle{}default.\+sqlite\textquotesingle{}}
+
+
+
+Global shared variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sqlite\+\_\+file} & the default S\+Q\+Lite database file path\\
+\hline
+\end{DoxyParams}
+Load Config File \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# 
+
+Definition at line 262 of file sql.\+py.
+
