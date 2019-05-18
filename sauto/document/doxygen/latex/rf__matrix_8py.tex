@@ -1,0 +1,515 @@
+\hypertarget{rf__matrix_8py}{}\doxysection{/home/sprint/liyu/\+S\+Auto/sauto/build/lib/rf\+\_\+matrix.py File Reference}
+\label{rf__matrix_8py}\index{/home/sprint/liyu/SAuto/sauto/build/lib/rf\_matrix.py@{/home/sprint/liyu/SAuto/sauto/build/lib/rf\_matrix.py}}
+
+
+Modules as well as C\+LI tools for remote RF Matrix control.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classlib_1_1rf__matrix_1_1_r_f_matrix}{lib.\+rf\+\_\+matrix.\+R\+F\+Matrix}}
+\begin{DoxyCompactList}\small\item\em RF Matrix Device Management Class defination. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{rf__matrix_8py_a28c0f27047fb384f900f8b5545e4e958}{lib.\+rf\+\_\+matrix.\+load\+Config}} (conf\+Path=\textquotesingle{}this\+\_\+device.\+conf.\+json\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given config file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_a4f61cc7c338cf6e8c50393d08737c419}{lib.\+rf\+\_\+matrix.\+load\+S\+Q\+Lite}} (rid, table\+\_\+name=None, db\+\_\+path=None)
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given S\+Q\+Lite file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_ae771b0f62b1968f5eceaad8db8858a02}{lib.\+rf\+\_\+matrix.\+connect\+R\+F\+Matrix}} (command, portA=\char`\"{}\char`\"{}, portB=\char`\"{}\char`\"{}, daemon=False, atten=15)
+\begin{DoxyCompactList}\small\item\em Connect to remote RF Matrix box and execute a command. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_a6f6224c1999e0cad9ae20841274e1fb8}{lib.\+rf\+\_\+matrix.\+connect\+S\+SH}} (commands, host=\char`\"{}10.\+155.\+208.\+121\char`\"{}, username=\char`\"{}prime\char`\"{}, password=\char`\"{}prime123\char`\"{}, daemon=False)
+\begin{DoxyCompactList}\small\item\em Connect to remote Q\+RB server using interact ssh. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_a529479387f1831f7672154ec39a2be29}{lib.\+rf\+\_\+matrix.\+get\+Q\+R\+B\+Address}} (portA, portB, daemon=False)
+\begin{DoxyCompactList}\small\item\em Calculate the Q\+RB address low byte based on Matrix input/output port. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_ad371e6077d3dafdd93b5fe4897a62600}{lib.\+rf\+\_\+matrix.\+reset\+Q\+R\+B\+Atten}} (portA=None, portB=None, username=\char`\"{}prime\char`\"{}, password=\char`\"{}prime123\char`\"{}, daemon=False)
+\begin{DoxyCompactList}\small\item\em Reset the Q\+RB R\+F-\/\+Matrix port connection based on the port input. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_a567f9405401705e115bec29f94f1461f}{lib.\+rf\+\_\+matrix.\+get\+Q\+R\+B\+Port}} (port, daemon=False)
+\begin{DoxyCompactList}\small\item\em Get the Q\+RB port value for command. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_a6200346921e7ac1bafd202494bd73c1b}{lib.\+rf\+\_\+matrix.\+round\+Q\+R\+B\+Attenuation}} (number)
+\begin{DoxyCompactList}\small\item\em \textbackslash{}breif Build Q\+RB C\+LI attenuation string value \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_acbb0b7fe85bbaf6b29ef0f272f3bdee2}{lib.\+rf\+\_\+matrix.\+get\+Port\+Address}} (port, daemon=False)
+\begin{DoxyCompactList}\small\item\em get the Q\+RB Port address byte value \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_ae2711ec4619783bc67977e7c0b9b24df}{lib.\+rf\+\_\+matrix.\+get\+Atten\+Address}} (atten, daemon=False)
+\begin{DoxyCompactList}\small\item\em get the Attenuation Address byte value \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{rf__matrix_8py_a1f22c0a9aeb618f62166d0690346a1b4}{lib.\+rf\+\_\+matrix.\+main}} ()
+\begin{DoxyCompactList}\small\item\em Main function for provide the C\+LI tool. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+dictionary \mbox{\hyperlink{rf__matrix_8py_a5951f0641d8b5fcde3c63809c0e58e29}{lib.\+rf\+\_\+matrix.\+C\+O\+N\+S\+T\+\_\+\+P\+O\+RT}}
+\begin{DoxyCompactList}\small\item\em Constant \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#. \end{DoxyCompactList}\item 
+dictionary \mbox{\hyperlink{rf__matrix_8py_a31cc3c7e3b1a992c24afd1996a0caf7e}{lib.\+rf\+\_\+matrix.\+H\+E\+X\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+T\+A\+B\+LE}}
+\begin{DoxyCompactList}\small\item\em string integer to H\+EX string table \# \end{DoxyCompactList}\item 
+dictionary \mbox{\hyperlink{rf__matrix_8py_af2168e4f5da26e41dc567a53643049d3}{lib.\+rf\+\_\+matrix.\+A\+T\+T\+E\+N\+\_\+\+T\+A\+B\+LE}}
+\begin{DoxyCompactList}\small\item\em Attenuation string to byte value table \#. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{rf__matrix_8py_a2495d39cad788803c62418ec6e337f8b}\label{rf__matrix_8py_a2495d39cad788803c62418ec6e337f8b}} 
+dictionary \mbox{\hyperlink{rf__matrix_8py_a2495d39cad788803c62418ec6e337f8b}{lib.\+rf\+\_\+matrix.\+Q\+R\+B\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+T\+A\+B\+LE}}
+\begin{DoxyCompactList}\small\item\em Q\+RB address string to byte value table \#. \end{DoxyCompactList}\item 
+dictionary \mbox{\hyperlink{rf__matrix_8py_aad5a0071502580f9d3284e89c925d492}{lib.\+rf\+\_\+matrix.\+P\+O\+R\+T\+\_\+\+M\+AP}}
+\begin{DoxyCompactList}\small\item\em \textbackslash{}breif Q\+RB string to port value map \# \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{rf__matrix_8py_a3d560bc609b22eb54512b6bf9c1a6589}{lib.\+rf\+\_\+matrix.\+ID}} = 2
+\begin{DoxyCompactList}\small\item\em Shared variables. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{rf__matrix_8py_a7be3aa557445bca566a1dc45c896440f}\label{rf__matrix_8py_a7be3aa557445bca566a1dc45c896440f}} 
+string {\bfseries lib.\+rf\+\_\+matrix.\+N\+A\+ME} = \textquotesingle{}R\+F\+M2\textquotesingle{}
+\item 
+\mbox{\Hypertarget{rf__matrix_8py_ab0b7a8b430b223fb98154e3a64d42024}\label{rf__matrix_8py_ab0b7a8b430b223fb98154e3a64d42024}} 
+string {\bfseries lib.\+rf\+\_\+matrix.\+T\+C\+P\+\_\+\+IP} = \textquotesingle{}10.\+155.\+220.\+77\textquotesingle{}
+\item 
+\mbox{\Hypertarget{rf__matrix_8py_a271b0e0a172cfc90dd9e5decd8281f85}\label{rf__matrix_8py_a271b0e0a172cfc90dd9e5decd8281f85}} 
+int {\bfseries lib.\+rf\+\_\+matrix.\+T\+C\+P\+\_\+\+P\+O\+RT} = 9100
+\item 
+\mbox{\Hypertarget{rf__matrix_8py_ad9c7d1307d42d91ba93f818b062f9fb3}\label{rf__matrix_8py_ad9c7d1307d42d91ba93f818b062f9fb3}} 
+int {\bfseries lib.\+rf\+\_\+matrix.\+B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE} = 1024
+\item 
+\mbox{\Hypertarget{rf__matrix_8py_a6b7bbbe6c4c7ccc337483dfb7c32990f}\label{rf__matrix_8py_a6b7bbbe6c4c7ccc337483dfb7c32990f}} 
+int {\bfseries lib.\+rf\+\_\+matrix.\+S\+T\+A\+T\+US} = 0
+\item 
+\mbox{\Hypertarget{rf__matrix_8py_a3a1a2342129d7c464498ace2d1ad409d}\label{rf__matrix_8py_a3a1a2342129d7c464498ace2d1ad409d}} 
+string {\bfseries lib.\+rf\+\_\+matrix.\+R\+F\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+T\+A\+B\+L\+E\+\_\+\+N\+A\+ME} = \char`\"{}rf\+\_\+matrix\char`\"{}
+\item 
+\mbox{\Hypertarget{rf__matrix_8py_a148fbd5511f2a0b32e77aaa07d1b5720}\label{rf__matrix_8py_a148fbd5511f2a0b32e77aaa07d1b5720}} 
+\mbox{\hyperlink{rf__matrix_8py_a148fbd5511f2a0b32e77aaa07d1b5720}{lib.\+rf\+\_\+matrix.\+path}} = conf\+\_\+file.\+read()
+\begin{DoxyCompactList}\small\item\em Load the default configuration from S\+Auto framework. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Modules as well as C\+LI tools for remote RF Matrix control. 
+
+This modules contains the library for remote controling the RF Matrix and it is also a stand alone command line tool The library has to work with a proper configuration file in order to have the ip and port for the remote devices
+
+\begin{DoxyAuthor}{Author}
+Liyu Ying \textbackslash{}email \href{mailto:lying0401@gmail.com}{\texttt{ lying0401@gmail.\+com}} 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{rf__matrix_8py_ae771b0f62b1968f5eceaad8db8858a02}\label{rf__matrix_8py_ae771b0f62b1968f5eceaad8db8858a02}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!connectRFMatrix@{connectRFMatrix}}
+\index{connectRFMatrix@{connectRFMatrix}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{connectRFMatrix()}{connectRFMatrix()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+connect\+R\+F\+Matrix (\begin{DoxyParamCaption}\item[{}]{command,  }\item[{}]{portA = {\ttfamily \char`\"{}\char`\"{}},  }\item[{}]{portB = {\ttfamily \char`\"{}\char`\"{}},  }\item[{}]{daemon = {\ttfamily False},  }\item[{}]{atten = {\ttfamily 15} }\end{DoxyParamCaption})}
+
+
+
+Connect to remote RF Matrix box and execute a command. 
+
+Remotely connecting to a RF Matrix using a T\+CP socket connection. The IP address and Port was loaded by load\+Config/load\+S\+Q\+Lite function The remote command takes bytes values to execute different commands. A byte value map C\+O\+N\+S\+T\+\_\+\+P\+O\+RT is used for building the commands. byte start with \textquotesingle{}\textbackslash{}x68\textquotesingle{} -\/ check which port is current connecting to byte start with \textquotesingle{}\textbackslash{}x31\textquotesingle{} -\/ check if the port is functioning byte start with \textquotesingle{}\textbackslash{}x30\textquotesingle{} -\/ change the connection of the port
+
+\mbox{[}Updated 2/4/2019\mbox{]} Ehternet command deprecated \mbox{[}Updated 1/15/2019\mbox{]} Added the Q\+RB implementation byte start with \textquotesingle{}\textbackslash{}x30\textquotesingle{} -\/ change the connection of the port with an attenuation byte start with \textquotesingle{}\textbackslash{}x31\textquotesingle{} -\/ preset the connection of the port with an attenuation byte start with \textquotesingle{}\textbackslash{}x32\textquotesingle{} -\/ set all preset connection with command \mbox{[}\textbackslash{}x31\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & a bytes value as a head for certain commandsglobal T\+C\+P\+\_\+\+IP, T\+C\+P\+\_\+\+P\+O\+RT \\
+\hline
+{\em portA} & the source port for operating the command \\
+\hline
+{\em portB} & the destination port for operating the command \\
+\hline
+{\em daemon} & define if the program will print the reuslt or not, default is False \\
+\hline
+{\em atten} & A default attenuation set for Q\+RB box, default is 15 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result the return value checked from command executed remotely 
+\end{DoxyReturn}
+
+
+Definition at line 212 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a6f6224c1999e0cad9ae20841274e1fb8}\label{rf__matrix_8py_a6f6224c1999e0cad9ae20841274e1fb8}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!connectSSH@{connectSSH}}
+\index{connectSSH@{connectSSH}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{connectSSH()}{connectSSH()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+connect\+S\+SH (\begin{DoxyParamCaption}\item[{}]{commands,  }\item[{}]{host = {\ttfamily \char`\"{}10.155.208.121\char`\"{}},  }\item[{}]{username = {\ttfamily \char`\"{}prime\char`\"{}},  }\item[{}]{password = {\ttfamily \char`\"{}prime123\char`\"{}},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Connect to remote Q\+RB server using interact ssh. 
+
+Using pexpect package to start an expect like ssh connection with remote Q\+RB server Logging into Q\+RB and enter qrb\+\_\+command\+\_\+mode Execute each command in commands list and then exit Q\+RB C\+LI
+
+
+\begin{DoxyParams}{Parameters}
+{\em commands} & A list of the string command to be executed on qrb\+\_\+command\+\_\+mode \\
+\hline
+{\em host} & String of the IP address of the remote Q\+RB server, default is 10.\+155.\+208.\+121 \\
+\hline
+{\em username} & String of the S\+SH login username of the remote Q\+RB server, default is prime \\
+\hline
+{\em password} & String of the S\+SH login password of the remote Q\+RB server, default is prime123 \\
+\hline
+{\em daemon} & Boolean. Print out the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if execution all pass, otherwise False 
+\end{DoxyReturn}
+
+
+Definition at line 283 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_ae2711ec4619783bc67977e7c0b9b24df}\label{rf__matrix_8py_ae2711ec4619783bc67977e7c0b9b24df}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!getAttenAddress@{getAttenAddress}}
+\index{getAttenAddress@{getAttenAddress}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{getAttenAddress()}{getAttenAddress()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+get\+Atten\+Address (\begin{DoxyParamCaption}\item[{}]{atten,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+get the Attenuation Address byte value 
+
+Using the A\+T\+T\+E\+N\+\_\+\+T\+A\+B\+LE to get the attentuation address
+
+
+\begin{DoxyParams}{Parameters}
+{\em atten} & The attenuation to be set on the port \\
+\hline
+{\em daemon} & Print out the info message if set False, Default value is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the byte value of the attenuation 
+\end{DoxyReturn}
+
+
+Definition at line 408 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_acbb0b7fe85bbaf6b29ef0f272f3bdee2}\label{rf__matrix_8py_acbb0b7fe85bbaf6b29ef0f272f3bdee2}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!getPortAddress@{getPortAddress}}
+\index{getPortAddress@{getPortAddress}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{getPortAddress()}{getPortAddress()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+get\+Port\+Address (\begin{DoxyParamCaption}\item[{}]{port,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+get the Q\+RB Port address byte value 
+
+Using the C\+O\+N\+S\+T\+\_\+\+P\+O\+RT table to get the port address The Port address is the remaining value of port / 32 See get\+Q\+R\+B\+Address for more information to get the low byte value
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & The Q\+RB input port \textbackslash{}daemon Print out the info message if set False, Default value is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the byte value of port address 
+\end{DoxyReturn}
+
+
+Definition at line 395 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a529479387f1831f7672154ec39a2be29}\label{rf__matrix_8py_a529479387f1831f7672154ec39a2be29}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!getQRBAddress@{getQRBAddress}}
+\index{getQRBAddress@{getQRBAddress}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{getQRBAddress()}{getQRBAddress()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+get\+Q\+R\+B\+Address (\begin{DoxyParamCaption}\item[{}]{portA,  }\item[{}]{portB,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Calculate the Q\+RB address low byte based on Matrix input/output port. 
+
+The calculation use the Q\+R\+B\+\_\+\+A\+D\+D\+R\+E\+S\+S\+\_\+\+T\+A\+B\+LE to translate the the value into byte
+
+
+\begin{DoxyParams}{Parameters}
+{\em portA} & The input port of the RF Matrix \\
+\hline
+{\em portB} & The output port of the RF Matrix \\
+\hline
+{\em daemon} & Print out the info if set False, Default value is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the byte value of the Q\+RB low byte 
+\end{DoxyReturn}
+
+
+Definition at line 320 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a567f9405401705e115bec29f94f1461f}\label{rf__matrix_8py_a567f9405401705e115bec29f94f1461f}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!getQRBPort@{getQRBPort}}
+\index{getQRBPort@{getQRBPort}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{getQRBPort()}{getQRBPort()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+get\+Q\+R\+B\+Port (\begin{DoxyParamCaption}\item[{}]{port,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Get the Q\+RB port value for command. 
+
+Using the map P\+O\+R\+T\+\_\+\+M\+AP to return the string value of the Q\+RB port
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & The string or int input port number \mbox{[}1,32\mbox{]} \\
+\hline
+{\em daemon} & Print the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+P\+O\+R\+T\+\_\+\+M\+AP\mbox{[}port\mbox{]} string value of the port, example 23 -\/$>$ \char`\"{}023\char`\"{} 
+\end{DoxyReturn}
+
+
+Definition at line 364 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a28c0f27047fb384f900f8b5545e4e958}\label{rf__matrix_8py_a28c0f27047fb384f900f8b5545e4e958}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+load\+Config (\begin{DoxyParamCaption}\item[{}]{conf\+Path = {\ttfamily \textquotesingle{}this\+\_\+device.conf.json\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given config file path. 
+
+If the the config file path is not given, the program will tend to use the default path. The config file is a json file, load\+Config is looking for the key \textquotesingle{}R\+F\+\_\+\+Matrix\textquotesingle{} and get T\+CP IP address as well as the Port for the remote R\+F\+\_\+\+Matrix. If key is not found, a default value will be loaded N\+O\+TE\+: This function can be call explictly to load user configurations
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+Path} & a string value contain the path to the json file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+config J\+S\+ON object of rf\+\_\+matrix loaded from file 
+\end{DoxyReturn}
+
+
+Definition at line 144 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a4f61cc7c338cf6e8c50393d08737c419}\label{rf__matrix_8py_a4f61cc7c338cf6e8c50393d08737c419}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!loadSQLite@{loadSQLite}}
+\index{loadSQLite@{loadSQLite}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{loadSQLite()}{loadSQLite()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+load\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{rid,  }\item[{}]{table\+\_\+name = {\ttfamily None},  }\item[{}]{db\+\_\+path = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given S\+Q\+Lite file path. 
+
+If the S\+Q\+Lite file path is not give, default S\+Q\+Lite data path will be load if the data (ip and port) in the database is not set, the program will use the default value instead N\+O\+TE\+: This function can be called explictly to load configuration
+
+\mbox{[}Updated 1/16/2019\mbox{]} Added a golbal variable \char`\"{}\+R\+F\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+T\+A\+B\+L\+E\+\_\+\+N\+A\+M\+E\char`\"{} to have the table name \char`\"{}\+R\+F\+\_\+\+M\+A\+T\+R\+I\+X\+\_\+\+T\+A\+B\+L\+E\+\_\+\+N\+A\+M\+E\char`\"{} is replacing the hard coded table name
+
+
+\begin{DoxyParams}{Parameters}
+{\em rid} & the id for a perticular RF Matrix device in S\+Q\+Lite database \\
+\hline
+{\em table\+\_\+name} & the sqlite table name for rf\+\_\+matrix \\
+\hline
+{\em db\+\_\+path} & the path of the S\+Q\+Lite database file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+config J\+S\+ON object of RF Matrix loaded from database 
+\end{DoxyReturn}
+
+
+Definition at line 174 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a1f22c0a9aeb618f62166d0690346a1b4}\label{rf__matrix_8py_a1f22c0a9aeb618f62166d0690346a1b4}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!main@{main}}
+\index{main@{main}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Main function for provide the C\+LI tool. 
+
+The main function using the argparse module to allow command line optional argument run the command\+: ./rf\+\_\+matrix.py -\/h or --help for instructions 
+
+Definition at line 516 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_ad371e6077d3dafdd93b5fe4897a62600}\label{rf__matrix_8py_ad371e6077d3dafdd93b5fe4897a62600}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!resetQRBAtten@{resetQRBAtten}}
+\index{resetQRBAtten@{resetQRBAtten}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{resetQRBAtten()}{resetQRBAtten()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+reset\+Q\+R\+B\+Atten (\begin{DoxyParamCaption}\item[{}]{portA = {\ttfamily None},  }\item[{}]{portB = {\ttfamily None},  }\item[{}]{username = {\ttfamily \char`\"{}prime\char`\"{}},  }\item[{}]{password = {\ttfamily \char`\"{}prime123\char`\"{}},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Reset the Q\+RB R\+F-\/\+Matrix port connection based on the port input. 
+
+Disconnect the port connection on Q\+RB R\+F-\/\+Matrix based on following condition\+:
+\begin{DoxyEnumerate}
+\item if portA and portB are given, disconnect PortA and PortB
+\item if only portA is given, disconnect A\+LL connection from given portA to all port B
+\item if only portB is given, disconnect A\+LL connection from all port A to given portB
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em portA} & integer or string value in \mbox{[}1,32\mbox{]}. The input port of Q\+RB R\+F-\/\+Matrix \\
+\hline
+{\em portB} & integer or string value in \mbox{[}1,32\mbox{]}. The output port of Q\+RB R\+F-\/\+Matrix \textbackslash{}username The username to login into remote Q\+RB server, default is prime \textbackslash{}password The password to login into remote Q\+RB server, default is prime123 \textbackslash{}daemon Print out the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 342 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a6200346921e7ac1bafd202494bd73c1b}\label{rf__matrix_8py_a6200346921e7ac1bafd202494bd73c1b}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!roundQRBAttenuation@{roundQRBAttenuation}}
+\index{roundQRBAttenuation@{roundQRBAttenuation}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{roundQRBAttenuation()}{roundQRBAttenuation()}}
+{\footnotesize\ttfamily def lib.\+rf\+\_\+matrix.\+round\+Q\+R\+B\+Attenuation (\begin{DoxyParamCaption}\item[{}]{number }\end{DoxyParamCaption})}
+
+
+
+\textbackslash{}breif Build Q\+RB C\+LI attenuation string value 
+
+If number is in \mbox{[}0, 60.\+0\mbox{]} return the number with 1 decimal and extra 0s at the beginning If number is negetive or greater then 60, return \char`\"{}999.\+9\char`\"{} which disconnect the port
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & The input number of the attenuation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String value of the attenuation 
+\end{DoxyReturn}
+
+
+Definition at line 377 of file rf\+\_\+matrix.\+py.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{rf__matrix_8py_af2168e4f5da26e41dc567a53643049d3}\label{rf__matrix_8py_af2168e4f5da26e41dc567a53643049d3}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!ATTEN\_TABLE@{ATTEN\_TABLE}}
+\index{ATTEN\_TABLE@{ATTEN\_TABLE}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{ATTEN\_TABLE}{ATTEN\_TABLE}}
+{\footnotesize\ttfamily dictionary lib.\+rf\+\_\+matrix.\+A\+T\+T\+E\+N\+\_\+\+T\+A\+B\+LE}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 = \{                                                         \textcolor{comment}{\#}}
+\DoxyCodeLine{2         \textcolor{stringliteral}{"0"}:\textcolor{stringliteral}{"\(\backslash\)x00"}, \textcolor{stringliteral}{"1"}:\textcolor{stringliteral}{"\(\backslash\)x01"}, \textcolor{stringliteral}{"2"}:\textcolor{stringliteral}{"\(\backslash\)x02"}, \textcolor{stringliteral}{"3"}:\textcolor{stringliteral}{"\(\backslash\)x03"}, \textcolor{stringliteral}{"4"}:\textcolor{stringliteral}{"\(\backslash\)x04"},     \textcolor{comment}{\#}}
+\DoxyCodeLine{3         \textcolor{stringliteral}{"5"}:\textcolor{stringliteral}{"\(\backslash\)x05"}, \textcolor{stringliteral}{"6"}:\textcolor{stringliteral}{"\(\backslash\)x06"}, \textcolor{stringliteral}{"7"}:\textcolor{stringliteral}{"\(\backslash\)x07"}, \textcolor{stringliteral}{"8"}:\textcolor{stringliteral}{"\(\backslash\)x08"}, \textcolor{stringliteral}{"9"}:\textcolor{stringliteral}{"\(\backslash\)x09"},     \textcolor{comment}{\#}}
+\DoxyCodeLine{4         \textcolor{stringliteral}{"10"}:\textcolor{stringliteral}{"\(\backslash\)x0A"}, \textcolor{stringliteral}{"11"}:\textcolor{stringliteral}{"\(\backslash\)x0B"}, \textcolor{stringliteral}{"12"}:\textcolor{stringliteral}{"\(\backslash\)x0C"}, \textcolor{stringliteral}{"13"}:\textcolor{stringliteral}{"\(\backslash\)x0D"}, \textcolor{stringliteral}{"14"}:\textcolor{stringliteral}{"\(\backslash\)x0E"},\textcolor{comment}{\#}}
+\DoxyCodeLine{5         \textcolor{stringliteral}{"15"}:\textcolor{stringliteral}{"\(\backslash\)x0F"}, \textcolor{stringliteral}{"16"}:\textcolor{stringliteral}{"\(\backslash\)x10"}, \textcolor{stringliteral}{"17"}:\textcolor{stringliteral}{"\(\backslash\)x11"}, \textcolor{stringliteral}{"18"}:\textcolor{stringliteral}{"\(\backslash\)x12"}, \textcolor{stringliteral}{"19"}:\textcolor{stringliteral}{"\(\backslash\)x13"},\textcolor{comment}{\#}}
+\DoxyCodeLine{6         \textcolor{stringliteral}{"20"}:\textcolor{stringliteral}{"\(\backslash\)x14"}, \textcolor{stringliteral}{"21"}:\textcolor{stringliteral}{"\(\backslash\)x15"}, \textcolor{stringliteral}{"22"}:\textcolor{stringliteral}{"\(\backslash\)x16"}, \textcolor{stringliteral}{"23"}:\textcolor{stringliteral}{"\(\backslash\)x17"}, \textcolor{stringliteral}{"24"}:\textcolor{stringliteral}{"\(\backslash\)x18"},\textcolor{comment}{\#}}
+\DoxyCodeLine{7         \textcolor{stringliteral}{"25"}:\textcolor{stringliteral}{"\(\backslash\)x19"}, \textcolor{stringliteral}{"26"}:\textcolor{stringliteral}{"\(\backslash\)x1A"}, \textcolor{stringliteral}{"27"}:\textcolor{stringliteral}{"\(\backslash\)x1B"}, \textcolor{stringliteral}{"28"}:\textcolor{stringliteral}{"\(\backslash\)x1C"}, \textcolor{stringliteral}{"29"}:\textcolor{stringliteral}{"\(\backslash\)x1D"},\textcolor{comment}{\#}}
+\DoxyCodeLine{8         \textcolor{stringliteral}{"30"}:\textcolor{stringliteral}{"\(\backslash\)x1E"}, \textcolor{stringliteral}{"31"}:\textcolor{stringliteral}{"\(\backslash\)x1F"}, \textcolor{stringliteral}{"32"}:\textcolor{stringliteral}{"\(\backslash\)x20"}, \textcolor{stringliteral}{"33"}:\textcolor{stringliteral}{"\(\backslash\)x21"}, \textcolor{stringliteral}{"34"}:\textcolor{stringliteral}{"\(\backslash\)x22"},\textcolor{comment}{\#}}
+\DoxyCodeLine{9         \textcolor{stringliteral}{"35"}:\textcolor{stringliteral}{"\(\backslash\)x23"}, \textcolor{stringliteral}{"36"}:\textcolor{stringliteral}{"\(\backslash\)x24"}, \textcolor{stringliteral}{"37"}:\textcolor{stringliteral}{"\(\backslash\)x25"}, \textcolor{stringliteral}{"38"}:\textcolor{stringliteral}{"\(\backslash\)x26"}, \textcolor{stringliteral}{"39"}:\textcolor{stringliteral}{"\(\backslash\)x27"},\textcolor{comment}{\#}}
+\DoxyCodeLine{10         \textcolor{stringliteral}{"40"}:\textcolor{stringliteral}{"\(\backslash\)x28"}, \textcolor{stringliteral}{"41"}:\textcolor{stringliteral}{"\(\backslash\)x29"}, \textcolor{stringliteral}{"42"}:\textcolor{stringliteral}{"\(\backslash\)x2A"}, \textcolor{stringliteral}{"43"}:\textcolor{stringliteral}{"\(\backslash\)x2B"}, \textcolor{stringliteral}{"44"}:\textcolor{stringliteral}{"\(\backslash\)x2C"},\textcolor{comment}{\#}}
+\DoxyCodeLine{11         \textcolor{stringliteral}{"45"}:\textcolor{stringliteral}{"\(\backslash\)x2D"}, \textcolor{stringliteral}{"46"}:\textcolor{stringliteral}{"\(\backslash\)x2E"}, \textcolor{stringliteral}{"47"}:\textcolor{stringliteral}{"\(\backslash\)x2F"}, \textcolor{stringliteral}{"48"}:\textcolor{stringliteral}{"\(\backslash\)x30"}, \textcolor{stringliteral}{"49"}:\textcolor{stringliteral}{"\(\backslash\)x31"},\textcolor{comment}{\#}}
+\DoxyCodeLine{12         \textcolor{stringliteral}{"50"}:\textcolor{stringliteral}{"\(\backslash\)x32"}, \textcolor{stringliteral}{"51"}:\textcolor{stringliteral}{"\(\backslash\)x33"}, \textcolor{stringliteral}{"52"}:\textcolor{stringliteral}{"\(\backslash\)x34"}, \textcolor{stringliteral}{"53"}:\textcolor{stringliteral}{"\(\backslash\)x35"}, \textcolor{stringliteral}{"54"}:\textcolor{stringliteral}{"\(\backslash\)x36"},\textcolor{comment}{\#}}
+\DoxyCodeLine{13         \textcolor{stringliteral}{"55"}:\textcolor{stringliteral}{"\(\backslash\)x37"}, \textcolor{stringliteral}{"56"}:\textcolor{stringliteral}{"\(\backslash\)x38"}, \textcolor{stringliteral}{"57"}:\textcolor{stringliteral}{"\(\backslash\)x39"}, \textcolor{stringliteral}{"58"}:\textcolor{stringliteral}{"\(\backslash\)x3A"}, \textcolor{stringliteral}{"59"}:\textcolor{stringliteral}{"\(\backslash\)x3B"},\textcolor{comment}{\#}}
+\DoxyCodeLine{14         \textcolor{stringliteral}{"60"}:\textcolor{stringliteral}{"\(\backslash\)x3C"}, \textcolor{stringliteral}{"61"}:\textcolor{stringliteral}{"\(\backslash\)x3D"}, \textcolor{stringliteral}{"62"}:\textcolor{stringliteral}{"\(\backslash\)x3E"}, \textcolor{stringliteral}{"63"}:\textcolor{stringliteral}{"\(\backslash\)x3F"}              \textcolor{comment}{\#}}
+\DoxyCodeLine{15         \}}
+
+\end{DoxyCode}
+
+
+Attenuation string to byte value table \#. 
+
+
+
+Definition at line 47 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a5951f0641d8b5fcde3c63809c0e58e29}\label{rf__matrix_8py_a5951f0641d8b5fcde3c63809c0e58e29}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!CONST\_PORT@{CONST\_PORT}}
+\index{CONST\_PORT@{CONST\_PORT}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{CONST\_PORT}{CONST\_PORT}}
+{\footnotesize\ttfamily dictionary lib.\+rf\+\_\+matrix.\+C\+O\+N\+S\+T\+\_\+\+P\+O\+RT}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 = \{\textcolor{stringliteral}{"A"}:\textcolor{stringliteral}{'\(\backslash\)x0A'}, \textcolor{stringliteral}{"a"}:\textcolor{stringliteral}{'\(\backslash\)x0A'}, \textcolor{stringliteral}{"0A"}:\textcolor{stringliteral}{'\(\backslash\)x0A'}, \textcolor{stringliteral}{"0a"}:\textcolor{stringliteral}{'\(\backslash\)x0A'},            \textcolor{comment}{\#}}
+\DoxyCodeLine{2         \textcolor{stringliteral}{"x0A"}:\textcolor{stringliteral}{'\(\backslash\)x0A'}, \textcolor{stringliteral}{"x0a"}:\textcolor{stringliteral}{'\(\backslash\)x0A'}, \textcolor{stringliteral}{"B"}:\textcolor{stringliteral}{'\(\backslash\)x0B'}, \textcolor{stringliteral}{"b"}:\textcolor{stringliteral}{'\(\backslash\)x0B'},             \textcolor{comment}{\#}}
+\DoxyCodeLine{3         \textcolor{stringliteral}{"0B"}:\textcolor{stringliteral}{'\(\backslash\)x0B'}, \textcolor{stringliteral}{"0b"}:\textcolor{stringliteral}{'\(\backslash\)x0B'}, \textcolor{stringliteral}{"x0B"}:\textcolor{stringliteral}{'\(\backslash\)x0B'}, \textcolor{stringliteral}{"x0b"}:\textcolor{stringliteral}{'\(\backslash\)x0B'},           \textcolor{comment}{\#}}
+\DoxyCodeLine{4         \textcolor{stringliteral}{"1"}:\textcolor{stringliteral}{'\(\backslash\)x01'}, \textcolor{stringliteral}{"2"}:\textcolor{stringliteral}{'\(\backslash\)x02'}, \textcolor{stringliteral}{"3"}:\textcolor{stringliteral}{'\(\backslash\)x03'}, \textcolor{stringliteral}{"4"}:\textcolor{stringliteral}{'\(\backslash\)x04'},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{5         \textcolor{stringliteral}{"5"}:\textcolor{stringliteral}{'\(\backslash\)x05'}, \textcolor{stringliteral}{"6"}:\textcolor{stringliteral}{'\(\backslash\)x06'}, \textcolor{stringliteral}{"7"}:\textcolor{stringliteral}{'\(\backslash\)x07'}, \textcolor{stringliteral}{"8"}:\textcolor{stringliteral}{'\(\backslash\)x08'},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{6         \textcolor{stringliteral}{"9"}:\textcolor{stringliteral}{'\(\backslash\)x09'}, \textcolor{stringliteral}{"10"}:\textcolor{stringliteral}{'\(\backslash\)x10'}, \textcolor{stringliteral}{"11"}:\textcolor{stringliteral}{'\(\backslash\)x11'}, \textcolor{stringliteral}{"12"}:\textcolor{stringliteral}{'\(\backslash\)x12'},              \textcolor{comment}{\#}}
+\DoxyCodeLine{7         \textcolor{stringliteral}{"13"}:\textcolor{stringliteral}{'\(\backslash\)x13'}, \textcolor{stringliteral}{"14"}:\textcolor{stringliteral}{'\(\backslash\)x14'}, \textcolor{stringliteral}{"15"}:\textcolor{stringliteral}{'\(\backslash\)x15'}, \textcolor{stringliteral}{"16"}:\textcolor{stringliteral}{'\(\backslash\)x16'},             \textcolor{comment}{\#}}
+\DoxyCodeLine{8         \textcolor{stringliteral}{"17"}:\textcolor{stringliteral}{'\(\backslash\)x17'}, \textcolor{stringliteral}{"18"}:\textcolor{stringliteral}{'\(\backslash\)x18'}, \textcolor{stringliteral}{"19"}:\textcolor{stringliteral}{'\(\backslash\)x19'}, \textcolor{stringliteral}{"20"}:\textcolor{stringliteral}{'\(\backslash\)x20'},             \textcolor{comment}{\#}}
+\DoxyCodeLine{9         \textcolor{stringliteral}{"21"}:\textcolor{stringliteral}{'\(\backslash\)x21'}, \textcolor{stringliteral}{"22"}:\textcolor{stringliteral}{'\(\backslash\)x22'}, \textcolor{stringliteral}{"23"}:\textcolor{stringliteral}{'\(\backslash\)x23'}, \textcolor{stringliteral}{"24"}:\textcolor{stringliteral}{'\(\backslash\)x24'},             \textcolor{comment}{\#}}
+\DoxyCodeLine{10         \textcolor{stringliteral}{"25"}:\textcolor{stringliteral}{'\(\backslash\)x25'}, \textcolor{stringliteral}{"26"}:\textcolor{stringliteral}{'\(\backslash\)x26'}, \textcolor{stringliteral}{"27"}:\textcolor{stringliteral}{'\(\backslash\)x27'}, \textcolor{stringliteral}{"28"}:\textcolor{stringliteral}{'\(\backslash\)x28'},             \textcolor{comment}{\#}}
+\DoxyCodeLine{11         \textcolor{stringliteral}{"29"}:\textcolor{stringliteral}{'\(\backslash\)x29'}, \textcolor{stringliteral}{"30"}:\textcolor{stringliteral}{'\(\backslash\)x30'}, \textcolor{stringliteral}{"31"}:\textcolor{stringliteral}{'\(\backslash\)x31'}, \textcolor{stringliteral}{"32"}:\textcolor{stringliteral}{'\(\backslash\)x32'}              \textcolor{comment}{\#}}
+\DoxyCodeLine{12         \}}
+
+\end{DoxyCode}
+
+
+Constant \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#. 
+
+This C\+O\+N\+S\+T\+\_\+\+P\+O\+RT is a byte value map for input string \# 
+
+Definition at line 27 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a31cc3c7e3b1a992c24afd1996a0caf7e}\label{rf__matrix_8py_a31cc3c7e3b1a992c24afd1996a0caf7e}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!HEX\_STRING\_TABLE@{HEX\_STRING\_TABLE}}
+\index{HEX\_STRING\_TABLE@{HEX\_STRING\_TABLE}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{HEX\_STRING\_TABLE}{HEX\_STRING\_TABLE}}
+{\footnotesize\ttfamily dictionary lib.\+rf\+\_\+matrix.\+H\+E\+X\+\_\+\+S\+T\+R\+I\+N\+G\+\_\+\+T\+A\+B\+LE}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 = \{\textcolor{stringliteral}{"0"}:\textcolor{stringliteral}{"0"}, \textcolor{stringliteral}{"1"}:\textcolor{stringliteral}{"1"}, \textcolor{stringliteral}{"2"}:\textcolor{stringliteral}{"2"}, \textcolor{stringliteral}{"3"}:\textcolor{stringliteral}{"3"}, \textcolor{stringliteral}{"4"}:\textcolor{stringliteral}{"4"},         \textcolor{comment}{\#}}
+\DoxyCodeLine{2         \textcolor{stringliteral}{"5"}:\textcolor{stringliteral}{"5"}, \textcolor{stringliteral}{"6"}:\textcolor{stringliteral}{"6"}, \textcolor{stringliteral}{"7"}:\textcolor{stringliteral}{"7"}, \textcolor{stringliteral}{"8"}:\textcolor{stringliteral}{"8"}, \textcolor{stringliteral}{"9"}:\textcolor{stringliteral}{"9"}, \textcolor{stringliteral}{"10"}:\textcolor{stringliteral}{"A"},          \textcolor{comment}{\#}}
+\DoxyCodeLine{3         \textcolor{stringliteral}{"11"}:\textcolor{stringliteral}{"B"}, \textcolor{stringliteral}{"12"}:\textcolor{stringliteral}{"C"}, \textcolor{stringliteral}{"13"}:\textcolor{stringliteral}{"D"}, \textcolor{stringliteral}{"14"}:\textcolor{stringliteral}{"E"}, \textcolor{stringliteral}{"15"}:\textcolor{stringliteral}{"F"}                \textcolor{comment}{\#}}
+\DoxyCodeLine{4         \}}
+
+\end{DoxyCode}
+
+
+string integer to H\+EX string table \# 
+
+
+
+Definition at line 41 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_a3d560bc609b22eb54512b6bf9c1a6589}\label{rf__matrix_8py_a3d560bc609b22eb54512b6bf9c1a6589}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!ID@{ID}}
+\index{ID@{ID}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{ID}{ID}}
+{\footnotesize\ttfamily int lib.\+rf\+\_\+matrix.\+ID = 2}
+
+
+
+Shared variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+C\+P\+\_\+\+IP} & the ip address of the remote device \\
+\hline
+{\em T\+C\+P\+\_\+\+P\+O\+RT} & the port of the remote device \\
+\hline
+{\em B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE} & a default buffer size when read result from remote device \textbackslash{}function \mbox{\hyperlink{rf__matrix_8py_a28c0f27047fb384f900f8b5545e4e958}{load\+Config()}} load the default configuration when loading this module\\
+\hline
+\end{DoxyParams}
+Load Config File \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# 
+
+Definition at line 549 of file rf\+\_\+matrix.\+py.
+
+\mbox{\Hypertarget{rf__matrix_8py_aad5a0071502580f9d3284e89c925d492}\label{rf__matrix_8py_aad5a0071502580f9d3284e89c925d492}} 
+\index{rf\_matrix.py@{rf\_matrix.py}!PORT\_MAP@{PORT\_MAP}}
+\index{PORT\_MAP@{PORT\_MAP}!rf\_matrix.py@{rf\_matrix.py}}
+\doxysubsubsection{\texorpdfstring{PORT\_MAP}{PORT\_MAP}}
+{\footnotesize\ttfamily dictionary lib.\+rf\+\_\+matrix.\+P\+O\+R\+T\+\_\+\+M\+AP}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  \{\textcolor{stringliteral}{"1"}:\textcolor{stringliteral}{"001"}, \textcolor{stringliteral}{"2"}:\textcolor{stringliteral}{"002"}, \textcolor{stringliteral}{"3"}:\textcolor{stringliteral}{"003"}, \textcolor{stringliteral}{"4"}:\textcolor{stringliteral}{"004"},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{2         \textcolor{stringliteral}{"5"}:\textcolor{stringliteral}{"005"}, \textcolor{stringliteral}{"6"}:\textcolor{stringliteral}{"006"}, \textcolor{stringliteral}{"7"}:\textcolor{stringliteral}{"007"}, \textcolor{stringliteral}{"8"}:\textcolor{stringliteral}{"008"},                     \textcolor{comment}{\#}}
+\DoxyCodeLine{3         \textcolor{stringliteral}{"9"}:\textcolor{stringliteral}{"009"}, \textcolor{stringliteral}{"10"}:\textcolor{stringliteral}{"010"}, \textcolor{stringliteral}{"11"}:\textcolor{stringliteral}{"011"}, \textcolor{stringliteral}{"12"}:\textcolor{stringliteral}{"012"},                  \textcolor{comment}{\#}}
+\DoxyCodeLine{4         \textcolor{stringliteral}{"13"}:\textcolor{stringliteral}{"013"}, \textcolor{stringliteral}{"14"}:\textcolor{stringliteral}{"014"}, \textcolor{stringliteral}{"15"}:\textcolor{stringliteral}{"015"}, \textcolor{stringliteral}{"16"}:\textcolor{stringliteral}{"016"},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{5         \textcolor{stringliteral}{"17"}:\textcolor{stringliteral}{"017"}, \textcolor{stringliteral}{"18"}:\textcolor{stringliteral}{"018"}, \textcolor{stringliteral}{"19"}:\textcolor{stringliteral}{"019"}, \textcolor{stringliteral}{"20"}:\textcolor{stringliteral}{"020"},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{6         \textcolor{stringliteral}{"21"}:\textcolor{stringliteral}{"021"}, \textcolor{stringliteral}{"22"}:\textcolor{stringliteral}{"022"}, \textcolor{stringliteral}{"23"}:\textcolor{stringliteral}{"023"}, \textcolor{stringliteral}{"24"}:\textcolor{stringliteral}{"024"},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{7         \textcolor{stringliteral}{"25"}:\textcolor{stringliteral}{"025"}, \textcolor{stringliteral}{"26"}:\textcolor{stringliteral}{"026"}, \textcolor{stringliteral}{"27"}:\textcolor{stringliteral}{"027"}, \textcolor{stringliteral}{"28"}:\textcolor{stringliteral}{"028"},                 \textcolor{comment}{\#}}
+\DoxyCodeLine{8         \textcolor{stringliteral}{"29"}:\textcolor{stringliteral}{"029"}, \textcolor{stringliteral}{"30"}:\textcolor{stringliteral}{"030"}, \textcolor{stringliteral}{"31"}:\textcolor{stringliteral}{"031"}, \textcolor{stringliteral}{"32"}:\textcolor{stringliteral}{"032"}                  \textcolor{comment}{\#}}
+\DoxyCodeLine{9         \}}
+
+\end{DoxyCode}
+
+
+\textbackslash{}breif Q\+RB string to port value map \# 
+
+
+
+Definition at line 119 of file rf\+\_\+matrix.\+py.
+

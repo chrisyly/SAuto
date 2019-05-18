@@ -1,0 +1,656 @@
+\hypertarget{mxa_8py}{}\doxysection{/home/sprint/liyu/\+S\+Auto/sauto/build/lib/mxa.py File Reference}
+\label{mxa_8py}\index{/home/sprint/liyu/SAuto/sauto/build/lib/mxa.py@{/home/sprint/liyu/SAuto/sauto/build/lib/mxa.py}}
+
+
+Modules as well as C\+LI tools for remote M\+XA box control.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{lib.\+mxa.\+M\+XA}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} Device Management Class defination. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{mxa_8py_a025ae1b7e2ce7f8013a06411206d2498}{lib.\+mxa.\+load\+Config}} (conf\+Path=\textquotesingle{}this\+\_\+device\+\_\+conf.\+json\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given config file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a8aa0fd615e3c3288d8587b95b93b633d}{lib.\+mxa.\+load\+S\+Q\+Lite}} (mxa\+\_\+id, table\+\_\+name=None, db\+\_\+path=None)
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given S\+Q\+Lite file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a75ee5afff53c1abf889aeb94e427829f}{lib.\+mxa.\+connect\+M\+XA}} (command, delay\+Time=5, daemon=False)
+\begin{DoxyCompactList}\small\item\em Connect to remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} box and execute a command. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mxa_8py_a47be5404f6cb4f2d38d1ad38586faf81}\label{mxa_8py_a47be5404f6cb4f2d38d1ad38586faf81}} 
+def {\bfseries lib.\+mxa.\+health\+Check} ()
+\item 
+def \mbox{\hyperlink{mxa_8py_a8a0094fb99a870b2b596d2bd622f9db1}{lib.\+mxa.\+reset\+M\+XA}} (name=None, db\+\_\+path=None, daemon=False)
+\begin{DoxyCompactList}\small\item\em Reset the attenuation on \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}}. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a857db88bc843574d4532799a726e75c1}{lib.\+mxa.\+get\+M\+X\+A\+Result}} (daemon=False)
+\begin{DoxyCompactList}\small\item\em Reading the current \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} L\+TE report from remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}}. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a65a37db32753a9fdf245ecb8b0693c2d}{lib.\+mxa.\+get\+E\+V\+M\+Result}} (counter=10, daemon=False)
+\begin{DoxyCompactList}\small\item\em Sending \textquotesingle{}R\+E\+AD\+:E\+VM?\textquotesingle{} command to remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} reading the current E\+VM result. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a348db7ac552b4d2aceb21c02782c9ed3}{lib.\+mxa.\+get\+C\+ID}} ()
+\begin{DoxyCompactList}\small\item\em get the current Cell ID of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a5191fb71511b02ae4d1597024690eb78}{lib.\+mxa.\+set\+C\+ID}} (cid, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the Cell ID of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a9e062a716e5882188de8e19f769d021c}{lib.\+mxa.\+get\+Frequency}} ()
+\begin{DoxyCompactList}\small\item\em get the current center frequency setting of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_ac36015fe22715c9e7d8fb535645333f4}{lib.\+mxa.\+set\+Frequency}} (freq, unit=\textquotesingle{}M\+Hz\textquotesingle{}, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the center frequency of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_abc902066f386b663088ed2e8157c54e9}{lib.\+mxa.\+get\+Rang}} ()
+\begin{DoxyCompactList}\small\item\em get the current attenuate range of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a6ccb801ee9a51e723f3deec6aeae6dd8}{lib.\+mxa.\+set\+Rang}} (rang, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the attenuate range of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_ad10b0c1a0db0de4af0cb33d6b67f3032}{lib.\+mxa.\+get\+Atten}} ()
+\begin{DoxyCompactList}\small\item\em get the current physical attenuate setting of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_ab45e7bbc6b95a92cc024af7b11cfecf7}{lib.\+mxa.\+set\+Atten}} (atten, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the Cell ID of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_af94a8500dd03f8e8b1aa6760d5c6fc4f}{lib.\+mxa.\+set\+Sync\+Type}} (s\+Type, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the decode Sync Type of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a9c4932e876593cee61179019769215c2}{lib.\+mxa.\+get\+Sync\+Type}} ()
+\begin{DoxyCompactList}\small\item\em get the decode Sync Type of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a3dba472abed28f18f6511e8cc56df6f4}{lib.\+mxa.\+get\+Num\+Of\+C\+R\+S\+Ports}} ()
+\begin{DoxyCompactList}\small\item\em get the current Number of C-\/\+RS Ports setting of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_ae6e83615438e3740c167c4f02769b90f}{lib.\+mxa.\+set\+Num\+Of\+C\+R\+S\+Ports}} (ant, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the Number of C-\/\+RS Ports of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a2fd5775f3422b38cb3158e8ab31c0d7d}{lib.\+mxa.\+get\+Ref\+C\+R\+S\+Port}} ()
+\begin{DoxyCompactList}\small\item\em get the current Reference C-\/\+RS Port of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a16f8c4838d745f0daf7d7105c988a8c4}{lib.\+mxa.\+set\+Ref\+C\+R\+S\+Port}} (port, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the current Reference C-\/\+RS Port of the remote \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a00e4d75f395a0d7778dd398a2ffb93ba}{lib.\+mxa.\+earfcn\+To\+Frequency}} (earfcn, daemon=False)
+\begin{DoxyCompactList}\small\item\em convert E\+A\+R\+F\+CN to frequency \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mxa_8py_a7024c3e6750bc7423b6a00605e6ed603}\label{mxa_8py_a7024c3e6750bc7423b6a00605e6ed603}} 
+def \mbox{\hyperlink{mxa_8py_a7024c3e6750bc7423b6a00605e6ed603}{lib.\+mxa.\+frequency\+To\+Earfcn}} ()
+\begin{DoxyCompactList}\small\item\em T\+O\+DO T\+O\+DO. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a280a1905e0526ef1d627c91a650562f2}{lib.\+mxa.\+recall}} (reg, daemon=False)
+\begin{DoxyCompactList}\small\item\em recall a pre-\/registered states on \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} and switch all configurations \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a694761f7a46db949632cc1fbf6e1113b}{lib.\+mxa.\+set\+Mode}} (mode, daemon=False)
+\begin{DoxyCompactList}\small\item\em set the \mbox{\hyperlink{classlib_1_1mxa_1_1_m_x_a}{M\+XA}} mode \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{mxa_8py_a97b094c87a3c2fd3d6253466f955f27b}{lib.\+mxa.\+main}} ()
+\begin{DoxyCompactList}\small\item\em Main function for providing the C\+LI tool. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{mxa_8py_afdf92dbe56d732bb407dad6b9feebff8}{lib.\+mxa.\+ID}} = 1
+\begin{DoxyCompactList}\small\item\em Shared variables. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{mxa_8py_aea00f2b03148a935ef3220fc35ab3825}\label{mxa_8py_aea00f2b03148a935ef3220fc35ab3825}} 
+string {\bfseries lib.\+mxa.\+N\+A\+ME} = \textquotesingle{}M\+X\+A\+Spec\+An\textquotesingle{}
+\item 
+\mbox{\Hypertarget{mxa_8py_abdbd470196f0cad56dc70a6450e22ac3}\label{mxa_8py_abdbd470196f0cad56dc70a6450e22ac3}} 
+string {\bfseries lib.\+mxa.\+T\+C\+P\+\_\+\+IP} = \textquotesingle{}10.\+155.\+226.\+218\textquotesingle{}
+\item 
+\mbox{\Hypertarget{mxa_8py_a6a99f0546f2ab6cc2f0e631128a2a445}\label{mxa_8py_a6a99f0546f2ab6cc2f0e631128a2a445}} 
+int {\bfseries lib.\+mxa.\+T\+E\+L\+N\+E\+T\+\_\+\+P\+O\+RT} = 5023
+\item 
+\mbox{\Hypertarget{mxa_8py_a744ea266c116dfa235b17e6044a5d771}\label{mxa_8py_a744ea266c116dfa235b17e6044a5d771}} 
+string {\bfseries lib.\+mxa.\+L\+O\+C\+A\+T\+I\+ON} = \textquotesingle{}\textquotesingle{}
+\item 
+\mbox{\Hypertarget{mxa_8py_ac4209cd73029320ffba392010fa2a8c8}\label{mxa_8py_ac4209cd73029320ffba392010fa2a8c8}} 
+int {\bfseries lib.\+mxa.\+J\+F\+W\+\_\+\+P\+O\+RT} = 24
+\item 
+\mbox{\Hypertarget{mxa_8py_a0bd97c896ca5b6b159ac2baafb3e4edd}\label{mxa_8py_a0bd97c896ca5b6b159ac2baafb3e4edd}} 
+int {\bfseries lib.\+mxa.\+M\+X\+A\+\_\+\+P\+O\+RT} = 1
+\item 
+\mbox{\Hypertarget{mxa_8py_a2e5103a0d35c32adb5fcff771a2bc525}\label{mxa_8py_a2e5103a0d35c32adb5fcff771a2bc525}} 
+int {\bfseries lib.\+mxa.\+S\+T\+A\+T\+US} = 0
+\item 
+\mbox{\Hypertarget{mxa_8py_a22cf08115004e9ea2511d90d691a157e}\label{mxa_8py_a22cf08115004e9ea2511d90d691a157e}} 
+int {\bfseries lib.\+mxa.\+S\+O\+C\+K\+E\+T\+\_\+\+P\+O\+RT} = 5025
+\item 
+\mbox{\Hypertarget{mxa_8py_a39ee0626372c699d561ba3d0ebb7ac0e}\label{mxa_8py_a39ee0626372c699d561ba3d0ebb7ac0e}} 
+string {\bfseries lib.\+mxa.\+M\+X\+A\+\_\+\+T\+A\+B\+L\+E\+\_\+\+N\+A\+ME} = \textquotesingle{}mxa\textquotesingle{}
+\item 
+\mbox{\Hypertarget{mxa_8py_a6f4e58c962b9000b5550c39cba684a00}\label{mxa_8py_a6f4e58c962b9000b5550c39cba684a00}} 
+\mbox{\hyperlink{mxa_8py_a6f4e58c962b9000b5550c39cba684a00}{lib.\+mxa.\+path}} = conf\+\_\+file.\+read()
+\begin{DoxyCompactList}\small\item\em Load the default configuration from S\+Auto framework. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Modules as well as C\+LI tools for remote M\+XA box control. 
+
+This modules contains the library for remote controling the M\+XA box and it is also a stand alone command line tool The library has to work with a proper configuration file in order to have the ip and port for the remote devices
+
+\begin{DoxyAuthor}{Author}
+Liyu Ying \textbackslash{}email \href{mailto:lying0401@gmail.com}{\texttt{ lying0401@gmail.\+com}} 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{mxa_8py_a75ee5afff53c1abf889aeb94e427829f}\label{mxa_8py_a75ee5afff53c1abf889aeb94e427829f}} 
+\index{mxa.py@{mxa.py}!connectMXA@{connectMXA}}
+\index{connectMXA@{connectMXA}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{connectMXA()}{connectMXA()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+connect\+M\+XA (\begin{DoxyParamCaption}\item[{}]{command,  }\item[{}]{delay\+Time = {\ttfamily 5},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Connect to remote M\+XA box and execute a command. 
+
+Remotely connecting to a M\+XA box using a Telnet connection. The IP address and Port was loaded by load\+Config/load\+S\+Q\+Lite function
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & either using the C\+LI with -\/e option or input as a parameter \\
+\hline
+{\em delay\+Time} & a delay time waiting response from telnet connection, default is 5 \\
+\hline
+{\em daemon} & define if the program will print the reuslt or not, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result the return value from command executed remotely
+\end{DoxyReturn}
+N\+O\+TE\+: M\+XA may have experiencing heavy traffic and may need to increse the delay time N\+O\+TE\+: read\+\_\+until() seems not working properly to track the return 
+
+Definition at line 99 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a00e4d75f395a0d7778dd398a2ffb93ba}\label{mxa_8py_a00e4d75f395a0d7778dd398a2ffb93ba}} 
+\index{mxa.py@{mxa.py}!earfcnToFrequency@{earfcnToFrequency}}
+\index{earfcnToFrequency@{earfcnToFrequency}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{earfcnToFrequency()}{earfcnToFrequency()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+earfcn\+To\+Frequency (\begin{DoxyParamCaption}\item[{}]{earfcn,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+convert E\+A\+R\+F\+CN to frequency 
+
+convert the input earfcn value to frequency (M\+Hz)
+
+
+\begin{DoxyParams}{Parameters}
+{\em earfcn} & E\+A\+R\+F\+CN value \\
+\hline
+{\em daemon} & print the info message if set False, default value is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+frequency (M\+Hz)
+\end{DoxyReturn}
+T\+O\+DO T\+O\+DO T\+O\+DO return frequency, technology, and BW 
+
+Definition at line 425 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_ad10b0c1a0db0de4af0cb33d6b67f3032}\label{mxa_8py_ad10b0c1a0db0de4af0cb33d6b67f3032}} 
+\index{mxa.py@{mxa.py}!getAtten@{getAtten}}
+\index{getAtten@{getAtten}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getAtten()}{getAtten()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+Atten (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the current physical attenuate setting of the remote M\+XA 
+
+Connect to the remote M\+XA and get the current physical attenuate setting To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite 
+
+Definition at line 314 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a348db7ac552b4d2aceb21c02782c9ed3}\label{mxa_8py_a348db7ac552b4d2aceb21c02782c9ed3}} 
+\index{mxa.py@{mxa.py}!getCID@{getCID}}
+\index{getCID@{getCID}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getCID()}{getCID()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+C\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the current Cell ID of the remote M\+XA 
+
+Connect to the remote M\+XA and get the current Cell ID To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite 
+
+Definition at line 237 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a65a37db32753a9fdf245ecb8b0693c2d}\label{mxa_8py_a65a37db32753a9fdf245ecb8b0693c2d}} 
+\index{mxa.py@{mxa.py}!getEVMResult@{getEVMResult}}
+\index{getEVMResult@{getEVMResult}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getEVMResult()}{getEVMResult()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+E\+V\+M\+Result (\begin{DoxyParamCaption}\item[{}]{counter = {\ttfamily 10},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Sending \textquotesingle{}R\+E\+AD\+:E\+VM?\textquotesingle{} command to remote M\+XA reading the current E\+VM result. 
+
+Remotely connecting to M\+XA box and send \textquotesingle{}C\+A\+L\+C\+:\+E\+V\+M\+:\+D\+A\+T\+A4\+:\+T\+A\+BL\+:S\+TR?\textquotesingle{} command to read the E\+VM results with the current settings on the M\+XA box A counter parameter is to provided to calculate an average result within multiple data read
+
+
+\begin{DoxyParams}{Parameters}
+{\em counter} & an iteration counter to read and calculate average result of E\+VM and RS Pow default is 10 \textbackslash{}daemon define if the program will print the result of not, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a dictionary of E\+V\+M\+\_\+\+A\+VG and R\+S\+P\+W\+\_\+\+A\+VG values, value is None if not readable 
+\end{DoxyReturn}
+
+
+Definition at line 185 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a9e062a716e5882188de8e19f769d021c}\label{mxa_8py_a9e062a716e5882188de8e19f769d021c}} 
+\index{mxa.py@{mxa.py}!getFrequency@{getFrequency}}
+\index{getFrequency@{getFrequency}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getFrequency()}{getFrequency()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+Frequency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the current center frequency setting of the remote M\+XA 
+
+Connect to the remote M\+XA and get the current center frequency To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite 
+
+Definition at line 264 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a857db88bc843574d4532799a726e75c1}\label{mxa_8py_a857db88bc843574d4532799a726e75c1}} 
+\index{mxa.py@{mxa.py}!getMXAResult@{getMXAResult}}
+\index{getMXAResult@{getMXAResult}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getMXAResult()}{getMXAResult()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+M\+X\+A\+Result (\begin{DoxyParamCaption}\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Reading the current M\+XA L\+TE report from remote M\+XA. 
+
+Remotely connecting to M\+XA and send \textquotesingle{}C\+A\+L\+C\+:\+E\+V\+M\+:\+D\+A\+T\+A4\+:\+T\+A\+BL\+:N\+AM?\textquotesingle{} and \textquotesingle{}C\+A\+L\+C\+:\+E\+V\+M\+:\+D\+A\+T\+A4\+:\+T\+A\+BL\+:S\+TR?\textquotesingle{} command retrun the key-\/value pair based on N\+AM and S\+TR result
+
+
+\begin{DoxyParams}{Parameters}
+{\em daemon} & Print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result A dictionary of key-\/value pairs 
+\end{DoxyReturn}
+
+
+Definition at line 163 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a3dba472abed28f18f6511e8cc56df6f4}\label{mxa_8py_a3dba472abed28f18f6511e8cc56df6f4}} 
+\index{mxa.py@{mxa.py}!getNumOfCRSPorts@{getNumOfCRSPorts}}
+\index{getNumOfCRSPorts@{getNumOfCRSPorts}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getNumOfCRSPorts()}{getNumOfCRSPorts()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+Num\+Of\+C\+R\+S\+Ports (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the current Number of C-\/\+RS Ports setting of the remote M\+XA 
+
+Connect to the remote M\+XA and get the current Numbere of C-\/\+RS Ports setting To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+\begin{DoxyReturn}{Returns}
+an integer of number of ports 
+\end{DoxyReturn}
+
+
+Definition at line 366 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_abc902066f386b663088ed2e8157c54e9}\label{mxa_8py_abc902066f386b663088ed2e8157c54e9}} 
+\index{mxa.py@{mxa.py}!getRang@{getRang}}
+\index{getRang@{getRang}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getRang()}{getRang()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+Rang (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the current attenuate range of the remote M\+XA 
+
+Connect to the remote M\+XA and get the current attenuate rage To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite 
+
+Definition at line 289 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a2fd5775f3422b38cb3158e8ab31c0d7d}\label{mxa_8py_a2fd5775f3422b38cb3158e8ab31c0d7d}} 
+\index{mxa.py@{mxa.py}!getRefCRSPort@{getRefCRSPort}}
+\index{getRefCRSPort@{getRefCRSPort}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getRefCRSPort()}{getRefCRSPort()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+Ref\+C\+R\+S\+Port (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the current Reference C-\/\+RS Port of the remote M\+XA 
+
+Connect to the remote M\+XA and get the current reference C-\/\+RS Port setting To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+\begin{DoxyReturn}{Returns}
+an integer of port number 
+\end{DoxyReturn}
+
+
+Definition at line 393 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a9c4932e876593cee61179019769215c2}\label{mxa_8py_a9c4932e876593cee61179019769215c2}} 
+\index{mxa.py@{mxa.py}!getSyncType@{getSyncType}}
+\index{getSyncType@{getSyncType}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{getSyncType()}{getSyncType()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+get\+Sync\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+get the decode Sync Type of the remote M\+XA 
+
+Connect to the remote M\+XA and try to get the Sync Type To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+\begin{DoxyReturn}{Returns}
+str(connect\+M\+XA(\textquotesingle{}E\+V\+M\+:\+D\+L\+I\+Nk\+:\+S\+Y\+NC\+:T\+Y\+PE?\textquotesingle{})) value should either be \char`\"{}\+R\+S\char`\"{} or \char`\"{}\+P\+S\+S\char`\"{} 
+\end{DoxyReturn}
+
+
+Definition at line 353 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a025ae1b7e2ce7f8013a06411206d2498}\label{mxa_8py_a025ae1b7e2ce7f8013a06411206d2498}} 
+\index{mxa.py@{mxa.py}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+load\+Config (\begin{DoxyParamCaption}\item[{}]{conf\+Path = {\ttfamily \textquotesingle{}this\+\_\+device\+\_\+conf.json\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given config file path. 
+
+If the the config file path is not given, the program will tend to use the default path. The config file is a json file, load\+Config is looking for the key \textquotesingle{}M\+XA\textquotesingle{} and get T\+CP IP address as well as the Port for the remote M\+XA box. If key is not found, a default value will be loaded N\+O\+TE\+: This function can be called explictly to load user configurations
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+Path} & a string value contain the path to the json file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+config J\+S\+ON object of M\+XA loaded from file 
+\end{DoxyReturn}
+
+
+Definition at line 38 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a8aa0fd615e3c3288d8587b95b93b633d}\label{mxa_8py_a8aa0fd615e3c3288d8587b95b93b633d}} 
+\index{mxa.py@{mxa.py}!loadSQLite@{loadSQLite}}
+\index{loadSQLite@{loadSQLite}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{loadSQLite()}{loadSQLite()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+load\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{mxa\+\_\+id,  }\item[{}]{table\+\_\+name = {\ttfamily None},  }\item[{}]{db\+\_\+path = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given S\+Q\+Lite file path. 
+
+If the S\+Q\+Lite file path is not give, default S\+Q\+Lite data path will be load if the data (ip and port) in the database is not set, the program will use the default value instead N\+O\+TE\+: This function can be called explictly to load configuration
+
+
+\begin{DoxyParams}{Parameters}
+{\em mid} & the id for a perticular M\+XA device in S\+Q\+Lite database \\
+\hline
+{\em table\+\_\+name} & the sqlite table name for mxa \\
+\hline
+{\em db\+\_\+path} & the path of the S\+Q\+Lite database file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+config J\+S\+ON object of M\+XA loaded from database 
+\end{DoxyReturn}
+
+
+Definition at line 69 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a97b094c87a3c2fd3d6253466f955f27b}\label{mxa_8py_a97b094c87a3c2fd3d6253466f955f27b}} 
+\index{mxa.py@{mxa.py}!main@{main}}
+\index{main@{main}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Main function for providing the C\+LI tool. 
+
+The main function using the argparse module to allow command line optional argument run the command\+: ./mxa.py -\/h or --help for instructions 
+
+Definition at line 844 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a280a1905e0526ef1d627c91a650562f2}\label{mxa_8py_a280a1905e0526ef1d627c91a650562f2}} 
+\index{mxa.py@{mxa.py}!recall@{recall}}
+\index{recall@{recall}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{recall()}{recall()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+recall (\begin{DoxyParamCaption}\item[{}]{reg,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+recall a pre-\/registered states on M\+XA and switch all configurations 
+
+Connect to the remote M\+XA and send recall command to switch to a pre-\/configured states To change the which remote M\+XA to use, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em reg} & register number of pre-\/configured status \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 534 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a8a0094fb99a870b2b596d2bd622f9db1}\label{mxa_8py_a8a0094fb99a870b2b596d2bd622f9db1}} 
+\index{mxa.py@{mxa.py}!resetMXA@{resetMXA}}
+\index{resetMXA@{resetMXA}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{resetMXA()}{resetMXA()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+reset\+M\+XA (\begin{DoxyParamCaption}\item[{}]{name = {\ttfamily None},  }\item[{}]{db\+\_\+path = {\ttfamily None},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Reset the attenuation on M\+XA. 
+
+Load M\+XA list from S\+Q\+Lite database baed on name, reset attenuations
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The string name of the M\+XA \\
+\hline
+{\em daemon} & Print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 139 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_ab45e7bbc6b95a92cc024af7b11cfecf7}\label{mxa_8py_ab45e7bbc6b95a92cc024af7b11cfecf7}} 
+\index{mxa.py@{mxa.py}!setAtten@{setAtten}}
+\index{setAtten@{setAtten}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setAtten()}{setAtten()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Atten (\begin{DoxyParamCaption}\item[{}]{atten,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the Cell ID of the remote M\+XA 
+
+Connect to the remote M\+XA and try to set the Cell ID To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em cid} & cell id to be set on remote M\+XA \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 327 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a5191fb71511b02ae4d1597024690eb78}\label{mxa_8py_a5191fb71511b02ae4d1597024690eb78}} 
+\index{mxa.py@{mxa.py}!setCID@{setCID}}
+\index{setCID@{setCID}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setCID()}{setCID()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+C\+ID (\begin{DoxyParamCaption}\item[{}]{cid,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the Cell ID of the remote M\+XA 
+
+Connect to the remote M\+XA and try to set the Cell ID To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em cid} & cell id to be set on remote M\+XA \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 250 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_ac36015fe22715c9e7d8fb535645333f4}\label{mxa_8py_ac36015fe22715c9e7d8fb535645333f4}} 
+\index{mxa.py@{mxa.py}!setFrequency@{setFrequency}}
+\index{setFrequency@{setFrequency}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setFrequency()}{setFrequency()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Frequency (\begin{DoxyParamCaption}\item[{}]{freq,  }\item[{}]{unit = {\ttfamily \textquotesingle{}MHz\textquotesingle{}},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the center frequency of the remote M\+XA 
+
+Connect to the remote M\+XA and try to set the center frequency To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em freq} & center frequency to be set on remote M\+XA \\
+\hline
+{\em unit} & the unit for center frequency \{\textquotesingle{}M\+Hz\textquotesingle{}, \textquotesingle{}G\+Hz\textquotesingle{}, \textquotesingle{}K\+Hz\textquotesingle{}\} \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 278 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a694761f7a46db949632cc1fbf6e1113b}\label{mxa_8py_a694761f7a46db949632cc1fbf6e1113b}} 
+\index{mxa.py@{mxa.py}!setMode@{setMode}}
+\index{setMode@{setMode}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setMode()}{setMode()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Mode (\begin{DoxyParamCaption}\item[{}]{mode,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the M\+XA mode 
+
+Connect to the remote M\+XA and set the M\+XA mode To change which remote M\+XA to use, using command load\+Config/load\+S\+Q\+Lite L\+TE mode\+: L\+TE -\/ L\+TE F\+DD mode L\+T\+E\+T\+DD -\/ L\+TE T\+FF mode
+
+
+\begin{DoxyParams}{Parameters}
+{\em mode} & for L\+TE using value \char`\"{}\+L\+T\+E\char`\"{} or \char`\"{}\+L\+T\+E\+T\+D\+D\char`\"{} \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 551 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_ae6e83615438e3740c167c4f02769b90f}\label{mxa_8py_ae6e83615438e3740c167c4f02769b90f}} 
+\index{mxa.py@{mxa.py}!setNumOfCRSPorts@{setNumOfCRSPorts}}
+\index{setNumOfCRSPorts@{setNumOfCRSPorts}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setNumOfCRSPorts()}{setNumOfCRSPorts()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Num\+Of\+C\+R\+S\+Ports (\begin{DoxyParamCaption}\item[{}]{ant,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the Number of C-\/\+RS Ports of the remote M\+XA 
+
+Connect to the remote M\+XA and set the Number of C-\/\+RS Ports To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em ant} & The antenna number to be set for C-\/\+RS Ports, start with \textquotesingle{}A\+NT\textquotesingle{}. Example\+: A\+N\+T1$\vert$\+A\+N\+T2$\vert$\+A\+N\+T4 \\
+\hline
+{\em daemon} & Print out the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 379 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a6ccb801ee9a51e723f3deec6aeae6dd8}\label{mxa_8py_a6ccb801ee9a51e723f3deec6aeae6dd8}} 
+\index{mxa.py@{mxa.py}!setRang@{setRang}}
+\index{setRang@{setRang}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setRang()}{setRang()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Rang (\begin{DoxyParamCaption}\item[{}]{rang,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the attenuate range of the remote M\+XA 
+
+Connect to the remote M\+XA and try to set the attenuate range To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite N\+O\+TE\+: this is mainly the atten protection for M\+XA not overflow
+
+
+\begin{DoxyParams}{Parameters}
+{\em rang} & attenuate range to be set on remote M\+XA \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 303 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_a16f8c4838d745f0daf7d7105c988a8c4}\label{mxa_8py_a16f8c4838d745f0daf7d7105c988a8c4}} 
+\index{mxa.py@{mxa.py}!setRefCRSPort@{setRefCRSPort}}
+\index{setRefCRSPort@{setRefCRSPort}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setRefCRSPort()}{setRefCRSPort()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Ref\+C\+R\+S\+Port (\begin{DoxyParamCaption}\item[{}]{port,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the current Reference C-\/\+RS Port of the remote M\+XA 
+
+Connect to the remote M\+XA and set the Reference C-\/\+RS Port setting To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em port} & The port numbers to be set for Reference C-\/\+RS port, start with \textquotesingle{}P\textquotesingle{}. Example\+: P0$\vert$\+P1$\vert$p2$\vert$p3 (max one of four ports can be selected) \\
+\hline
+{\em daemon} & Print out the info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 406 of file mxa.\+py.
+
+\mbox{\Hypertarget{mxa_8py_af94a8500dd03f8e8b1aa6760d5c6fc4f}\label{mxa_8py_af94a8500dd03f8e8b1aa6760d5c6fc4f}} 
+\index{mxa.py@{mxa.py}!setSyncType@{setSyncType}}
+\index{setSyncType@{setSyncType}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{setSyncType()}{setSyncType()}}
+{\footnotesize\ttfamily def lib.\+mxa.\+set\+Sync\+Type (\begin{DoxyParamCaption}\item[{}]{s\+Type,  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+set the decode Sync Type of the remote M\+XA 
+
+Connect to the remote M\+XA and try to set the Sync Type To change the remote M\+XA configuration, using command load\+Config/load\+S\+Q\+Lite
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & type of the Sync, P\+SS or RS \\
+\hline
+{\em daemon} & print out info message if set False, default is False \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 341 of file mxa.\+py.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{mxa_8py_afdf92dbe56d732bb407dad6b9feebff8}\label{mxa_8py_afdf92dbe56d732bb407dad6b9feebff8}} 
+\index{mxa.py@{mxa.py}!ID@{ID}}
+\index{ID@{ID}!mxa.py@{mxa.py}}
+\doxysubsubsection{\texorpdfstring{ID}{ID}}
+{\footnotesize\ttfamily int lib.\+mxa.\+ID = 1}
+
+
+
+Shared variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+C\+P\+\_\+\+IP} & the ip address of the remote device \\
+\hline
+{\em T\+E\+L\+N\+E\+T\+\_\+\+P\+O\+RT} & the telnet port of the remote device \\
+\hline
+{\em S\+O\+C\+K\+E\+T\+\_\+\+P\+O\+RT} & the T\+CP socket port of the remote device \textbackslash{}function \mbox{\hyperlink{mxa_8py_a025ae1b7e2ce7f8013a06411206d2498}{load\+Config()}} load the default configuration from json when loading this module\\
+\hline
+\end{DoxyParams}
+Load Config File \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# 
+
+Definition at line 876 of file mxa.\+py.
+
