@@ -1,0 +1,208 @@
+\hypertarget{jfw_8py}{}\doxysection{/home/sprint/liyu/\+S\+Auto/sauto/build/lib/jfw.py File Reference}
+\label{jfw_8py}\index{/home/sprint/liyu/SAuto/sauto/build/lib/jfw.py@{/home/sprint/liyu/SAuto/sauto/build/lib/jfw.py}}
+
+
+Modules as well as C\+LI tools for remote J\+FW box control.  
+
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classlib_1_1jfw_1_1_j_f_w}{lib.\+jfw.\+J\+FW}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classlib_1_1jfw_1_1_j_f_w}{J\+FW}} Device Management Class defination. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{jfw_8py_a72d950b9eeb0c8b4a41225da3c38265d}{lib.\+jfw.\+load\+Config}} (conf\+Path=\textquotesingle{}this\+\_\+device\+\_\+conf.\+json\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given config file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{jfw_8py_a273089632361e2a8c91899be3928d15e}{lib.\+jfw.\+load\+S\+Q\+Lite}} (jid, table\+\_\+name=None, db\+\_\+path=None)
+\begin{DoxyCompactList}\small\item\em Load the device configuration from the given S\+Q\+Lite file path. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{jfw_8py_af839ec767281b0e43d28abd4e39148da}{lib.\+jfw.\+connect\+J\+FW}} (command, delay\+Time=2, daemon=False)
+\begin{DoxyCompactList}\small\item\em Connect to remote \mbox{\hyperlink{classlib_1_1jfw_1_1_j_f_w}{J\+FW}} box and execute a command. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{jfw_8py_a2d2471606dd1931d5698023733ff83c3}{lib.\+jfw.\+health\+Check}} (command=\textquotesingle{}R\+AA\textquotesingle{}, daemon=False)
+\begin{DoxyCompactList}\small\item\em Health Check function for checking Attenuator Port(s) status. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{jfw_8py_a0729095c52821d742ee5b822a16115ce}{lib.\+jfw.\+main}} ()
+\begin{DoxyCompactList}\small\item\em Main function for provide the C\+LI tool. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{jfw_8py_abe3f66558fd4d126cb6fce33b4d71ab6}{lib.\+jfw.\+ID}} = 1
+\begin{DoxyCompactList}\small\item\em Shared variables. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{jfw_8py_ae4363e4a9354c0db9b56bc43f485df9d}\label{jfw_8py_ae4363e4a9354c0db9b56bc43f485df9d}} 
+string {\bfseries lib.\+jfw.\+N\+A\+ME} = \textquotesingle{}J\+F\+W1\textquotesingle{}
+\item 
+\mbox{\Hypertarget{jfw_8py_a42e027d2d6b5785fca9325141e2355a3}\label{jfw_8py_a42e027d2d6b5785fca9325141e2355a3}} 
+string {\bfseries lib.\+jfw.\+T\+C\+P\+\_\+\+IP} = \textquotesingle{}10.\+155.\+227.\+81\textquotesingle{}
+\item 
+\mbox{\Hypertarget{jfw_8py_ae0f459ad975d8a4688592e3a702e80da}\label{jfw_8py_ae0f459ad975d8a4688592e3a702e80da}} 
+int {\bfseries lib.\+jfw.\+T\+C\+P\+\_\+\+P\+O\+RT} = 3001
+\item 
+\mbox{\Hypertarget{jfw_8py_a7f31e943aef19dc0120f836839ed7615}\label{jfw_8py_a7f31e943aef19dc0120f836839ed7615}} 
+string {\bfseries lib.\+jfw.\+L\+O\+C\+A\+T\+I\+ON} = \textquotesingle{}\textquotesingle{}
+\item 
+\mbox{\Hypertarget{jfw_8py_ada7ae7d99ab7bf60d8bd1a5cc4e0a6e2}\label{jfw_8py_ada7ae7d99ab7bf60d8bd1a5cc4e0a6e2}} 
+int {\bfseries lib.\+jfw.\+S\+T\+A\+T\+US} = 0
+\item 
+\mbox{\Hypertarget{jfw_8py_abc691bb2193566cb7671803ca29eaa0b}\label{jfw_8py_abc691bb2193566cb7671803ca29eaa0b}} 
+string {\bfseries lib.\+jfw.\+J\+F\+W\+\_\+\+T\+A\+B\+L\+E\+\_\+\+N\+A\+ME} = \char`\"{}jfw\char`\"{}
+\item 
+\mbox{\Hypertarget{jfw_8py_a08e6ca68a36696daf0660def6105de5a}\label{jfw_8py_a08e6ca68a36696daf0660def6105de5a}} 
+\mbox{\hyperlink{jfw_8py_a08e6ca68a36696daf0660def6105de5a}{lib.\+jfw.\+path}} = conf\+\_\+file.\+read()
+\begin{DoxyCompactList}\small\item\em Load the default configuration from S\+Auto framework. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Modules as well as C\+LI tools for remote J\+FW box control. 
+
+This modules contains the library for remote controling the J\+FW box and it is also a stand alone command line tool The library has to work with a proper configuration file in order to have the ip and port for the remote devices
+
+\begin{DoxyAuthor}{Author}
+Liyu Ying \textbackslash{}email \href{mailto:lying0401@gmail.com}{\texttt{ lying0401@gmail.\+com}} 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{jfw_8py_af839ec767281b0e43d28abd4e39148da}\label{jfw_8py_af839ec767281b0e43d28abd4e39148da}} 
+\index{jfw.py@{jfw.py}!connectJFW@{connectJFW}}
+\index{connectJFW@{connectJFW}!jfw.py@{jfw.py}}
+\doxysubsubsection{\texorpdfstring{connectJFW()}{connectJFW()}}
+{\footnotesize\ttfamily def lib.\+jfw.\+connect\+J\+FW (\begin{DoxyParamCaption}\item[{}]{command,  }\item[{}]{delay\+Time = {\ttfamily 2},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Connect to remote J\+FW box and execute a command. 
+
+Remotely connecting to a J\+FW box using a Telnet connection. The IP address and Port was loaded by load\+Config/load\+S\+Q\+Lite function
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & either using the C\+LI with -\/e option or input as a parameter \\
+\hline
+{\em delay\+Time} & a delay time waiting response from telnet connection, default is 2 \\
+\hline
+{\em daemon} & define if the program will print the reuslt or not, default is False \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result the return value from command executed remotely
+\end{DoxyReturn}
+N\+O\+TE\+: due to legacy firmware version, set the Atten with command\+: S\+A\+R$<$port$>$ 
+
+Definition at line 91 of file jfw.\+py.
+
+\mbox{\Hypertarget{jfw_8py_a2d2471606dd1931d5698023733ff83c3}\label{jfw_8py_a2d2471606dd1931d5698023733ff83c3}} 
+\index{jfw.py@{jfw.py}!healthCheck@{healthCheck}}
+\index{healthCheck@{healthCheck}!jfw.py@{jfw.py}}
+\doxysubsubsection{\texorpdfstring{healthCheck()}{healthCheck()}}
+{\footnotesize\ttfamily def lib.\+jfw.\+health\+Check (\begin{DoxyParamCaption}\item[{}]{command = {\ttfamily \textquotesingle{}RAA\textquotesingle{}},  }\item[{}]{daemon = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+Health Check function for checking Attenuator Port(s) status. 
+
+Remotely execute a read status command to a J\+FW box By default it is checking all attenuates, by explictly sending command to perform a single check on a certain port
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & default is R\+AA R\+E\+AD A\+LL A\+T\+T\+E\+N\+U\+A\+T\+ES \\
+\hline
+{\em daemon} & default is False will print out the read results \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+result if anything goes wrong with the port, return False 
+\end{DoxyReturn}
+
+
+Definition at line 119 of file jfw.\+py.
+
+\mbox{\Hypertarget{jfw_8py_a72d950b9eeb0c8b4a41225da3c38265d}\label{jfw_8py_a72d950b9eeb0c8b4a41225da3c38265d}} 
+\index{jfw.py@{jfw.py}!loadConfig@{loadConfig}}
+\index{loadConfig@{loadConfig}!jfw.py@{jfw.py}}
+\doxysubsubsection{\texorpdfstring{loadConfig()}{loadConfig()}}
+{\footnotesize\ttfamily def lib.\+jfw.\+load\+Config (\begin{DoxyParamCaption}\item[{}]{conf\+Path = {\ttfamily \textquotesingle{}this\+\_\+device\+\_\+conf.json\textquotesingle{}} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given config file path. 
+
+If the the config file path is not given, the program will tend to use the default path. The config file is a json file, load\+Config is looking for the key \textquotesingle{}J\+FW\textquotesingle{} and get T\+CP IP address as well as the Port for the remote J\+FW box. If key is not found, a default value will be loaded N\+O\+TE\+: This function can be called explictly to load user configurations
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\+Path} & a string value contain the path to the json file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+config J\+S\+ON object of J\+FW loaded from file 
+\end{DoxyReturn}
+
+
+Definition at line 36 of file jfw.\+py.
+
+\mbox{\Hypertarget{jfw_8py_a273089632361e2a8c91899be3928d15e}\label{jfw_8py_a273089632361e2a8c91899be3928d15e}} 
+\index{jfw.py@{jfw.py}!loadSQLite@{loadSQLite}}
+\index{loadSQLite@{loadSQLite}!jfw.py@{jfw.py}}
+\doxysubsubsection{\texorpdfstring{loadSQLite()}{loadSQLite()}}
+{\footnotesize\ttfamily def lib.\+jfw.\+load\+S\+Q\+Lite (\begin{DoxyParamCaption}\item[{}]{jid,  }\item[{}]{table\+\_\+name = {\ttfamily None},  }\item[{}]{db\+\_\+path = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Load the device configuration from the given S\+Q\+Lite file path. 
+
+If the S\+Q\+Lite file path is not give, default S\+Q\+Lite data path will be load if the data (ip and port) in the database is not set, the program will use the default value instead N\+O\+TE\+: This function can be called explictly to load configuration
+
+
+\begin{DoxyParams}{Parameters}
+{\em jid} & the id for a perticular J\+FW device in S\+Q\+Lite database \\
+\hline
+{\em table\+\_\+name} & the sqlite table name for jfw \\
+\hline
+{\em db\+\_\+path} & the path of the S\+Q\+Lite database file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+config J\+S\+ON object of J\+FW loaded from file 
+\end{DoxyReturn}
+
+
+Definition at line 64 of file jfw.\+py.
+
+\mbox{\Hypertarget{jfw_8py_a0729095c52821d742ee5b822a16115ce}\label{jfw_8py_a0729095c52821d742ee5b822a16115ce}} 
+\index{jfw.py@{jfw.py}!main@{main}}
+\index{main@{main}!jfw.py@{jfw.py}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily def lib.\+jfw.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Main function for provide the C\+LI tool. 
+
+The main function using the argparse module to allow command line optional argument run the command\+: ./jfw.py -\/h or --help for instructions 
+
+Definition at line 350 of file jfw.\+py.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{jfw_8py_abe3f66558fd4d126cb6fce33b4d71ab6}\label{jfw_8py_abe3f66558fd4d126cb6fce33b4d71ab6}} 
+\index{jfw.py@{jfw.py}!ID@{ID}}
+\index{ID@{ID}!jfw.py@{jfw.py}}
+\doxysubsubsection{\texorpdfstring{ID}{ID}}
+{\footnotesize\ttfamily int lib.\+jfw.\+ID = 1}
+
+
+
+Shared variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em T\+C\+P\+\_\+\+IP} & the ip address of the remote device \\
+\hline
+{\em T\+C\+P\+\_\+\+P\+O\+RT} & the port of the remote device \textbackslash{}function \mbox{\hyperlink{jfw_8py_a72d950b9eeb0c8b4a41225da3c38265d}{load\+Config()}} load the default configuration when loading this module\\
+\hline
+\end{DoxyParams}
+Load Config File \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# 
+
+Definition at line 387 of file jfw.\+py.
+
