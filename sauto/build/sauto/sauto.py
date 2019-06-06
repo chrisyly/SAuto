@@ -63,10 +63,6 @@ class SAuto:
         discover_thread.daemon = True
         discover_thread.start()
 
-        handshake_thread = threading.Thread(target = self.__handshake, args = (1, self.daemon['discover']))
-        handshake_thread.daemon = True
-        handshake_thread.start()
-
         health_thread = threading.Thread(target = self.__healthCheck, args = (30, self.daemon['health']))
         health_thread.daemon = True
         health_thread.start()
@@ -271,6 +267,7 @@ class SAuto:
                     if message and message['HOST'] != self.this_device['HOST']:
                         if message['HOST'] not in self.device_list or (message['HOST'] in self.device_list and self.device_list[message['HOST']]['STATUS'] != 'REACHABLE'):
                             self.pending_list[message['HOST']] = message
+                            self.__handshake(daemon = daemon)
                             break
                 utility.sleep(delay, True)
             except Exception as e:
@@ -287,33 +284,29 @@ class SAuto:
     # NOTE: User should not call this function explictly, a thread should be initilized
     # when constructing the SAuto
     #
-    # \param delay The delay for each discovering process, this is not a very necessary delay
-    # but could prevent possbile package overlap
     # \param daemon Print out the info message if set False, default is False
     ##
-    def __handshake(self, delay = 1, daemon = False):
-        while True:
-            for key in self.pending_list:
-                try:
-                    self.device_list[key] = self.pending_list[key]
-                    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                    s.settimeout(2)
-                    s.sendto('PING!'.encode('utf-8'), (self.pending_list[key]['IP'], self.pending_list[key]['PORT'] + 1))
-                    message = s.recvfrom(self.buffer_size)
-                    s.settimeout(None)
-                    if message[0].decode('utf-8') != 'PONG!':
-                        utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNKNOWN" , False)
-                        self.device_list[key]['STATUS'] = 'UNKNOWN'
-                    else:
-                        self.device_list[key]['STATUS'] = 'REACHABLE'
-                        if not daemon: utility.info("Discovered device [" + message['HOST'] + "] at [" + message['IP'] + "]")
-                except Exception as e:
-                    if not daemon: utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNREACHABLE" , False)
-                    self.device_list[key]['STATUS'] = 'UNREACHABLE'
-                finally:
-                    s.close()
-                    del self.pending_list[key]
-            utility.sleep(delay, True)
+    def __handshake(self, daemon = False):
+        for key in self.pending_list:
+            try:
+                self.device_list[key] = self.pending_list[key]
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.settimeout(2)
+                s.sendto('PING!'.encode('utf-8'), (self.pending_list[key]['IP'], self.pending_list[key]['PORT'] + 1))
+                message = s.recvfrom(self.buffer_size)
+                s.settimeout(None)
+                if message[0].decode('utf-8') != 'PONG!':
+                    utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNKNOWN" , False)
+                    self.device_list[key]['STATUS'] = 'UNKNOWN'
+                else:
+                    self.device_list[key]['STATUS'] = 'REACHABLE'
+                    if not daemon: utility.info("Discovered device [" + message['HOST'] + "] at [" + message['IP'] + "]")
+            except Exception as e:
+                if not daemon: utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNREACHABLE" , False)
+                self.device_list[key]['STATUS'] = 'UNREACHABLE'
+            finally:
+                s.close()
+                del self.pending_list[key]
 
 
 

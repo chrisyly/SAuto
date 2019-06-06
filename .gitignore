@@ -3,3 +3,5 @@
 ################################################################################
 
 /sauto/build/lib/__pycache__
+/sauto/dist
+/sauto/SimpleAutomation.egg-info
