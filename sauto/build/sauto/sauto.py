@@ -30,6 +30,7 @@ import utility
 ##
 class SAuto:
     ## \brief Devices list dictionary
+    pending_list = {}
     device_list = {}
     this_device = {}
     ## \brief Debug flag setting
@@ -61,6 +62,10 @@ class SAuto:
         discover_thread = threading.Thread(target = self.__discover, args = (1, self.daemon['discover']))
         discover_thread.daemon = True
         discover_thread.start()
+
+        handshake_thread = threading.Thread(target = self.__handshake, args = (1, self.daemon['discover']))
+        handshake_thread.daemon = True
+        handshake_thread.start()
 
         health_thread = threading.Thread(target = self.__healthCheck, args = (30, self.daemon['health']))
         health_thread.daemon = True
@@ -243,6 +248,7 @@ class SAuto:
     #
     # A single thread should call this function to discover the SAuto node in the
     # same network
+    # All discovered devices will be added to pending_list, a handshake thread will verify the pending devices
     # __discover is listening to the broadcast port + 1
     # for example if broadcast on 8888:
     # listening on 8889 for discovering, which means change the broadcast port will create a 
@@ -264,14 +270,50 @@ class SAuto:
                     message = utility.strToDict(s.recvfrom(self.buffer_size)[0].decode('utf-8'))
                     if message and message['HOST'] != self.this_device['HOST']:
                         if message['HOST'] not in self.device_list or (message['HOST'] in self.device_list and self.device_list[message['HOST']]['STATUS'] != 'REACHABLE'):
-                            if not daemon: utility.info("Discovered device [" + message['HOST'] + "] at [" + message['IP'] + "]")
-                            self.device_list[message['HOST']] = message
+                            self.pending_list[message['HOST']] = message
                             break
                 utility.sleep(delay, True)
             except Exception as e:
                 utility.warn(str(e) + "\n>>> Continue ...")
             finally:
                 s.close()
+
+
+
+    ## \brief private handshake function
+    #
+    # A single thread should call this function to verify discovered SAuto node
+    #
+    # NOTE: User should not call this function explictly, a thread should be initilized
+    # when constructing the SAuto
+    #
+    # \param delay The delay for each discovering process, this is not a very necessary delay
+    # but could prevent possbile package overlap
+    # \param daemon Print out the info message if set False, default is False
+    ##
+    def __handshake(self, delay = 1, daemon = False):
+        while True:
+            for key in self.pending_list:
+                try:
+                    self.device_list[key] = self.pending_list[key]
+                    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                    s.settimeout(2)
+                    s.sendto('PING!'.encode('utf-8'), (self.pending_list[key]['IP'], self.pending_list[key]['PORT'] + 1))
+                    message = s.recvfrom(self.buffer_size)
+                    s.settimeout(None)
+                    if message[0].decode('utf-8') != 'PONG!':
+                        utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNKNOWN" , False)
+                        self.device_list[key]['STATUS'] = 'UNKNOWN'
+                    else:
+                        self.device_list[key]['STATUS'] = 'REACHABLE'
+                        if not daemon: utility.info("Discovered device [" + message['HOST'] + "] at [" + message['IP'] + "]")
+                except Exception as e:
+                    if not daemon: utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNREACHABLE" , False)
+                    self.device_list[key]['STATUS'] = 'UNREACHABLE'
+                finally:
+                    s.close()
+                    del self.pending_list[key]
+            utility.sleep(delay, True)
 
 
 
@@ -308,7 +350,7 @@ class SAuto:
     def __healthCheck(self, interval = 300, daemon = False):
         while True:
             utility.sleep(interval, True)
-            for key in list(self.device_list.keys()):
+            for key in self.device_list:
                 if key is 'SELF': next
                 ## if self.device_list[key]['STATUS'] is 'UNREACHABLE': next # Skip the unreachable devices
                 else:

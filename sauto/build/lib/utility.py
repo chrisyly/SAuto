@@ -10,7 +10,7 @@
 # Regular Expression
 #
 # \author Liyu Ying
-# \email lying0401@gmail.com
+# \email liyu.ling@sprint.com
 ##
 
 from __future__ import print_function
@@ -151,14 +151,12 @@ def NOTICE(message = None, result = None , track = False):									#
 def SUMMARY():																				#
 	global summary, passCounter, failCounter												#
 	totalCounter = passCounter + failCounter												#
-	print ('=========================== SUMMARY =========================')					#
 	print ('Total Counter: ' + str(totalCounter))											#
 	print ('Pass: ' + str(passCounter))														#
 	print ('Fail: ' + str(failCounter))														#
 	for record in summary:																	#
 		print(record['time'] + '[' + record['result'] + ']' + record['step'] +				#
 			' - ' + record['caller'])														#
-	print ('=============================================================')					#
 																							#
 def FAILSUMMARY():																			#
 	global summary, passCounter, failCounter												#
