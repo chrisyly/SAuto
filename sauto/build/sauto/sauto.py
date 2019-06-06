@@ -30,7 +30,6 @@ import utility
 ##
 class SAuto:
     ## \brief Devices list dictionary
-    pending_list = {}
     device_list = {}
     this_device = {}
     ## \brief Debug flag setting
@@ -244,7 +243,6 @@ class SAuto:
     #
     # A single thread should call this function to discover the SAuto node in the
     # same network
-    # All discovered devices will be added to pending_list, a handshake thread will verify the pending devices
     # __discover is listening to the broadcast port + 1
     # for example if broadcast on 8888:
     # listening on 8889 for discovering, which means change the broadcast port will create a 
@@ -266,47 +264,30 @@ class SAuto:
                     message = utility.strToDict(s.recvfrom(self.buffer_size)[0].decode('utf-8'))
                     if message and message['HOST'] != self.this_device['HOST']:
                         if message['HOST'] not in self.device_list or (message['HOST'] in self.device_list and self.device_list[message['HOST']]['STATUS'] != 'REACHABLE'):
-                            self.pending_list[message['HOST']] = message
-                            self.__handshake(daemon = daemon)
+                            self.device_list[message['HOST']] = message
+                            try:
+                                hs = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                                hs.settimeout(2)
+                                hs.sendto('PING!'.encode('utf-8'), (message['IP'], message['PORT'] + 1))
+                                return_message = hs.recvfrom(self.buffer_size)
+                                hs.settimeout(None)
+                                if return_message[0].decode('utf-8') != 'PONG!':
+                                    utility.warn("Handshake with device at [" + message['IP'] + ":" + str(message['PORT']) + "] Failed! Mark device [" + message['HOST'] + "] UNKNOWN" , False)
+                                    self.device_list[message['HOST']]['STATUS'] = 'UNKNOWN'
+                                else:
+                                    self.device_list[message['HOST']]['STATUS'] = 'REACHABLE'
+                                    if not daemon: utility.info("Discovered device [" + message['HOST'] + "] at [" + message['IP'] + "]")
+                            except Exception as e:
+                                if not daemon: utility.warn("Handshake with device at [" + message['IP'] + ":" + str(message['PORT']) + "] Failed! Mark device [" + message['HOST'] + "] UNREACHABLE" , False)
+                                self.device_list[message['HOST']]['STATUS'] = 'UNREACHABLE'
+                            finally:
+                                hs.close()
                             break
                 utility.sleep(delay, True)
             except Exception as e:
                 utility.warn(str(e) + "\n>>> Continue ...")
             finally:
                 s.close()
-
-
-
-    ## \brief private handshake function
-    #
-    # A single thread should call this function to verify discovered SAuto node
-    #
-    # NOTE: User should not call this function explictly, a thread should be initilized
-    # when constructing the SAuto
-    #
-    # \param daemon Print out the info message if set False, default is False
-    ##
-    def __handshake(self, daemon = False):
-        for key in self.pending_list:
-            try:
-                self.device_list[key] = self.pending_list[key]
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                s.settimeout(2)
-                s.sendto('PING!'.encode('utf-8'), (self.pending_list[key]['IP'], self.pending_list[key]['PORT'] + 1))
-                message = s.recvfrom(self.buffer_size)
-                s.settimeout(None)
-                if message[0].decode('utf-8') != 'PONG!':
-                    utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNKNOWN" , False)
-                    self.device_list[key]['STATUS'] = 'UNKNOWN'
-                else:
-                    self.device_list[key]['STATUS'] = 'REACHABLE'
-                    if not daemon: utility.info("Discovered device [" + message['HOST'] + "] at [" + message['IP'] + "]")
-            except Exception as e:
-                if not daemon: utility.warn("Handshake with device at [" + self.pending_list[key]['IP'] + ":" + str(self.pending_list[key]['PORT']) + "] Failed! Mark device [" + key+ "] UNREACHABLE" , False)
-                self.device_list[key]['STATUS'] = 'UNREACHABLE'
-            finally:
-                s.close()
-                del self.pending_list[key]
 
 
 
